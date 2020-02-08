@@ -1,0 +1,54 @@
+! ===================
+!       urxvt
+! ===================
+
+URxvt*scrollBar:	false
+URxvt*letterSpace:	-1
+URxvt.internalBorder:	10
+URxvt*font: xft:Hack-Regular:pixelsize=13
+URxvt*cursorBlink:	true
+URxvt.iso14755:		false
+URxvt*utf8:		true
+URxvt.keysym.C-equal:	resize-font:bigger
+URxvt.keysym.C-parenright:  resize-font:smaller
+
+! ============
+!   Couleurs
+! ============
+! ! special
+*.foreground:   #bbcac5
+*.background:   #0f1111
+*.cursorColor:  #bbcac5
+
+! black
+*.color0:       #191c1b
+*.color8:       #dc79a4
+
+! red
+*.color1:       #222524
+*.color9:       #917a69
+
+! green
+*.color2:       #313635
+*.color10:      #d991ae
+
+! yellow
+*.color3:       #474e4c
+*.color11:      #ca90a7
+
+! blue
+*.color4:       #636b69
+*.color12:      #7b9eae
+
+! magenta
+*.color5:       #848f8b
+*.color13:      #7eafc6
+
+! cyan
+*.color6:       #aab8b3
+*.color14:      #9e8470
+
+! white
+*.color7:       #d5e6e1
+*.color15:      #88aaa0
+
