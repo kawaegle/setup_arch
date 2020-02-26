@@ -48,21 +48,9 @@ GIT()
     fi 
 }
 
-APT()
+pacman_conf()
 {
-    sudo mv /etc/apt/sources.*  /etc/apt/sources.oppai/
-    sudo cp -r /Deb/apt.sources.list/ /etc/apt/sources.list.d/
-    printf "move /etc/apt/sources.list in /etc/apt/sources.oppai"
-}
 
-Update()
-{
-    sudo apt update
-    sudo apt full-upgrade
-    sudo apt install $(cat Deb/apt.install)
-    sudo apt remove --purge $(cat Deb/apt.linux)
-    sudo apt remove --purge $(cat Deb/apt.remove)
-    printf "install and clean all package from official debian server"
 }
 
 sleep_clear()
@@ -73,30 +61,15 @@ sleep_clear()
   return $SUCCESS
 }s
 
-# update script test
-# cp start.sh /tmp
-# git clone https://github.com/kawaegle/config /tmp
-# cat /tmp/start.sh | grep VERSION = configv
-# cat /tmp/Config/start.sh | grep  VERSION == $configv
-# if != printf "there is another script. please Download me and re run me !!"
-
-
-Deb_start()
+URXVT()
 {
-    config
-    APT
-    Update
+    echo "URxvt.scrolBar: false" > $HOME/.Xressources
 }
 
-
 ########### START ############
-printf "Chose your distro:\n   [1]Arch linux (or based)\n   [2]debian (or based)\n"
+main()
+{
 
-read Distro
+}
 
-if [ $Distro='1' ]
-then
-    ./Arch_start.sh
-else
-    Deb_start
-fi
+main

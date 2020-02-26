@@ -14,10 +14,6 @@ gst-plugins-base
 gst-plugins-bad
 gst-plugins-ugly
 pulseaudio
-alsa-firmware
-alsa-tools
-alsa-utils
-pulseaudio-alsa
 pulseaudio-bluetooth
 vlc
 gvfs
@@ -26,7 +22,6 @@ mps-youtube
 steam
 curl
 wget
-feh
 kodi
 openssh
 mtpfs
