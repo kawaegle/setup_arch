@@ -1,0 +1,11 @@
+! ===================
+!       urxvt
+! ===================
+
+URxvt*scrollBar:	false
+URxvt*letterSpace:	-1
+URxvt.internalBorder:	10
+URxvt*font: xft:Hack-Regular:pixelsize=13
+URxvt*cursorBlink:	true
+URxvt.iso14755:		false
+URxvt*utf8:		true
