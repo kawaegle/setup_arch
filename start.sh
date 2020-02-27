@@ -1,26 +1,46 @@
-USER="kawaegle"
-EMAIL="alecromski@gmail.com"
-HUB="https"
+USER=""
+EMAIL=""
+HUB=""
+DE=""
 VERSION="1.1.Oppai"
 YES_NO="1"
 
-config()
+vim()
+{
+    git clone https://github.com/alcromski/vim $HOME/.vim && ln -sf $HOME/.vim/vimrc $HOME/.vimrc
+    printf "load vim config file"
+}
+
+templates()
+{
+    git clone https://github.com/alecromski/Templates Templates
+    printf "there is all templates file from Parrotsec, fork by me"
+}
+
+pacman_install()
+{
+    sudo pacman -S --noconfirm $(cat pacadd)
+    printf "you have install all package need avaible in official repository"
+}
+
+trizen()
+{
+    git clone https://aur.archlinux.org/trizen 
+    cd trizen && makepkg -si
+    cd ..
+    printf "you have now install trizen"
+}
+
+aurInstall()
+{
+    trizen -S $(cat aurInstall)
+    printf "you have now install all software and package need from AUR"
+}
+
+oh-my-zsh()
 {
     sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
-    if [ -d "$HOME/.vim*" ]
-    then
-        rm -rf $HOME/.vim* ; git clone https://github.com/kawaegle/Vim $HOME/.vim/ ; ln -sf $HOME/.vim/vimrc/ $HOME/.vimrc
-    else
-        git clone https://github.com/kawaegle/Vim $HOME/.vim/ ; ln -sf $HOME/.vim/vimrc/ $HOME/.vimrc
-    fi
-
-    if [ -d "$HOME/Templates" ]
-    then
-        rm -rf $HOME/Templates ; git clone https://github.com/kawaegle/Templates $HOME/Templates/
-    else
-        git clone https://github.com/kawaegle/Templates $HOME/Templates/
-    fi
-    GIT
+    printf "install oh my zsh (you can load some plugins)"
 }
 
 GIT()
@@ -50,7 +70,7 @@ GIT()
 
 pacman_conf()
 {
-
+    sudo cp Config/pacman.conf /etc/pacman.conf
 }
 
 sleep_clear()
@@ -66,10 +86,54 @@ URXVT()
     echo "URxvt.scrolBar: false" > $HOME/.Xressources
 }
 
+DE_WM()
+{
+    printf "What is the Desktop manager / Window manager you want to install ?"
+    printf "[1]I3\n[2]Mate\n[3]Xfce\n"
+    read DE
+    sudo systemctl enable ly
+    if [ $DE == '1' ]
+    then 
+        URXVT
+        sudo pacman -S $(cat Config/I3/pacadd)
+        trizen -S $(cat Config/I3/aurInstall)
+        i3
+    elif[ $DE == '2' ]
+    then
+        sudo pacman -S $(cat Config/mate/pacadd)
+        trizen -S $(cat Config/mate/aurInstall)
+        mate
+    elif [ $DE == '3' ]
+    then
+        sudo pacman -S $(cat Config/xfce/pacadd)
+        trizen -S $(cat Config/xfce/aurInstall)
+        xfce
+    else
+        printf " /!\WHAT THE FUCK /!\ "
+        DE_WM
+}
+
+wallpaper()
+{
+    git clone https://github.com/alecromski/wallpaper $HOME/Wallpaper
+    printf "You have install wallpaper"
+}
+
 ########### START ############
+
 main()
 {
-
+pacman_conf
+pacman_install
+trizen
+sleep_clear
+GIT
+sleep_clear
+aurInstall
+DE_WM
+vim
+templates
+Wallpaper
 }
 
 main
