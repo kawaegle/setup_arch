@@ -37,7 +37,7 @@ aurInstall()
     printf "you have now install all software and package need from AUR"
 }
 
-oh-my-zsh()
+oh_my_zsh()
 {
     sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
     printf "install oh my zsh (you can load some plugins)"
@@ -134,6 +134,7 @@ DE_WM
 vim
 templates
 Wallpaper
+oh_my_zsh
 }
 
 main
