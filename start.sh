@@ -19,7 +19,7 @@ templates()
 
 pacman_install()
 {
-    sudo pacman -S --noconfirm $(cat pacadd)
+    sudo pacman -S --noconfirm $(cat Arch/pacadd)
     printf "you have install all package need avaible in official repository"
 }
 
@@ -33,7 +33,7 @@ trizen()
 
 aurInstall()
 {
-    trizen -S $(cat aurInstall)
+    trizen -S $(cat Arch/aurInstall)
     printf "you have now install all software and package need from AUR"
 }
 
@@ -54,7 +54,9 @@ GIT()
         printf "What is your github/Coder/Programmer mail address? \n"
         read EMAIL
         git config --global user.email
-        git config --global hub.protocol https
+        printf "What protocol you want for hub (github cli helper) ssh/https\n"
+        read HUB
+        git config --global hub.protocol HUB $HUB
     else
         printf "What is your github/Coder/Programmer username ? \n"
         read USER
@@ -75,11 +77,11 @@ pacman_conf()
 
 sleep_clear()
 {
-  sleep $1
+  sleep 1
   clear
 
   return $SUCCESS
-}s
+}
 
 URXVT()
 {
@@ -109,7 +111,7 @@ DE_WM()
         trizen -S $(cat Config/xfce/aurInstall)
         xfce
     else
-        printf " /!\WHAT THE FUCK /!\ "
+        printf " ! WHAT THE FUCK ! "
         DE_WM
     fi
 }
@@ -134,7 +136,7 @@ main()
     DE_WM
     vim
     templates
-    Wallpaper
+    wallpaper
     oh_my_zsh
 }
 
