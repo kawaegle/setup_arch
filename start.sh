@@ -98,7 +98,7 @@ DE_WM()
         sudo pacman -S $(cat Config/I3/pacadd)
         trizen -S $(cat Config/I3/aurInstall)
         i3
-    elif[ $DE == '2' ]
+    elif [ $DE == '2' ]
     then
         sudo pacman -S $(cat Config/mate/pacadd)
         trizen -S $(cat Config/mate/aurInstall)
@@ -111,6 +111,7 @@ DE_WM()
     else
         printf " /!\WHAT THE FUCK /!\ "
         DE_WM
+    fi
 }
 
 wallpaper()
@@ -123,18 +124,18 @@ wallpaper()
 
 main()
 {
-pacman_conf
-pacman_install
-trizen
-sleep_clear
-GIT
-sleep_clear
-aurInstall
-DE_WM
-vim
-templates
-Wallpaper
-oh_my_zsh
+    pacman_conf
+    pacman_install
+    trizen
+    sleep_clear
+    GIT
+    sleep_clear
+    aurInstall
+    DE_WM
+    vim
+    templates
+    Wallpaper
+    oh_my_zsh
 }
 
 main
