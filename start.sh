@@ -1,9 +1,10 @@
+#!/bin/bash
 USER=""
 EMAIL=""
 HUB=""
 DE=""
-VERSION="1.1.Oppai"
-YES_NO="1"
+#VERSION="1.1.Oppai"
+#YES_NO="1"
 
 vim()
 {
@@ -19,35 +20,43 @@ templates()
 
 pacman_install()
 {
-    sudo pacman -S --noconfirm $(cat Arch/pacadd)
+    sudo pacman -S --noconfirm '$(cat Arch/pacadd)'
     printf "you have install all package need avaible in official repository"
 }
 
-trizen()
+AUR_manager()
 {
     git clone https://aur.archlinux.org/trizen 
     cd trizen && makepkg -si
     cd ..
+    rm -rf trizen 
     printf "you have now install trizen"
 }
 
 aurInstall()
 {
-    trizen -S $(cat Arch/aurInstall)
+    gpg --recv-keys 4773BD5E130D1D45
+    trizen -S '$(cat Arch/aurInstall)'
+    sudo chmod 777 /opt/spotify -R
     printf "you have now install all software and package need from AUR"
 }
 
 oh_my_zsh()
 {
-    sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
-    printf "install oh my zsh (you can load some plugins)"
+    if [ -d $HOME/.oh-my-zsh ]
+    then
+        printf "Oh my zsh is already install"
+    else
+        sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+        printf "install oh my zsh (you can load some plugins)"
+    fi
 }
 
 GIT()
 {
     if [ -e "$HOME/.gitconfig" ]
     then 
-        mv $HOME/.gitconfig $HOME/.gitconfig.oppai ; printf ".gitconfig was present, so we move it to .gitconfig.oppai"
+        mv $HOME/.gitconfig $HOME/.gitconfig.oppai ; printf ".gitconfig was present, so we move it to .gitconfig.oppai\n"
         printf "What is your github/Coder/Programmer username ? \n"
         read USER
         git config --global user.name
@@ -90,25 +99,25 @@ URXVT()
 
 DE_WM()
 {
-    printf "What is the Desktop manager / Window manager you want to install ?"
+    printf "What is the Desktop manager / Window manager you want to install ?\n"
     printf "[1]I3\n[2]Mate\n[3]Xfce\n"
     read DE
     sudo systemctl enable ly
     if [ $DE == '1' ]
     then 
         URXVT
-        sudo pacman -S $(cat Config/I3/pacadd)
-        trizen -S $(cat Config/I3/aurInstall)
+        sudo pacman -S '$(cat Config/I3/pacadd)'
+        trizen -S '$(cat Config/I3/aurInstall)'
         i3
     elif [ $DE == '2' ]
     then
-        sudo pacman -S $(cat Config/mate/pacadd)
-        trizen -S $(cat Config/mate/aurInstall)
+        sudo pacman -S '$(cat Config/mate/pacadd)'
+        trizen -S '$(cat Config/mate/aurInstall)'
         mate
     elif [ $DE == '3' ]
     then
-        sudo pacman -S $(cat Config/xfce/pacadd)
-        trizen -S $(cat Config/xfce/aurInstall)
+        sudo pacman -S '$(cat Config/xfce/pacadd)'
+        trizen -S '$(cat Config/xfce/aurInstall)'
         xfce
     else
         printf " ! WHAT THE FUCK ! "
@@ -128,7 +137,7 @@ main()
 {
     pacman_conf
     pacman_install
-    trizen
+    AUR_manager
     sleep_clear
     GIT
     sleep_clear
