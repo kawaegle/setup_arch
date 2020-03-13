@@ -9,11 +9,12 @@ PacConf()
 {
   sudo rm -rf /etc/pacman.conf
   sudo cp src/pacman.conf /etc/pacman.conf
+  sudo pacman -Scc
 }
 
 PacInstall()
 {
-  sudo pacman -Syy "$(cat src/PacInstall)"
+  sudo pacman -Syy $(cat "src/PacInstall")
   printf "you have install all needed package form official server\n"
 }
 
@@ -30,7 +31,7 @@ AUR()
 
 AURInstall()
 {
-  trizen -S "$(cat src/AURInstall)"
+  trizen -S $(cat "src/AURInstall")
   printf "You have install all software from AUR repositories\n"
 }
 
@@ -94,6 +95,7 @@ Wallpaper()
 
 Spicetify()
 {
+  (
   sudo chmod 777 /opt/spotify -R
   spicetify
   spicetify backup apply enable-devtool
@@ -101,11 +103,12 @@ Spicetify()
   spicetify config current_theme = Elementary
   spicetify update
   printf "You have now spice up your spotify\n"
+  )
 }
 
 Vim()
 {
-  git clone https://github.com/alecromski/Vim $HOME/.vim
+  cp -r dotfile/vim $HOME/.vim
   ln -sf $HOME/.vim/vimrc $HOME/.vimrc
   printf "You have now configurate vim\n"
 }
@@ -120,14 +123,20 @@ sysD()
 
 SleepClear()
 {
-  sleep 2
+  sleep 5
   clear
+}
+
+OhMyZsh()
+{
+  (
+    sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+  )
 }
 
 main()
 {
   PacConf
-  SleepClear
   PacInstall
   SleepClear
   AUR
@@ -137,17 +146,14 @@ main()
   GIT
   SleepClear
   Config
-  SleepClear
   Templates
   SleepClear
   Wallpaper
-  SleepClear
   Spicetify
   SleepClear
-  Vim
-  SleepClear
+  #Vim
   sysD
-  SleepClear
+  OhMyZsh
 }
 
 main
