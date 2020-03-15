@@ -140,8 +140,8 @@ DE_WM()
   read DE
   if [ $DE == '1' ] 
   then
-  pacman -Sy $(cat src/I3install)
-  trizen -S $(cat src/I3AUR)
+  pacman -Sy $(cat src/i3install)
+  trizen -S $(cat src/i3AUR)
   printf "You have install I3"
   elfi [ $DE == '2' ]
   then 
