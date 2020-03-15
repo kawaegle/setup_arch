@@ -4,6 +4,7 @@ GIT_USER=''
 GIT_MAIL=''
 GIT_PROTOCOL='https'
 GIT_EDITOR='vim'
+DE=''
 
 PacConf()
 {
@@ -20,7 +21,7 @@ PacInstall()
 
 AUR()
 {
-  (
+  (  
   git clone https://aur.archlinux.org/trizen
   cd trizen
   makepkg -si
@@ -116,7 +117,6 @@ Vim()
 sysD()
 {
   (
-    sudo systemctl enable NetworkManager
     sudo systemctl enable ly
   )
 }
@@ -134,6 +134,26 @@ OhMyZsh()
   )
 }
 
+DE_WM()
+{
+  printf "Witch Desktop you want ?\n\t[1] I3wm\n\t[2] Sway\n\t[3] Xfce\n"
+  read DE
+  if [ $DE == '1' ] 
+  then
+  pacman -Sy $(cat src/I3install)
+  trizen -S $(cat src/I3AUR)
+  printf "You have install I3"
+  elfi [ $DE == '2' ]
+  then 
+  pacman -Sy $(cat src/swayinstall)
+  trizen -S $(cat src/swayAUR)
+  printf "You have install sway"
+  else
+  pacman -Sy $(cat src/xfceinstall)
+  trizen -S $(cat src/xfceAUR)
+  printf "You have install xfce
+}
+
 main()
 {
   PacConf
@@ -149,11 +169,12 @@ main()
   Templates
   SleepClear
   Wallpaper
-  Spicetify
+  #Spicetify
   SleepClear
   #Vim
   sysD
   OhMyZsh
+  DE_WM
 }
 
 main
