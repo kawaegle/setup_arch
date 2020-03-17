@@ -101,7 +101,7 @@ Spicetify()
   spicetify
   spicetify backup apply enable-devtool
   cp -r dotfile/spicetify/Themes $HOME/.config/spicetify/
-  spicetify config current_theme = Elementary
+  spicetify config current_theme Elementary
   spicetify update
   printf "You have now spice up your spotify\n"
   )
@@ -116,9 +116,7 @@ Vim()
 
 sysD()
 {
-  (
     sudo systemctl enable ly
-  )
 }
 
 SleepClear()
@@ -136,22 +134,10 @@ OhMyZsh()
 
 DE_WM()
 {
-  printf "Witch Desktop you want ?\n\t[1] I3wm\n\t[2] Sway\n\t[3] Xfce\n"
-  read DE
-  if [ $DE == '1' ] 
-  then
-  pacman -Sy $(cat src/i3install)
-  trizen -S $(cat src/i3AUR)
-  printf "You have install I3"
-  elfi [ $DE == '2' ]
-  then 
-  pacman -Sy $(cat src/swayinstall)
-  trizen -S $(cat src/swayAUR)
-  printf "You have install sway"
-  else
-  pacman -Sy $(cat src/xfceinstall)
-  trizen -S $(cat src/xfceAUR)
-  printf "You have install xfce
+  pinrtf "We work on"
+  #pacman -Sy $(cat src/xfceinstall)
+  #trizen -S $(cat src/xfceAUR)
+  printf "You have install xfce"
 }
 
 main()
@@ -174,7 +160,7 @@ main()
   #Vim
   sysD
   OhMyZsh
-  DE_WM
+  #DE_WM
 }
 
 main
