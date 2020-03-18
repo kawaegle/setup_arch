@@ -80,6 +80,7 @@ GIT()
 Config()
 {
   git clone https://github.com/alecromski/dotfile
+  sudo ntpdate -u fr.pool.ntp.org
 }
 
 Templates()
