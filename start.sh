@@ -98,6 +98,7 @@ Wallpaper()
 Spicetify()
 {
   (
+  git clone https://github.com/morpheusthewhite/spicetify-themes/ "$HOME/.config/spicetify/Themes"
   sudo chmod 777 /opt/spotify -R
   spicetify
   spicetify backup apply enable-devtool
@@ -135,7 +136,7 @@ OhMyZsh()
 
 DE_WM()
 {
-  pinrtf "We work on"
+  printf "We work on"
   #pacman -Sy $(cat src/xfceinstall)
   #trizen -S $(cat src/xfceAUR)
   printf "You have install xfce"

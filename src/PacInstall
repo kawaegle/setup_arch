@@ -14,6 +14,7 @@ pacman-contrib
 openssh
 pulseaudio
 firefox
+arduino
 xpdf
 engrampa
 unrar
@@ -26,6 +27,7 @@ ntfs-3g
 gst-plugins-good
 gst-plugins-base
 gst-plugins-bad
+i3-gaps
 vlc
 mpv
 mps-youtube
@@ -59,10 +61,9 @@ wavpack
 x264 
 x265
 xvidcore
-libva-messa-driver
-messa
 xf86-video-intel
 xf86-video-nouveau
+libinput-gestures
 xf86-video-vesa
 xf86-input-libinput
 xf86-input-void
