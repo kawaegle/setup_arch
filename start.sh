@@ -4,7 +4,6 @@ GIT_USER=''
 GIT_MAIL=''
 GIT_PROTOCOL='https'
 GIT_EDITOR='vim'
-DE=''
 
 PacConf()
 {
@@ -88,7 +87,7 @@ Templates()
   git clone https://github.com/alecromski/Templates $HOME/Templates
   printf "You have now some Templates file in $HOME/Templates\n"
 }
-
+ 
 Wallpaper()
 {
   git clone https://github.com/alecromski/Wallpaper $HOME/Wallpaper
@@ -111,14 +110,35 @@ Spicetify()
 
 Vim()
 {
-  cp -r dotfile/vim $HOME/.vim
+  cp -r Dotfile/vim $HOME/.vim
   ln -sf $HOME/.vim/vimrc $HOME/.vimrc
   printf "You have now configurate vim\n"
 }
 
+VSC()
+{
+  mv Dotfile/VSsettings.json $HOME/.config/VSCodium/settings.json
+  vscodium --install-extension jeff-hykin.better-shellscript-syntax
+  sleep 2
+  vscodium --install-extension coenraads.bracket-pair-colorizer
+  sleep 2
+  vscodium --install-extension naumovs.color-highlight
+  sleep 2
+  vscodium --install-extension platformio.platformio-ide
+  sleep 2
+  vscodium --install-extension shyykoserhiy.vscode-spotify
+  sleep 2
+  vscodium --install-extension royaction.color-manager
+  sleep 2
+  printf "You have install and setup Vscodium"
+}
+
 sysD()
 {
-    sudo systemctl enable ly
+  sudo systemctl enable ly
+  sudo usermod -aG input
+  sudo usermod -aG tty
+  sudo usermod -aG dialout
 }
 
 SleepClear()
@@ -132,13 +152,11 @@ OhMyZsh()
   (
     sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
   )
+  echo "alias git='hub'" > $HOME/.zshrc
 }
 
-DE_WM()
+XFCE()
 {
-  printf "We work on"
-  #pacman -Sy $(cat src/xfceinstall)
-  #trizen -S $(cat src/xfceAUR)
   printf "You have install xfce"
 }
 
@@ -148,21 +166,19 @@ main()
   PacInstall
   SleepClear
   AUR
-  SleepClear
   AURInstall
   SleepClear
   GIT
   SleepClear
   Config
   Templates
-  SleepClear
   Wallpaper
+  VSC
   #Spicetify
-  SleepClear
   #Vim
   sysD
   OhMyZsh
-  #DE_WM
+  XFCE
 }
 
 main

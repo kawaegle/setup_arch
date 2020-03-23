@@ -27,7 +27,8 @@ ntfs-3g
 gst-plugins-good
 gst-plugins-base
 gst-plugins-bad
-i3-gaps
+xfce4-whiskermenu-plugin
+ttf-font-awesome
 vlc
 mpv
 mps-youtube
@@ -42,8 +43,6 @@ hub
 xorg
 xorg-xinit
 exfat-utils 
-fuse-exfat 
-a52dec 
 faac 
 faad2 
 flac 
@@ -63,7 +62,7 @@ x265
 xvidcore
 xf86-video-intel
 xf86-video-nouveau
-libinput-gestures
+libinput
 xf86-video-vesa
 xf86-input-libinput
 xf86-input-void
@@ -84,5 +83,5 @@ opus
 openjpeg
 aom
 ffmpeg
-aalib
+aalib 
 acl
