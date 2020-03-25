@@ -79,7 +79,19 @@ GIT()
 Config()
 {
   git clone https://github.com/alecromski/dotfile
-  sudo ntpdate -u fr.pool.ntp.org
+  Templates
+  Wallpaper
+  #firefoutre
+  Spicetify
+  Vim
+  VSC
+}
+
+firefoutre()
+{
+  cp Dotfile/Firefox_ext.txt $HOME/
+  cp Dotfile/Firefox_book.txt $HOME/
+  git clone https://github.com/alecromski/start_pages $HOME/.local/
 }
 
 Templates()
@@ -97,27 +109,31 @@ Wallpaper()
 Spicetify()
 {
   (
+  spicetify
   git clone https://github.com/morpheusthewhite/spicetify-themes/ "$HOME/.config/spicetify/Themes"
   sudo chmod 777 /opt/spotify -R
-  spicetify
   spicetify backup apply enable-devtool
-  cp -r dotfile/spicetify/Themes $HOME/.config/spicetify/
   spicetify config current_theme Elementary
-  spicetify update
+  spicetify apply
   printf "You have now spice up your spotify\n"
   )
 }
 
 Vim()
 {
+  if [ $HOME/.vim -f ]
+  then 
+  printf "you have already a vim conf"
+  else
   cp -r Dotfile/vim $HOME/.vim
   ln -sf $HOME/.vim/vimrc $HOME/.vimrc
   printf "You have now configurate vim\n"
+  fi
 }
 
 VSC()
 {
-  mv Dotfile/VSsettings.json $HOME/.config/VSCodium/settings.json
+  mv Dotfile/VSsettings.json $HOME/.config/VSCodium/User/settings.json
   vscodium --install-extension jeff-hykin.better-shellscript-syntax
   sleep 2
   vscodium --install-extension coenraads.bracket-pair-colorizer
@@ -128,6 +144,8 @@ VSC()
   sleep 2
   vscodium --install-extension shyykoserhiy.vscode-spotify
   sleep 2
+  vscodium --install-extension daylerees.rainglow
+  sleep 2
   vscodium --install-extension royaction.color-manager
   sleep 2
   printf "You have install and setup Vscodium"
@@ -136,9 +154,12 @@ VSC()
 sysD()
 {
   sudo systemctl enable ly
-  sudo usermod -aG input
-  sudo usermod -aG tty
-  sudo usermod -aG dialout
+  sudo systemctl enable cronie
+  sudo systemctl enable org.cups.cupsd
+  sudo usermod -aG input $USER
+  sudo usermod -aG tty $USER
+  sudo groupadd dialout
+  sudo usermod -aG dialout $USER
 }
 
 SleepClear()
@@ -152,12 +173,7 @@ OhMyZsh()
   (
     sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
   )
-  echo "alias git='hub'" > $HOME/.zshrc
-}
-
-XFCE()
-{
-  printf "You have install xfce"
+echo "alias git="hub"" >> $HOME/.zshrc
 }
 
 main()
@@ -171,14 +187,9 @@ main()
   GIT
   SleepClear
   Config
-  Templates
-  Wallpaper
-  VSC
-  #Spicetify
-  #Vim
+  SleepClear
   sysD
   OhMyZsh
-  XFCE
 }
 
 main
