@@ -26,6 +26,8 @@ cups
 hplip
 python-pyqt5
 gimp
+krita
+cura
 foomatic-db
 foomatic-db-ppds
 foomatic-gutenprint-ppds
@@ -69,6 +71,10 @@ ttf-bitstream-vera
 tf-liberation
 ttf-freefont
 ttf-dejavu
+noto-fonts
+noto-fonts-cjk
+noto-fonts-extra
+noto-fonts-emoji 
 freetype2
 htop
 networkmanager

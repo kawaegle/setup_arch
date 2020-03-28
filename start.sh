@@ -89,9 +89,9 @@ Config()
 
 firefoutre()
 {
-  cp Dotfile/Firefox_ext.txt $HOME/
-  cp Dotfile/Firefox_book.txt $HOME/
-  git clone https://github.com/alecromski/start_pages $HOME/.local/
+  cp src/Firefox_ext.txt $HOME/
+  cp src/Firefox_book.txt $HOME/
+  git clone https://github.com/alecromski/start-pages $HOME/.local/
 }
 
 Templates()
@@ -113,7 +113,7 @@ Spicetify()
   git clone https://github.com/morpheusthewhite/spicetify-themes/ "$HOME/.config/spicetify/Themes"
   sudo chmod 777 /opt/spotify -R
   spicetify backup apply enable-devtool
-  spicetify config current_theme Elementary
+  spicetify config current_theme Night
   spicetify apply
   printf "You have now spice up your spotify\n"
   )
