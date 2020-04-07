@@ -81,22 +81,17 @@ DE()
     printf "You have now install I3"
 }
 
+conf()
+{
+   git clone https://github.com/alecromski/Dotfile
+   git clnoe https://github.com/alecromski/Templates $HOME/
+   git clone https://github.com/alecromski/Wallpaper $HOME/
+}
+
 firefoutre()
   {
     cp src/Firefox_ext.txt $HOME/
     git clone https://github.com/alecromski/start-pages $HOME/.local/
-  }
-
-Templates()
-  {
-    git clone https://github.com/alecromski/Templates $HOME/Templates
-    printf "You have now some Templates file in $HOME/Templates\n"
-  }
-  
-Wallpaper()
-  {
-    git clone https://github.com/alecromski/Wallpaper $HOME/Wallpaper
-    printf "You have now some Wallpaper in $HOME/Wallpaper\n"
   }
 
 Vim()
@@ -113,7 +108,8 @@ Vim()
 
 VSC()
   {
-    mv Dotfile/VSsettings.json $HOME/.config/VSCodium/User/settings.json
+    mkdir -p $HOME/.config/VSCodium/User/	
+    cp  Dotfile/VSsettings.json $HOME/.config/VSCodium/User/settings.json
     vscodium --install-extension jeff-hykin.better-shellscript-syntax
     sleep 2
     vscodium --install-extension coenraads.bracket-pair-colorizer
@@ -131,11 +127,16 @@ VSC()
     printf "You have install and setup Vscodium"
   }
 
+libgsture()
+{
+    cp Dotfile/libinput-gestures.conf $HOME/.config/
+    printf "you have config libinput gesture"
+}
+
 Config()
 {
-  git clone https://github.com/alecromski/dotfile
-  Templates
-  Wallpaper
+  conf
+  libgsture
   firefoutre
   Vim
   VSC
@@ -146,6 +147,7 @@ sysD()
   sudo systemctl enable lightdm
   sudo systemctl enable cronie
   sudo systemctl enable org.cups.cupsd
+  libinput-gestures-setup autostart
   sudo usermod -aG input $USER
   sudo usermod -aG tty $USER
   sudo groupadd dialout
