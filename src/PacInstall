@@ -27,6 +27,7 @@ hplip
 python-pyqt5
 gimp
 krita
+evince
 cura
 cronie
 foomatic-db  
@@ -54,8 +55,7 @@ gvfs-gphoto2
 gvfs-mtp
 gvfs-nfs
 gvfs-smb
-python-pyinotify
-evince
+python-pyinotify²
 ffmpegthumbnailer
 pavucontrol
 pulseaudio-alsa

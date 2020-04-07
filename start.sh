@@ -4,6 +4,7 @@ GIT_USER=''
 GIT_MAIL=''
 GIT_PROTOCOL='https'
 GIT_EDITOR='vim'
+DE=''
 
 PacConf()
 {
@@ -40,40 +41,44 @@ GIT()
   if [ -e $HOME/.gitconfig ]
   then
     mv $HOME/.gitconfig $HOME/.gitconfig.back
-    printf "What is your username on GIT server : "
-    read -r GIT_USER
+    read -p "What is your username on GIT server : " GIT_USER
     git config --global user.name $GIT_USER
     printf "Your username is $GIT_USER\n"
-    printf "What is your email on GIT server : "
-    read -r GIT_MAIL
+    read -p "What is your email on GIT server : " GIT_MAIL
     git config --global user.email $GIT_MAIL
     printf "Your email is $GIT_MAIL\n"
-    printf "What is your editor for GIT commit and merge : "
-    read -r GIT_EDITOR
+    read -p "What is your editor for GIT commit and merge : " GIT_EDITOR
     git config --global core.editor $GIT_EDITOR
     printf "Your editor is $GIT_EDITOR\n"
-    printf "What is your protocol (ssh/https) for GIT server : "
-    read -r GIT_PROTOCOL
+    read -p "What is your protocol (ssh/https) for GIT server : " GIT_PROTOCOL
     git config --global hub.protocol $GIT_PROTOCOL
     printf "Your protocol is $GIT_PROTOCOL\n"
   else
-    printf "What is your username on GIT server : "
-    read -r GIT_USER
+    read -p "What is your username on GIT server : " GIT_USER
     git config --global user.name $GIT_USER
     printf "Your username is $GIT_USER\n"
-    printf "What is your email on GIT server : "
-    read -r GIT_MAIL
+    read -p "What is your email on GIT server : " GIT_MAIL
     git config --global user.email $GIT_MAIL
     printf "Your email is $GIT_MAIL\n"
-    printf "What is your editor for GIT commit and merge : "
-    read -r GIT_EDITOR
+    read -p "What is your editor for GIT commit and merge : " GIT_EDITOR
     git config --global core.editor $GIT_EDITOR
     printf "Your editor is $GIT_EDITOR\n"
-    printf "What is your protocol (ssh/https) for GIT server : "
-    read -r GIT_PROTOCOL
+    read -p "What is your protocol (ssh/https) for GIT server : " GIT_PROTOCOL
     git config --global hub.protocol $GIT_PROTOCOL
     printf "Your protocol is $GIT_PROTOCOL\n"
   fi
+}
+
+DE()
+{
+  read -p "whitch Desktp Enviroment do you want\n\t[1]XFCE\n\t[2]I3WM" DE
+  if [ $DE == 1 ]
+  then 
+    sudo pacman -S $(cat src/pacxfce)
+    printf "You have now install XFCE"
+  else
+    trizen -S $(src/AURi3)
+    printf "You have now install I3"
 }
 
 firefoutre()
@@ -92,19 +97,6 @@ Wallpaper()
   {
     git clone https://github.com/alecromski/Wallpaper $HOME/Wallpaper
     printf "You have now some Wallpaper in $HOME/Wallpaper\n"
-  }
-
-Spicetify()
-  {
-    (
-    spicetify
-    git clone https://github.com/morpheusthewhite/spicetify-themes/ "$HOME/.config/spicetify/Themes"
-    sudo chmod 777 /opt/spotify -R
-    spicetify backup apply enable-devtool
-    spicetify config current_theme Night
-    spicetify apply
-    printf "You have now spice up your spotify\n"
-    )
   }
 
 Vim()
@@ -145,7 +137,6 @@ Config()
   Templates
   Wallpaper
   firefoutre
-  Spicetify
   Vim
   VSC
 }
@@ -181,6 +172,8 @@ main()
   AURInstall
   SleepClear
   GIT
+  SleepClear
+  DE
   SleepClear
   Config
   SleepClear
