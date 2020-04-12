@@ -74,21 +74,32 @@ DE()
   read -p "whitch Desktp Enviroment do you want\n\t[1]XFCE\n\t[2]I3WM" DE
   if [ $DE == 1 ]
   then 
-    sudo pacman -S $(cat src/pacxfce)
-    printf "You have now install XFCE"
+    XFCE
   else
-    trizen -S $(src/AURi3)
-    printf "You have now install I3"
+    I3
+   fi
+}
+
+XFCE()
+{
+  trizen -S ${cat "src/xfce"}
+  cp -r Dotfile/xfce $HOME/.config/xfce4
+}
+
+I3()
+{
+  trizen -S ${cat "src/i3"}
+  cp -r Dotfile/i3 $HOME/.config/i3
 }
 
 conf()
 {
    git clone https://github.com/alecromski/Dotfile
-   git clnoe https://github.com/alecromski/Templates $HOME/
+   git clone https://github.com/alecromski/Templates $HOME/
    git clone https://github.com/alecromski/Wallpaper $HOME/
 }
 
-firefoutre()
+firefox()
   {
     cp src/Firefox_ext.txt $HOME/
     git clone https://github.com/alecromski/start-pages $HOME/.local/
@@ -127,19 +138,25 @@ VSC()
     printf "You have install and setup Vscodium"
   }
 
-libgsture()
+gesture()
 {
     cp Dotfile/libinput-gestures.conf $HOME/.config/
     printf "you have config libinput gesture"
 }
 
+Zsh()
+{
+  cp Dotfile/zshrc $HOME/.zshrc
+}
+
 Config()
 {
   conf
-  libgsture
-  firefoutre
+  gesture
+  firefox
   Vim
   VSC
+  Zsh
 }
 
 sysD()
@@ -160,11 +177,6 @@ SleepClear()
   clear
 }
 
-OhMyZsh()
-{
-  sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
-}
-
 main()
 {
   PacConf
@@ -180,7 +192,6 @@ main()
   Config
   SleepClear
   sysD
-  OhMyZsh
 }
 
 main

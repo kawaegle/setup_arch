@@ -25,9 +25,8 @@ arduino
 cups
 hplip
 python-pyqt5
-gimp
 krita
-evince
+epdfview
 cura
 cronie
 foomatic-db  
@@ -55,7 +54,7 @@ gvfs-gphoto2
 gvfs-mtp
 gvfs-nfs
 gvfs-smb
-python-pyinotify²
+python-pyinotify
 ffmpegthumbnailer
 pavucontrol
 pulseaudio-alsa
@@ -74,6 +73,7 @@ libva-intel-driver
 libinput
 ttf-font-awesome
 ttf-bitstream-vera
+ttf-fira-code
 ttf-liberation
 ttf-freefont
 ttf-dejavu
@@ -96,7 +96,6 @@ mps-youtube
 steam
 wine
 ffmpeg
-ntp
 aom
 wavpack 
 libmad 
