@@ -135,6 +135,7 @@ VSC()
     sleep 2
     vscodium --install-extension royaction.color-manager
     sleep 2
+    vscodium --install-extension juanmnl.vscode-theme-1984
     printf "You have install and setup Vscodium"
   }
 
