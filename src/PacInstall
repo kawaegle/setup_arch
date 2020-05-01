@@ -86,6 +86,11 @@ htop
 networkmanager
 network-manager-applet
 networkmanager-openvpn
+bluez
+bluez-plugins
+bluez-tools
+bluez-utils
+blueman
 hexchat
 qbittorrent
 discord
