@@ -4,12 +4,12 @@ GIT_USER=''
 GIT_MAIL=''
 GIT_PROTOCOL='https'
 GIT_EDITOR='vim'
-DE=''
 
 PacConf()
 {
   sudo rm -rf /etc/pacman.conf
   sudo cp src/pacman.conf /etc/pacman.conf
+  (wget https://blackarch.org/strap.sh && chmod +x strap.sh && sudo sh strap.sh)
   sudo pacman -Scc
 }
 
@@ -69,29 +69,6 @@ GIT()
   fi
 }
 
-DE()
-{
-  read -p "whitch Desktp Enviroment do you want\n\t[1]XFCE\n\t[2]I3WM" DE
-  if [ $DE == 1 ]
-  then 
-    XFCE
-  else
-    I3
-   fi
-}
-
-XFCE()
-{
-  trizen -S ${cat "src/xfce"}
-  cp -r Dotfile/xfce $HOME/.config/xfce4
-}
-
-I3()
-{
-  trizen -S ${cat "src/i3"}
-  cp -r Dotfile/i3 $HOME/.config/i3
-}
-
 conf()
 {
    git clone https://github.com/alecromski/Dotfile
@@ -99,11 +76,7 @@ conf()
    git clone https://github.com/alecromski/Wallpaper $HOME/
 }
 
-firefox()
-  {
-    cp src/Firefox_ext.txt $HOME/
-    git clone https://github.com/alecromski/start-pages $HOME/.local/
-  }
+
 
 Vim()
   {
@@ -136,25 +109,25 @@ VSC()
     vscodium --install-extension royaction.color-manager
     sleep 2
     vscodium --install-extension juanmnl.vscode-theme-1984
+    sleep 2
     printf "You have install and setup Vscodium"
   }
 
-gesture()
-{
-    cp Dotfile/libinput-gestures.conf $HOME/.config/
-    printf "you have config libinput gesture"
-}
-
 Zsh()
 {
-  cp Dotfile/zshrc $HOME/.zshrc
+  cp -r Dotfile/zsh $HOME/.zsh
+  ln -sf $HOME/.zsh/zshrc $HOME/.zshrc
+}
+
+internet()
+{
+  git clone https://github.com/alecromski/start-pages $HOME/.local/
 }
 
 Config()
 {
   conf
-  gesture
-  firefox
+  internet
   Vim
   VSC
   Zsh
@@ -162,7 +135,7 @@ Config()
 
 sysD()
 {
-  sudo systemctl enable lightdm
+  sudo systemctl enable ly
   sudo systemctl enable cronie
   sudo systemctl enable org.cups.cupsd
   libinput-gestures-setup autostart
@@ -188,7 +161,6 @@ main()
   SleepClear
   GIT
   SleepClear
-  DE
   SleepClear
   Config
   SleepClear
