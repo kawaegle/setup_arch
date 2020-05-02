@@ -122,11 +122,19 @@ Zsh()
 internet()
 {
   git clone https://github.com/alecromski/start-pages $HOME/.local/
+  cp -r Dotfile/qBittorrent/ $HOME/.config/
+  
+}
+
+awesome()
+{
+  ez
 }
 
 Config()
 {
   conf
+  awesome
   internet
   Vim
   VSC
