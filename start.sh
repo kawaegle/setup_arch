@@ -9,6 +9,7 @@ PacConf()
 {
   sudo rm -rf /etc/pacman.conf
   sudo cp src/pacman.conf /etc/pacman.conf
+  rm strap.sh 2>/dev/null
   (wget https://blackarch.org/strap.sh && chmod +x strap.sh && sudo sh strap.sh)
   sudo pacman -Scc
 }
