@@ -10,13 +10,13 @@ PacConf()
   sudo rm -rf /etc/pacman.conf
   sudo cp src/pacman.conf /etc/pacman.conf
   rm strap.sh 2>/dev/null
-  (wget https://blackarch.org/strap.sh && chmod +x strap.sh && sudo sh strap.sh)
+  (wget https://blackarch.org/strap.sh ; chmod +x strap.sh ; sudo sh strap.sh)
   sudo pacman -Scc
 }
 
 PacInstall()
 {
-  sudo pacman -Syy $(cat "src/PacInstall")
+  sudo pacman -Syy $(cat "src/PacInstall") 2>/dev/null
   printf "you have install all needed package form official server\n"
 }
 
@@ -33,7 +33,7 @@ AUR()
 
 AURInstall()
 {
-  trizen -S $(cat "src/AURInstall")
+  trizen -S $(cat "src/AURInstall") 
   printf "You have install all software from AUR repositories\n"
 }
 
@@ -72,7 +72,7 @@ GIT()
 
 conf()
 {
-   git clone https://github.com/alecromski/Dotfile
+   git clone https://github.com/alecromski/Dotfile 
    git clone https://github.com/alecromski/Templates $HOME/
    git clone https://github.com/alecromski/Wallpaper $HOME/
 }
@@ -83,11 +83,11 @@ Vim()
   {
     if [ -d $HOME/.vim ]
     then 
-    printf "you have already a vim conf"
+        printf "you have already a vim conf"
     else
-    cp -r Dotfile/vim $HOME/.vim
-    ln -sf $HOME/.vim/vimrc $HOME/.vimrc
-    printf "You have now configurate vim\n"
+	cp -r Dotfile/vim $HOME/.vim
+	ln -sf $HOME/.vim/vimrc $HOME/.vimrc
+	printf "You have now configurate vim\n"
     fi
   }
 
@@ -127,19 +127,13 @@ internet()
   
 }
 
-awesome()
-{
-  ez
-}
 
 Config()
 {
   conf
-  awesome
   internet
   Vim
   VSC
-  Zsh
 }
 
 sysD()
