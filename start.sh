@@ -9,6 +9,7 @@ PacConf()
 {
   sudo rm -rf /etc/pacman.conf
   sudo cp src/pacman.conf /etc/pacman.conf
+  mkdir $HOME/.trizen; cp src/trizen.conf $HOME/.config/trizen/
   rm strap.sh 2>/dev/null
   (wget https://blackarch.org/strap.sh ; chmod +x strap.sh ; sudo sh strap.sh)
   sudo pacman -Scc
@@ -39,9 +40,7 @@ AURInstall()
 
 GIT()
 {
-  if [ -e $HOME/.gitconfig ]
-  then
-    mv $HOME/.gitconfig $HOME/.gitconfig.back
+    rm -rf .gitconfig
     read -p "What is your username on GIT server : " GIT_USER
     git config --global user.name $GIT_USER
     printf "Your username is $GIT_USER\n"
@@ -54,21 +53,7 @@ GIT()
     read -p "What is your protocol (ssh/https) for GIT server : " GIT_PROTOCOL
     git config --global hub.protocol $GIT_PROTOCOL
     printf "Your protocol is $GIT_PROTOCOL\n"
-  else
-    read -p "What is your username on GIT server : " GIT_USER
-    git config --global user.name $GIT_USER
-    printf "Your username is $GIT_USER\n"
-    read -p "What is your email on GIT server : " GIT_MAIL
-    git config --global user.email $GIT_MAIL
-    printf "Your email is $GIT_MAIL\n"
-    read -p "What is your editor for GIT commit and merge : " GIT_EDITOR
-    git config --global core.editor $GIT_EDITOR
-    printf "Your editor is $GIT_EDITOR\n"
-    read -p "What is your protocol (ssh/https) for GIT server : " GIT_PROTOCOL
-    git config --global hub.protocol $GIT_PROTOCOL
-    printf "Your protocol is $GIT_PROTOCOL\n"
-  fi
-}
+ }
 
 conf()
 {
@@ -77,17 +62,15 @@ conf()
    git clone https://github.com/alecromski/Wallpaper $HOME/
 }
 
-
-
 Vim()
   {
     if [ -d $HOME/.vim ]
     then 
         printf "you have already a vim conf"
     else
-	cp -r Dotfile/vim $HOME/.vim
-	ln -sf $HOME/.vim/vimrc $HOME/.vimrc
-	printf "You have now configurate vim\n"
+	  cp -r Dotfile/vim $HOME/.vim
+	  ln -sf $HOME/.vim/vimrc $HOME/.vimrc
+	  printf "You have now configurate vim\n"
     fi
   }
 
@@ -98,6 +81,8 @@ VSC()
     vscodium --install-extension jeff-hykin.better-shellscript-syntax
     sleep 2
     vscodium --install-extension coenraads.bracket-pair-colorizer
+    sleep 2
+    vscodium --install-extension dlasagno.wal-theme
     sleep 2
     vscodium --install-extension naumovs.color-highlight
     sleep 2
@@ -120,18 +105,16 @@ Zsh()
   ln -sf $HOME/.zsh/zshrc $HOME/.zshrc
 }
 
-internet()
+vpn()
 {
-  git clone https://github.com/alecromski/start-pages $HOME/.local/
-  cp -r Dotfile/qBittorrent/ $HOME/.config/
-  
+  echo "if you have a .ovpn provide by a member of OPPAI team do the following command\n"
+  echo "==>> 'nmcli connection import type openvpn file $your_file.ovpn'"
 }
-
 
 Config()
 {
   conf
-  internet
+  vpn
   Vim
   VSC
 }
@@ -143,6 +126,7 @@ sysD()
   sudo systemctl enable org.cups.cupsd
   libinput-gestures-setup autostart
   sudo usermod -aG input $USER
+  sudo usermod -aG uucp $USER
   sudo usermod -aG tty $USER
   sudo groupadd dialout
   sudo usermod -aG dialout $USER
