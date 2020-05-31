@@ -177,3 +177,5 @@ xorg-xinit
 xvidcore
 zip
 zsh
+rofi
+i3-gaps
