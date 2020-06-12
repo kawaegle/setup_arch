@@ -4,12 +4,13 @@ GIT_USER=''
 GIT_MAIL=''
 GIT_PROTOCOL='https'
 GIT_EDITOR='vim'
+CONFIG='$HOME/.config'
 
 PacConf()
 {
   sudo rm -rf /etc/pacman.conf
   sudo cp src/pacman.conf /etc/pacman.conf
-  mkdir $HOME/.trizen; cp src/trizen.conf $HOME/.config/trizen/
+  mkdir $HOME/.trizen; cp src/trizen.conf $CONFIGtrizen/
   rm strap.sh 2>/dev/null
   (wget https://blackarch.org/strap.sh ; chmod +x strap.sh ; sudo sh strap.sh)
   sudo pacman -Scc
@@ -76,26 +77,17 @@ Vim()
 
 VSC()
   {
-    mkdir -p $HOME/.config/VSCodium/User/	
-    cp  Dotfile/VSsettings.json $HOME/.config/VSCodium/User/settings.json
-    vscodium --install-extension jeff-hykin.better-shellscript-syntax
-    sleep 2
-    vscodium --install-extension coenraads.bracket-pair-colorizer
-    sleep 2
-    vscodium --install-extension dlasagno.wal-theme
-    sleep 2
-    vscodium --install-extension naumovs.color-highlight
-    sleep 2
-    vscodium --install-extension platformio.platformio-ide
-    sleep 2
-    vscodium --install-extension shyykoserhiy.vscode-spotify
-    sleep 2
-    vscodium --install-extension daylerees.rainglow
-    sleep 2
-    vscodium --install-extension royaction.color-manager
-    sleep 2
-    vscodium --install-extension juanmnl.vscode-theme-1984
-    sleep 2
+    mkdir -p $CONFIGVSCodium/User/	
+    cp  Dotfile/VSsettings.json $CONFIGVSCodium/User/settings.json
+    vscodium --install-extension jeff-hykin.better-shellscript-syntax;sleep 2
+    vscodium --install-extension coenraads.bracket-pair-colorizer;sleep 2
+    vscodium --install-extension dlasagno.wal-theme;sleep 2
+    vscodium --install-extension naumovs.color-highlight;sleep 2
+    vscodium --install-extension platformio.platformio-ide;sleep 2
+    vscodium --install-extension shyykoserhiy.vscode-spotify;sleep 2
+    vscodium --install-extension royaction.color-manager;sleep 2
+    vscodium --install-extension juanmnl.vscode-theme-1984;sleep 2
+    vscodium --install-extension pkief.material-icon-theme;sleep 2
     printf "You have install and setup Vscodium"
   }
 
@@ -105,17 +97,30 @@ Zsh()
   ln -sf $HOME/.zsh/zshrc $HOME/.zshrc
 }
 
-vpn()
+freecad()
 {
-  echo "if you have a .ovpn provide by a member of OPPAI team do the following command\n"
-  echo "==>> 'nmcli connection import type openvpn file $your_file.ovpn'"
+  wget -q --show-progress --progress=bar -O $HOME/.local/bin/freecad.AppImage https://github.com/FreeCAD/FreeCAD/releases/download/0.18.4/FreeCAD_0.18-16146-Linux-Conda_Py3Qt5_glibc2.12-x86_64.AppImage 
+  sudo chmod +x $HOME/.local/bin/freecad.AppImage
+  sudo ln -sf /usr/bin/freecad
+  sudo chmod +x /usr/bin/freecad
+}
+
+i3()
+{
+  cp -r Dotfile/i3 $CONFIG
+  cp Dotfile/libinput-gestures.conf $CONFIG
+  cp Dotfile/compton.conf $CONFIG
+  cp -r Dotfile/rofi $CONFIG
+
 }
 
 Config()
 {
   conf
-  vpn
+  Zsh
   Vim
+  #i3
+  freecad
   VSC
 }
 
