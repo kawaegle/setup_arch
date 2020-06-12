@@ -12,7 +12,7 @@ For start script run the following commande:
 - [X] setup vscodium 
 - [X] firefox start page on my own server 
 - [X] [firefox start page repos](https://github.com/alecromski/start-page)
-- [X] find a [Window Manager](https://i3wm.org)
+- [ ] find a [Window Manager](https://i3wm.org)
 - [ ] setup zsh
 - [ ] setup vim 
 - [ ] setup the Window Manager
