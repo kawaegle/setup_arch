@@ -1,7 +1,0 @@
-forest
-ghostery
-githubdark
-https everywhere
-tempmail
-ublock origin
-useragent
