@@ -10,7 +10,7 @@ PacConf()
 {
   sudo rm -rf /etc/pacman.conf
   sudo cp src/pacman.conf /etc/pacman.conf
-  mkdir $HOME/.trizen; cp src/trizen.conf $CONFIGtrizen/
+  (mkdir $HOME/.trizen; cp src/trizen.conf $CONFIGtrizen/)
   rm strap.sh 2>/dev/null
   (wget https://blackarch.org/strap.sh ; chmod +x strap.sh ; sudo sh strap.sh)
   sudo pacman -Scc
@@ -24,19 +24,27 @@ PacInstall()
 
 AUR()
 {
-  (  
+  read -p "do you want to install trizen ? " yn
+  if [[ $yn == y ]]
+  then
+  (
   git clone https://aur.archlinux.org/trizen
   cd trizen
   makepkg -si
   cd ..
   rm -rf trizen
   )
+  fi
 }
 
 AURInstall()
 {
+  read -p "do you want install all aur package ?" yn
+  if [[ $yn == y ]]
+  then
   trizen -S $(cat "src/AURInstall") 
   printf "You have install all software from AUR repositories\n"
+  fi
 }
 
 GIT()
@@ -56,40 +64,70 @@ GIT()
     printf "Your protocol is $GIT_PROTOCOL\n"
  }
 
+X11()
+{
+  print "Do you want use X11 server ?"
+  read -q yn
+  if [[ $yn == 'n' ]]
+  then
+    print "You will need to install it later"
+  else
+    print "Do you want to use \n\t(1)XFCE\n\t(2)I3 ?" 
+    read I3XFCE
+    if [[ $I3XFCE == '1']]
+    then 
+      git clone https://github.com/alecromski/Dotfile -b xfce
+      XFCE
+    else
+      git clone https://github.com/alecromski/Dotfile -b i3
+      I3
+    fi
+  fi
+}
+
+XFCE()
+{
+
+}
+
+I3()
+{
+
+}
+
 conf()
 {
-   git clone https://github.com/alecromski/Dotfile 
    git clone https://github.com/alecromski/Templates $HOME/
    git clone https://github.com/alecromski/Wallpaper $HOME/
 }
 
 Vim()
-  {
-    if [ -d $HOME/.vim ]
-    then 
-        printf "you have already a vim conf"
-    else
+{
+  if [[ -d $HOME/.vim ]] || [[ -f $HOME/.vim]]
+  then 
+    printf "you have already a vim conf"
+  else
 	  cp -r Dotfile/vim $HOME/.vim
 	  ln -sf $HOME/.vim/vimrc $HOME/.vimrc
 	  printf "You have now configurate vim\n"
-    fi
-  }
+  fi
+}
 
 VSC()
-  {
+{
     mkdir -p $CONFIGVSCodium/User/	
     cp  Dotfile/VSsettings.json $CONFIGVSCodium/User/settings.json
-    vscodium --install-extension jeff-hykin.better-shellscript-syntax;sleep 2
-    vscodium --install-extension coenraads.bracket-pair-colorizer;sleep 2
-    vscodium --install-extension dlasagno.wal-theme;sleep 2
-    vscodium --install-extension naumovs.color-highlight;sleep 2
-    vscodium --install-extension platformio.platformio-ide;sleep 2
-    vscodium --install-extension shyykoserhiy.vscode-spotify;sleep 2
-    vscodium --install-extension royaction.color-manager;sleep 2
-    vscodium --install-extension juanmnl.vscode-theme-1984;sleep 2
-    vscodium --install-extension pkief.material-icon-theme;sleep 2
+    code --install-extension jeff-hykin.better-shellscript-syntax;sleep 2
+    code --install-extension coenraads.bracket-pair-colorizer;sleep 2
+    code --install-extension dlasagno.wal-theme;sleep 2
+    code --install-extension naumovs.color-highlight;sleep 2
+    code --install-extension platformio.platformio-ide;sleep 2
+    code --install-extension shyykoserhiy.vscode-spotify;sleep 2
+    code --install-extension royaction.color-manager;sleep 2
+    code --install-extension juanmnl.vscode-theme-1984;sleep 2
+    code --install-extension pkief.material-icon-theme;sleep 2
     printf "You have install and setup Vscodium"
-  }
+}
 
 Zsh()
 {
@@ -105,22 +143,13 @@ freecad()
   sudo chmod +x /usr/bin/freecad
 }
 
-i3()
-{
-  cp -r Dotfile/i3 $CONFIG
-  cp Dotfile/libinput-gestures.conf $CONFIG
-  cp Dotfile/compton.conf $CONFIG
-  cp -r Dotfile/rofi $CONFIG
-
-}
-
 Config()
 {
+  X11
   conf
   Zsh
   Vim
-  #i3
-  freecad
+  #freecad
   VSC
 }
 
@@ -129,6 +158,8 @@ sysD()
   sudo systemctl enable ly
   sudo systemctl enable cronie
   sudo systemctl enable org.cups.cupsd
+  sudo localectl set-keymap fr
+  sudo localectl set-x11-keymap fr
   libinput-gestures-setup autostart
   sudo usermod -aG input $USER
   sudo usermod -aG uucp $USER
@@ -139,7 +170,7 @@ sysD()
 
 SleepClear()
 {
-  sleep 5
+  sleep 2
   clear
 }
 
@@ -152,7 +183,6 @@ main()
   AURInstall
   SleepClear
   GIT
-  SleepClear
   SleepClear
   Config
   SleepClear
