@@ -1,4 +1,5 @@
 aircrack-ng
+code
 airgeddon
 android-apktool
 aom
@@ -23,7 +24,6 @@ cura
 curl
 dirb
 dirbuster
-discord
 dnstwist
 driftnet
 engrampa
@@ -35,7 +35,6 @@ faad2
 ffmpeg
 ffmpegthumbnailer
 findsploit
-firefox
 flac 
 foomatic-db  
 foomatic-db-engine 
@@ -73,20 +72,17 @@ instashell
 intel-media-driver
 jasper 
 john
-krita
 lame
 libcanberra-gstreamer
 libcanberra-pulse
 libinput
 libmad 
 libmpeg2 
-libreoffice-fresh-fr
 libva-intel-driver
 linux
 linux-firmware
 littlebrother
 macchanger
-malice
 mat2
 mdk3
 mdk4
@@ -95,7 +91,6 @@ metasploit
 microsploit
 mimikatz
 mps-youtube
-mpv
 msfdb
 nano
 ncrack
@@ -127,7 +122,6 @@ pydictor
 python-pip
 python-pyinotify
 python-pyqt5
-qbittorrent
 rarcrack
 reaver
 routersploit
@@ -137,7 +131,6 @@ simple-ducky
 sploitctl
 sqlmap
 sqlninja
-steam
 steghide
 system-config-printer
 tor-browser-en
@@ -151,7 +144,6 @@ ttf-liberation
 unrar
 unzip
 vim
-vlc
 vulmap
 wavpack 
 webshells
@@ -163,18 +155,6 @@ wireshark-cli
 wireshark-qt
 wordpress-exploit-framework
 wordpresscan
-xdg-user-dirs
-xf86-input-libinput
-xf86-input-synaptics
-xf86-input-void
-xf86-video-intel
-xf86-video-nouveau
-xf86-video-vesa
-xorg-server
-xorg-server-common
-xorg-xinit
 xvidcore
 zip
 zsh
-rofi
-i3-gaps
