@@ -24,7 +24,8 @@ PacInstall()
 
 AUR()
 {
-  read -p "do you want to install trizen ? " yn
+  print "do you want to install trizen ? " 
+  read -q yn
   if [[ $yn == y ]]
   then
   (
@@ -39,7 +40,8 @@ AUR()
 
 AURInstall()
 {
-  read -p "do you want install all aur package ?" yn
+  print "do you want install all aur package ?" 
+  read -q yn
   if [[ $yn == y ]]
   then
   trizen -S $(cat "src/AURInstall") 
@@ -51,26 +53,23 @@ GIT()
 {
     rm -rf .gitconfig
     read -p "What is your username on GIT server : " GIT_USER
-    git config --global user.name $GIT_USER
-    printf "Your username is $GIT_USER\n"
+    git config --global user.name $GIT_USER; printf "Your username is $GIT_USER\n"
     read -p "What is your email on GIT server : " GIT_MAIL
-    git config --global user.email $GIT_MAIL
-    printf "Your email is $GIT_MAIL\n"
+    git config --global user.email $GIT_MAIL; printf "Your email is $GIT_MAIL\n"
     read -p "What is your editor for GIT commit and merge : " GIT_EDITOR
-    git config --global core.editor $GIT_EDITOR
-    printf "Your editor is $GIT_EDITOR\n"
+    git config --global core.editor $GIT_EDITOR; printf "Your editor is $GIT_EDITOR\n"
     read -p "What is your protocol (ssh/https) for GIT server : " GIT_PROTOCOL
-    git config --global hub.protocol $GIT_PROTOCOL
-    printf "Your protocol is $GIT_PROTOCOL\n"
+    git config --global hub.protocol $GIT_PROTOCOL ;printf "Your protocol is $GIT_PROTOCOL\n"
  }
 
+##
 X11()
 {
   print "Do you want use X11 server ?"
   read -q yn
   if [[ $yn == 'n' ]]
   then
-    print "You will need to install it later"
+    print "You'll need to install it later"
   else
     print "Do you want to use \n\t(1)XFCE\n\t(2)I3 ?" 
     read I3XFCE
@@ -87,18 +86,21 @@ X11()
 
 XFCE()
 {
-
+  sudo pacman -Rsnuc polybar
+  sudo pacman -Syy $(cat "src/XFCE") 2>/dev/null
 }
 
 I3()
 {
-
+  sudo pacman -Syy $(cat "src/I3") 2>/dev/null
+  cp -r Dotfile/i3/ $CONFIG/i3/
 }
+##
 
-conf()
+Zsh()
 {
-   git clone https://github.com/alecromski/Templates $HOME/
-   git clone https://github.com/alecromski/Wallpaper $HOME/
+  cp -r Dotfile/zsh $HOME/.zsh
+  ln -sf $HOME/.zsh/zshrc $HOME/.zshrc
 }
 
 Vim()
@@ -109,7 +111,31 @@ Vim()
   else
 	  cp -r Dotfile/vim $HOME/.vim
 	  ln -sf $HOME/.vim/vimrc $HOME/.vimrc
-	  printf "You have now configurate vim\n"
+  fi
+}
+
+freecad()
+{
+  wget -q --show-progress --progress=bar -O $HOME/.local/bin/freecad.AppImage https://github.com/FreeCAD/FreeCAD/releases/download/0.18.4/FreeCAD_0.18-16146-Linux-Conda_Py3Qt5_glibc2.12-x86_64.AppImage 
+  sudo chmod +x $HOME/.local/bin/freecad.AppImage
+  sudo ln -sf /usr/bin/freecad
+  sudo chmod +x /usr/bin/freecad
+}
+
+spice()
+{
+  mkdir $CONFIG/spicetify
+  sudo chmod a+wr /opt/spotify
+  sudo chmod a+wr /opt/spotify/Apps-R 
+  git clone https://github.com/morpheusthewhite/spicetify-themes $CONFIG/spicetify/Themes
+  spicetify
+  spicetify curent_theme Pop-Dark
+  SleepClear
+  print "Do you want to apply spotify theme change ?"
+  read -q yn
+  if [[ $yn == y ]]
+  then
+    spicetify backup apply 
   fi
 }
 
@@ -129,27 +155,13 @@ VSC()
     printf "You have install and setup Vscodium"
 }
 
-Zsh()
-{
-  cp -r Dotfile/zsh $HOME/.zsh
-  ln -sf $HOME/.zsh/zshrc $HOME/.zshrc
-}
-
-freecad()
-{
-  wget -q --show-progress --progress=bar -O $HOME/.local/bin/freecad.AppImage https://github.com/FreeCAD/FreeCAD/releases/download/0.18.4/FreeCAD_0.18-16146-Linux-Conda_Py3Qt5_glibc2.12-x86_64.AppImage 
-  sudo chmod +x $HOME/.local/bin/freecad.AppImage
-  sudo ln -sf /usr/bin/freecad
-  sudo chmod +x /usr/bin/freecad
-}
-
 Config()
 {
   X11
-  conf
   Zsh
   Vim
-  #freecad
+  freecad
+  spice
   VSC
 }
 
