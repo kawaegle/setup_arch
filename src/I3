@@ -11,6 +11,8 @@ xf86-video-vesa
 xorg-server
 xorg-server-common
 xorg-xinit
+xorg-xev
+xorg-xbacklight
 thunar
 compton
 vlc
