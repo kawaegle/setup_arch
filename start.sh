@@ -70,6 +70,7 @@ X11()
   if [[ $yn == 'n' ]]
   then
     print "You'll need to install it later"
+    git clone https://github.com/alecromski/Dotfile -b master
   else
     print "Do you want to use \n\t(1)XFCE\n\t(2)I3 ?" 
     read I3XFCE
@@ -88,6 +89,7 @@ XFCE()
 {
   sudo pacman -Rsnuc polybar
   sudo pacman -Syy $(cat "src/XFCE") 2>/dev/null
+  gestures
 }
 
 I3()
@@ -96,6 +98,13 @@ I3()
   cp -r Dotfile/i3/ $CONFIG/i3/
 }
 ##
+
+gestures()
+{
+  cp Dotfile/libinput-gestures.conf $CONFIG/libinput-gestures.conf 
+  libinput-gestures-setup autostart
+
+}
 
 Zsh()
 {
@@ -152,6 +161,7 @@ VSC()
     code --install-extension royaction.color-manager;sleep 2
     code --install-extension juanmnl.vscode-theme-1984;sleep 2
     code --install-extension pkief.material-icon-theme;sleep 2
+    code --install-extension dcasella.i3;sleep 2
     printf "You have install and setup Vscodium"
 }
 
@@ -172,7 +182,6 @@ sysD()
   sudo systemctl enable org.cups.cupsd
   sudo localectl set-keymap fr
   sudo localectl set-x11-keymap fr
-  libinput-gestures-setup autostart
   sudo usermod -aG input $USER
   sudo usermod -aG uucp $USER
   sudo usermod -aG tty $USER
