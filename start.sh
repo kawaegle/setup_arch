@@ -103,7 +103,6 @@ gestures()
 {
   cp Dotfile/libinput-gestures.conf $CONFIG/libinput-gestures.conf 
   libinput-gestures-setup autostart
-
 }
 
 Zsh()

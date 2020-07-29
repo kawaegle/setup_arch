@@ -1,5 +1,6 @@
 rofi
 i3-gaps
+polybar
 rxvt-unicode
 xdg-user-dirs
 xf86-input-libinput
@@ -14,6 +15,7 @@ xorg-xinit
 xorg-xev
 xorg-xbacklight
 thunar
+ranger
 compton
 vlc
 steam
