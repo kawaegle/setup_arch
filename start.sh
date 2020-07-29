@@ -1,10 +1,11 @@
-#!/bin/sh
+#!/bin/bash
 
 GIT_USER=''
 GIT_MAIL=''
 GIT_PROTOCOL='https'
 GIT_EDITOR='vim'
 CONFIG='$HOME/.config'
+VSC='$CONFIG/Code\ -\ OSS'
 
 PacConf()
 {
@@ -24,8 +25,7 @@ PacInstall()
 
 AUR()
 {
-  print "do you want to install trizen ? " 
-  read -q yn
+  read -p "do you want to install trizen ? " yn
   if [[ $yn == y ]]
   then
   (
@@ -40,8 +40,7 @@ AUR()
 
 AURInstall()
 {
-  print "do you want install all aur package ?" 
-  read -q yn
+  read -p "do you want install all aur package ?" yn
   if [[ $yn == y ]]
   then
   trizen -S $(cat "src/AURInstall") 
@@ -65,16 +64,14 @@ GIT()
 ##
 X11()
 {
-  print "Do you want use X11 server ?"
-  read -q yn
+  read -p "Do you want use X11 server ?" yn
   if [[ $yn == 'n' ]]
   then
     print "You'll need to install it later"
     git clone https://github.com/alecromski/Dotfile -b master
   else
-    print "Do you want to use \n\t(1)XFCE\n\t(2)I3 ?" 
-    read I3XFCE
-    if [[ $I3XFCE == '1']]
+    read -p "Do you want to use \n\t(1)XFCE\n\t(2)I3 ?" DE
+    if [[ $DE == '1']]
     then 
       git clone https://github.com/alecromski/Dotfile -b xfce
       XFCE
@@ -87,14 +84,13 @@ X11()
 
 XFCE()
 {
-  sudo pacman -Rsnuc polybar
-  sudo pacman -Syy $(cat "src/XFCE") 2>/dev/null
+  sudo trizen -Syy $(cat "src/XFCE") 2>/dev/null
   gestures
 }
 
 I3()
 {
-  sudo pacman -Syy $(cat "src/I3") 2>/dev/null
+  sudo trizen -Syy $(cat "src/I3") 2>/dev/null
   cp -r Dotfile/i3/ $CONFIG/i3/
 }
 ##
@@ -122,14 +118,6 @@ Vim()
   fi
 }
 
-freecad()
-{
-  wget -q --show-progress --progress=bar -O $HOME/.local/bin/freecad.AppImage https://github.com/FreeCAD/FreeCAD/releases/download/0.18.4/FreeCAD_0.18-16146-Linux-Conda_Py3Qt5_glibc2.12-x86_64.AppImage 
-  sudo chmod +x $HOME/.local/bin/freecad.AppImage
-  sudo ln -sf /usr/bin/freecad
-  sudo chmod +x /usr/bin/freecad
-}
-
 spice()
 {
   mkdir $CONFIG/spicetify
@@ -149,8 +137,8 @@ spice()
 
 VSC()
 {
-    mkdir -p $CONFIGVSCodium/User/	
-    cp  Dotfile/VSsettings.json $CONFIGVSCodium/User/settings.json
+    mkdir -p $VSC
+    cp -r Dotfile/User $VSC/
     code --install-extension jeff-hykin.better-shellscript-syntax;sleep 2
     code --install-extension coenraads.bracket-pair-colorizer;sleep 2
     code --install-extension dlasagno.wal-theme;sleep 2
@@ -169,7 +157,6 @@ Config()
   X11
   Zsh
   Vim
-  freecad
   spice
   VSC
 }
@@ -196,6 +183,7 @@ SleepClear()
 
 main()
 {
+  print
   PacConf
   PacInstall
   SleepClear
