@@ -11,7 +11,7 @@ PacConf()
 {
   sudo rm -rf /etc/pacman.conf
   sudo cp src/pacman.conf /etc/pacman.conf
-  (mkdir $HOME/.trizen; cp src/trizen.conf $CONFIGtrizen/)
+  (mkdir $HOME/.trizen; cp src/trizen.conf $CONFIG/trizen/)
   rm strap.sh 2>/dev/null
   (wget https://blackarch.org/strap.sh ; chmod +x strap.sh ; sudo sh strap.sh)
   sudo pacman -Scc
@@ -19,7 +19,7 @@ PacConf()
 
 PacInstall()
 {
-  sudo pacman -Syy $(cat "src/PacInstall") 2>/dev/null
+  sudo pacman -Syy $(cat "src/ArchInstall") 2>/dev/null
   printf "you have install all needed package form official server\n"
 }
 
@@ -71,7 +71,7 @@ X11()
     git clone https://github.com/alecromski/Dotfile -b master
   else
     read -p "Do you want to use \n\t(1)XFCE\n\t(2)I3 ?" DE
-    if [[ $DE == '1']]
+    if [[ $DE == '1' ]]
     then 
       git clone https://github.com/alecromski/Dotfile -b xfce
       XFCE
@@ -109,7 +109,7 @@ Zsh()
 
 Vim()
 {
-  if [[ -d $HOME/.vim ]] || [[ -f $HOME/.vim]]
+  if [[ -d $HOME/.vim ]] || [[ -f $HOME/.vim ]]
   then 
     printf "you have already a vim conf"
   else
