@@ -9,7 +9,7 @@ VSC=$CONFIG/Code\ -\ OSS
 
 AUR()
 {
-  read -p "do you want to install trizen ? " yn
+  read -p "do you want to install trizen ? [Y/n]" yn
   if [[ $yn == y ]]
   then
   (
@@ -26,26 +26,20 @@ PacConf()
 {
   sudo rm -rf /etc/pacman.conf
   sudo cp src/pacman.conf /etc/pacman.conf
-  (mkdir -p $HOME/.trizen; cp src/trizen.conf $CONFIG/trizen/)
-  read -p "Do you want to add Blackarch repo ?" black
+  (cp src/trizen.conf $CONFIG/trizen/)
+  read -p "Do you want to add Blackarch repo ? [Y/n]" black
   if [[ $black == y ]]
   then
     rm strap.sh 2>/dev/null
     (wget https://blackarch.org/strap.sh ; chmod +x strap.sh ; sudo sh strap.sh)
+    sudo pacman -S $(cat "src/BlackarchInstall")
     sudo pacman -Scc
   fi
 }
 
-PacInstall()
-{
-  sudo pacman -Sy
-  sudo pacman -S $(cat "src/ArchInstall") 2>/dev/null
-  printf "you have install all needed package form official server\n"
-}
-
 AURInstall()
 {
-  read -p "do you want install all AUR package ?" yn
+  read -p "do you want install all AUR package ? [Y/n]" yn
   if [[ $yn == y ]]
   then
     trizen -S $(cat "src/AURInstall") 
@@ -69,7 +63,8 @@ GIT()
 ##
 X11()
 {
-  read -p "Do you want to use \n\t(1)XFCE\n\t(2)I3 ?" DE
+  printf "Do you want to use \n\t(1)XFCE\n\t(2)I3 ?"
+  read DE
   if [[ $DE == '1' ]]
     then 
       git clone https://github.com/alecromski/Dotfile -b xfce
@@ -82,7 +77,7 @@ X11()
 
 XFCE()
 {
-  sudo trizen -Syy $(cat "src/XFCE")
+  trizen -Syy $(cat "src/XFCE")
   gestures
   cp -r Dotfile/qBittorrent $CONFIG/
   cp -r Dotfile/mpv $CONFIG/
@@ -91,7 +86,7 @@ XFCE()
 
 I3()
 {
-  sudo trizen -Syy $(cat "src/I3")
+  trizen -Syy $(cat "src/I3")
   cp -r Dotfile/i3 $CONFIG/
   cp  Dotfile/compton.conf $CONFIG/
   cp -r Dotfile/qBittorrent $CONFIG/
@@ -136,7 +131,7 @@ spice()
   spicetify
   spicetify curent_theme Pop-Dark
   SleepClear
-  read -p "Do you want to apply spotify theme change ?" yn
+  read -p "Do you want to apply spotify theme change ? [Y/n]" yn
   if [[ $yn == y ]]
   then
     spicetify backup apply 
@@ -193,7 +188,6 @@ main()
 {
   AUR
   PacConf
-  PacInstall
   SleepClear
   AURInstall
   SleepClear
