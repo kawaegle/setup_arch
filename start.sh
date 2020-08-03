@@ -4,25 +4,8 @@ GIT_USER=''
 GIT_MAIL=''
 GIT_PROTOCOL='https'
 GIT_EDITOR='vim'
-CONFIG='$HOME/.config'
-VSC='$CONFIG/Code\ -\ OSS'
-
-PacConf()
-{
-  sudo rm -rf /etc/pacman.conf
-  sudo cp src/pacman.conf /etc/pacman.conf
-  (mkdir $HOME/.trizen; cp src/trizen.conf $CONFIG/trizen/)
-  rm strap.sh 2>/dev/null
-  (wget https://blackarch.org/strap.sh ; chmod +x strap.sh ; sudo sh strap.sh)
-  sudo pacman -Scc
-}
-
-PacInstall()
-{
-  sudo pacman -Sy
-  sudo pacman -Syy $(cat "src/ArchInstall") 2>/dev/null
-  printf "you have install all needed package form official server\n"
-}
+CONFIG=$HOME/.config
+VSC=$CONFIG/Code\ -\ OSS
 
 AUR()
 {
@@ -39,13 +22,34 @@ AUR()
   fi
 }
 
+PacConf()
+{
+  sudo rm -rf /etc/pacman.conf
+  sudo cp src/pacman.conf /etc/pacman.conf
+  (mkdir -p $HOME/.trizen; cp src/trizen.conf $CONFIG/trizen/)
+  read -p "Do you want to add Blackarch repo ?" black
+  if [[ $black == y ]]
+  then
+    rm strap.sh 2>/dev/null
+    (wget https://blackarch.org/strap.sh ; chmod +x strap.sh ; sudo sh strap.sh)
+    sudo pacman -Scc
+  fi
+}
+
+PacInstall()
+{
+  sudo pacman -Sy
+  sudo pacman -S $(cat "src/ArchInstall") 2>/dev/null
+  printf "you have install all needed package form official server\n"
+}
+
 AURInstall()
 {
-  read -p "do you want install all aur package ?" yn
+  read -p "do you want install all AUR package ?" yn
   if [[ $yn == y ]]
   then
-  trizen -S $(cat "src/AURInstall") 
-  printf "You have install all software from AUR repositories\n"
+    trizen -S $(cat "src/AURInstall") 
+    printf "You have install all software from AUR repositories\n"
   fi
 }
 
@@ -65,34 +69,35 @@ GIT()
 ##
 X11()
 {
-  read -p "Do you want use X11 server ?" yn
-  if [[ $yn == 'n' ]]
-  then
-    print "You'll need to install it later"
-    git clone https://github.com/alecromski/Dotfile -b master
-  else
-    read -p "Do you want to use \n\t(1)XFCE\n\t(2)I3 ?" DE
-    if [[ $DE == '1' ]]
+  read -p "Do you want to use \n\t(1)XFCE\n\t(2)I3 ?" DE
+  if [[ $DE == '1' ]]
     then 
       git clone https://github.com/alecromski/Dotfile -b xfce
       XFCE
-    else
+  else
       git clone https://github.com/alecromski/Dotfile -b i3
       I3
-    fi
   fi
 }
 
 XFCE()
 {
-  sudo trizen -Syy $(cat "src/XFCE") 2>/dev/null
+  sudo trizen -Syy $(cat "src/XFCE")
   gestures
+  cp -r Dotfile/qBittorrent $CONFIG/
+  cp -r Dotfile/mpv $CONFIG/
+  cp -r Dotfile/htop $CONFIG
 }
 
 I3()
 {
-  sudo trizen -Syy $(cat "src/I3") 2>/dev/null
-  cp -r Dotfile/i3/ $CONFIG/i3/
+  sudo trizen -Syy $(cat "src/I3")
+  cp -r Dotfile/i3 $CONFIG/
+  cp  Dotfile/compton.conf $CONFIG/
+  cp -r Dotfile/qBittorrent $CONFIG/
+  cp -r Dotfile/mpv $CONFIG/
+  cp -r Dotfile/htop $CONFIG
+  cp -r Dotfile/ranger $CONFIG
 }
 ##
 
@@ -106,6 +111,9 @@ Zsh()
 {
   cp -r Dotfile/zsh $HOME/.zsh
   ln -sf $HOME/.zsh/zshrc $HOME/.zshrc
+  (
+    zplug instal
+  )
 }
 
 Vim()
@@ -121,15 +129,14 @@ Vim()
 
 spice()
 {
-  mkdir $CONFIG/spicetify
+  mkdir -p $CONFIG/spicetify
   sudo chmod a+wr /opt/spotify
   sudo chmod a+wr /opt/spotify/Apps-R 
   git clone https://github.com/morpheusthewhite/spicetify-themes $CONFIG/spicetify/Themes
   spicetify
   spicetify curent_theme Pop-Dark
   SleepClear
-  print "Do you want to apply spotify theme change ?"
-  read -q yn
+  read -p "Do you want to apply spotify theme change ?" yn
   if [[ $yn == y ]]
   then
     spicetify backup apply 
@@ -150,7 +157,7 @@ VSC()
     code --install-extension juanmnl.vscode-theme-1984;sleep 2
     code --install-extension pkief.material-icon-theme;sleep 2
     code --install-extension dcasella.i3;sleep 2
-    printf "You have install and setup Vscodium"
+    printf "You have install and setup Visual Studio Code"
 }
 
 Config()
