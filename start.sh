@@ -19,6 +19,7 @@ PacConf()
 
 PacInstall()
 {
+  sudo pacman -Sy
   sudo pacman -Syy $(cat "src/ArchInstall") 2>/dev/null
   printf "you have install all needed package form official server\n"
 }
@@ -183,11 +184,10 @@ SleepClear()
 
 main()
 {
-  print
+  AUR
   PacConf
   PacInstall
   SleepClear
-  AUR
   AURInstall
   SleepClear
   GIT
