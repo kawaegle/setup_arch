@@ -31,6 +31,7 @@ xorg-xev
 xorg-xinit
 aom
 arduino
+arduino-avr-core
 base
 base-devel
 blueman

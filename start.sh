@@ -171,6 +171,7 @@ sysD()
   sudo systemctl enable org.cups.cupsd
   sudo localectl set-keymap fr
   sudo localectl set-x11-keymap fr
+  curl -fsSL https://raw.githubusercontent.com/platformio/platformio-core/master/scripts/99-platformio-udev.rules | sudo tee /etc/udev/rules.d/99-platformio-udev.rules
   sudo usermod -aG input $USER
   sudo usermod -aG uucp $USER
   sudo usermod -aG tty $USER
