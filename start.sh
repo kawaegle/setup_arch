@@ -26,15 +26,20 @@ PacConf()
 {
   sudo rm -rf /etc/pacman.conf
   sudo cp src/pacman.conf /etc/pacman.conf
-  (cp src/trizen.conf $CONFIG/trizen/)
+  mkdir -p $CONFIG/trizen 
+  cp src/trizen.conf $CONFIG/trizen/
   read -p "Do you want to add Blackarch repo ? [Y/n]" black
   if [[ $black == y ]]
   then
     rm strap.sh 2>/dev/null
     (wget https://blackarch.org/strap.sh ; chmod +x strap.sh ; sudo sh strap.sh)
-    sudo pacman -S $(cat "src/BlackarchInstall")
-    sudo pacman -Scc
   fi
+  if [[ $black == y ]]
+  then
+    sudo pacman -S $(cat "src/BlackarchInstall")
+  fi
+  sudo pacman -Syy
+  sudo pacman -S $(cat "src/Archlinux")
 }
 
 AURInstall()
@@ -63,14 +68,16 @@ GIT()
 ##
 X11()
 {
-  printf "Do you want to use \n\t(1)XFCE\n\t(2)I3 ?"
+  printf "Do you want to use \n\t(1)XFCE\n\t(2)I3\n ?"
   read DE
   if [[ $DE == '1' ]]
     then 
-      git clone https://github.com/alecromski/Dotfile -b xfce
+      git clone https://github.com/alecromski/Dotfile
+      DOTFILE = Dotfile/xfce
       XFCE
   else
-      git clone https://github.com/alecromski/Dotfile -b i3
+      git clone https://github.com/alecromski/Dotfile
+      Dotfile = Dotfile/i3
       I3
   fi
 }
@@ -79,32 +86,30 @@ XFCE()
 {
   trizen -Syy $(cat "src/XFCE")
   gestures
-  cp -r Dotfile/qBittorrent $CONFIG/
-  cp -r Dotfile/mpv $CONFIG/
-  cp -r Dotfile/htop $CONFIG
+  cp -r $DOTFILE/qBittorrent $CONFIG/
+  cp -r $DOTFILE/mpv $CONFIG/
+  cp -r $DOTFILE/htop $CONFIG
 }
-
-I3()
-{
+$DOTFILE
   trizen -Syy $(cat "src/I3")
-  cp -r Dotfile/i3 $CONFIG/
-  cp  Dotfile/compton.conf $CONFIG/
-  cp -r Dotfile/qBittorrent $CONFIG/
-  cp -r Dotfile/mpv $CONFIG/
-  cp -r Dotfile/htop $CONFIG
-  cp -r Dotfile/ranger $CONFIG
+  cp -r $DOTFILE/i3 $CONFIG/
+  cp  $DOTFILE/compton.conf $CONFIG/
+  cp -r $DOTFILE/qBittorrent $CONFIG/
+  cp -r $DOTFILE/mpv $CONFIG/
+  cp -r $DOTFILE/htop $CONFIG
+  cp -r $DOTFILE/ranger $CONFIG
 }
 ##
 
 gestures()
 {
-  cp Dotfile/libinput-gestures.conf $CONFIG/libinput-gestures.conf 
+  cp $DOTFILE/libinput-gestures.conf $CONFIG/libinput-gestures.conf 
   libinput-gestures-setup autostart
 }
 
 Zsh()
 {
-  cp -r Dotfile/zsh $HOME/.zsh
+  cp -r $DOTFILE/zsh $HOME/.zsh
   ln -sf $HOME/.zsh/zshrc $HOME/.zshrc
   (
     zplug instal
@@ -117,7 +122,7 @@ Vim()
   then 
     printf "you have already a vim conf"
   else
-	  cp -r Dotfile/vim $HOME/.vim
+	  cp -r $DOTFILE/vim $HOME/.vim
 	  ln -sf $HOME/.vim/vimrc $HOME/.vimrc
   fi
 }
@@ -141,7 +146,7 @@ spice()
 VSC()
 {
     mkdir -p $VSC
-    cp -r Dotfile/User $VSC/
+    cp -r $DOTFILE/User $VSC/
     code --install-extension jeff-hykin.better-shellscript-syntax;sleep 2
     code --install-extension coenraads.bracket-pair-colorizer;sleep 2
     code --install-extension dlasagno.wal-theme;sleep 2
