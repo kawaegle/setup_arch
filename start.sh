@@ -139,16 +139,14 @@ VSC()
 {
   mkdir -p $CONFIG/Code\ -\ OSS/
   cp -r $DOTFILE/Code\ -\ OSS/ $CONFIG/Code\ -\ OSS/
+  code --install-extension platformio.platformio-ide;sleep 2
   code --install-extension jeff-hykin.better-shellscript-syntax;sleep 2
   code --install-extension coenraads.bracket-pair-colorizer;sleep 2
-  code --install-extension dlasagno.wal-theme;sleep 2
   code --install-extension naumovs.color-highlight;sleep 2
-  code --install-extension platformio.platformio-ide;sleep 2
   code --install-extension shyykoserhiy.vscode-spotify;sleep 2
   code --install-extension royaction.color-manager;sleep 2
-  code --install-extension juanmnl.vscode-theme-1984;sleep 2
-  code --install-extension pkief.material-icon-theme;sleep 2
   code --install-extension dcasella.i3;sleep 2
+  code --install-extension huytd.tokyo-city;sleep 2
   printf "You have install and setup Visual Studio Code"
 }
 
