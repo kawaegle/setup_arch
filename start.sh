@@ -4,7 +4,26 @@ GIT_USER=''
 GIT_MAIL=''
 GIT_PROTOCOL='https'
 GIT_EDITOR='vim'
-CONFIG=$HOME/.config
+CONFIG="$HOME/.config"
+DOTFILE="$HOME/GIT/Dotfile"
+
+Dotfile()
+{
+  mkdir -p $HOME/GIT
+  if [[ -d $HOME/GIT/start-page ]]
+  then 
+    git clone https://github.com/alecromski/start-page $HOME/GIT/start-page
+  elif [[ -d $HOME/Wallpaper ]]
+  then
+    git clone https://github.com/alecromski/Wallpaper $HOME/Wallpaper
+  elif [[ -d $HOME/Templates ]]
+  then
+    git clone https://github.com/alecromski/Dotfile $HOME/GIT/Templates
+  elif [[ -d $HOME/GIT/Dotfile ]]
+  then
+    git clone https://github.com/alecromski/Dotfile $HOME/GIT/Dotfile
+  fi
+}
 
 AUR()
 {
@@ -21,26 +40,14 @@ AUR()
   fi
 }
 
-AURInstall()
-{
-  read -p "do you want install all AUR package ? [Y/n]" yn
-  if [[ $yn == y ]]
-  then
-    trizen -S $(cat "src/AURInstall") 
-    printf "You have install all software from AUR repositories\n"
-  fi
-}
-
 PacInstall()
 {
   sudo rm -rf /etc/pacman.conf
   sudo cp src/pacman.conf /etc/pacman.conf
-  mkdir -p $CONFIG/trizen 
-  cp src/trizen.conf $CONFIG/trizen/
   read -p "Do you want to add Blackarch repo ? [Y/n]" black
   if [[ $black == y ]]
   then
-    mv strap.sh 2>/dev/null
+    mv strap.sh* 2>/dev/null
     (wget https://blackarch.org/strap.sh ; chmod +x strap.sh ; sudo sh strap.sh)
     read -p "Do you want to install BlackArch software ? [Y/n]" blackarch
     if [[ $blackarch == y ]]
@@ -50,6 +57,16 @@ PacInstall()
   fi
   sudo pacman -Syy
   sudo pacman -S $(cat "src/Archlinux")
+}
+
+AURInstall()
+{
+  read -p "do you want install all AUR package ? [Y/n]" yn
+  if [[ $yn == y ]]
+  then
+    trizen -S $(cat "src/AURInstall") 
+    printf "You have install all software from AUR repositories\n"
+  fi
 }
 
 GIT()
@@ -66,37 +83,11 @@ GIT()
  }
 
 ##
-X11()
-{
-  printf "Do you want to use \n\t(1)XFCE\n\t(2)I3\n ?"
-  read DE
-  if [[ $DE == '1' ]]
-  then
-    print "XFCE"
-    XFCE
-  else
-    print "i3"
-    I3
-  fi
-}
-
-XFCE()
-{
-  trizen -Syy $(cat "src/XFCE")
-  gestures
-}
-
 I3()
 {
   trizen -Syy $(cat "src/I3")
 }
 ##
-
-gestures()
-{
-  cp $DOTFILE/libinput-gestures.conf $CONFIG/libinput-gestures.conf 
-  libinput-gestures-setup autostart
-}
 
 Zsh()
 {
@@ -118,46 +109,25 @@ Vim()
   fi
 }
 
-spice()
-{
-  mkdir -p $CONFIG/spicetify
-  sudo chmod a+wr /opt/spotify
-  sudo chmod a+wr /opt/spotify/Apps-R 
-  git clone https://github.com/morpheusthewhite/spicetify-themes $CONFIG/spicetify/Themes
-  spicetify
-  spicetify curent_theme Pop-Dark
-  SleepClear
-  read -p "Do you want to apply spotify theme change ? [Y/n]\n" yn
-  printf "[!]Only if spotify was already launch[!]"
-  if [[ $yn == y ]]
-  then
-    spicetify backup apply 
-  fi
-}
-
 VSC()
 {
   mkdir -p $CONFIG/Code\ -\ OSS/
   cp -r $DOTFILE/Code\ -\ OSS/ $CONFIG/Code\ -\ OSS/
-  # code --install-extension platformio.platformio-ide;sleep 2
-  code --install-extension jeff-hykin.better-shellscript-syntax;sleep 2
-  code --install-extension coenraads.bracket-pair-colorizer;sleep 2
-  code --install-extension naumovs.color-highlight;sleep 2
-  code --install-extension shyykoserhiy.vscode-spotify;sleep 2
-  code --install-extension royaction.color-manager;sleep 2
-  code --install-extension dcasella.i3;sleep 2
-  code --install-extension huytd.tokyo-city;sleep 2
-  code --install-extension huytd.tokyo-night;sleep 2
-  code --install-extension davidbabel.vscode-simpler-icons;sleep2
+  code --install-extension platformio.platformio-ide;sleep 2 #Arduino maker
+  code --install-extension jeff-hykin.better-shellscript-syntax;sleep 2 #Shell syntax
+  code --install-extension anseki.vscode-color;sleep 2 #Color picker
+  code --install-extension vscode.vscode-theme-seti;sleep 2 #Icons theme
+  code --install-extension dcasella.i3;sleep 2 #I3 syntax
+  code --install-extension coenraads.bracket-pair-colorizer-2;sleep 2 #Bracket pairing
+  code --install-extension ajshortt.tokyo-hack;sleep 2 #Color theme
   printf "You have install and setup Visual Studio Code"
 }
 
 Config()
 {
-  X11
+  I3
   Zsh
   Vim
-  spice
   VSC
 }
 
@@ -172,8 +142,8 @@ sysD()
   sudo usermod -aG input $USER
   sudo usermod -aG uucp $USER
   sudo usermod -aG tty $USER
-  sudo groupadd dialout
-  sudo usermod -aG dialout $USER
+  sudo groupadd dialout && sudo usermod -aG dialout $USER
+  chsh -s /bin/zsh
 }
 
 SleepClear()
@@ -184,6 +154,7 @@ SleepClear()
 
 main()
 {
+  Dotfile 
   AUR
   PacInstall
   SleepClear
