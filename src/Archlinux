@@ -1,4 +1,7 @@
 aom
+android-sdk
+android-sdk-build-tools
+android-sdk-platform-tools
 base
 base-devel
 blueman
@@ -13,6 +16,7 @@ cura
 curl
 dhcp
 discord
+nerd-fonts
 engrampa
 exfat-utils
 faac
@@ -65,6 +69,8 @@ mgba-qt
 mps-youtube
 mpv
 nano
+npm
+nodejs
 nerd-fonts
 networkmanager
 networkmanager-openvpn
@@ -113,6 +119,9 @@ xorg-xbacklight
 xorg-xev
 xorg-xinit
 xvidcore
-zathura-*
+xss-lock
+zathura-pdf-poppler
+zathura-pdf-mupdf
+zathura-djvu
 zip
 zsh
