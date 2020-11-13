@@ -13,13 +13,16 @@ Dotfile()
   if [[ -d $HOME/GIT/start-page ]]
   then 
     git clone https://github.com/alecromski/start-page $HOME/GIT/start-page
-  elif [[ -d $HOME/Wallpaper ]]
+  fi
+  if [[ -d $HOME/Wallpaper ]]
   then
     git clone https://github.com/alecromski/Wallpaper $HOME/Wallpaper
-  elif [[ -d $HOME/Templates ]]
+  fi
+  if [[ -d $HOME/Templates ]]
   then
     git clone https://github.com/alecromski/Dotfile $HOME/GIT/Templates
-  elif [[ -d $HOME/GIT/Dotfile ]]
+  fi
+  if [[ -d $HOME/GIT/Dotfile ]]
   then
     git clone https://github.com/alecromski/Dotfile $HOME/GIT/Dotfile
   fi
@@ -116,10 +119,15 @@ VSC()
   code --install-extension platformio.platformio-ide;sleep 2 #Arduino maker
   code --install-extension jeff-hykin.better-shellscript-syntax;sleep 2 #Shell syntax
   code --install-extension anseki.vscode-color;sleep 2 #Color picker
+  code --install-extension naumovs.color-highlight;sleep 2 #Color Highlight
   code --install-extension vscode.vscode-theme-seti;sleep 2 #Icons theme
   code --install-extension dcasella.i3;sleep 2 #I3 syntax
   code --install-extension coenraads.bracket-pair-colorizer-2;sleep 2 #Bracket pairing
   code --install-extension ajshortt.tokyo-hack;sleep 2 #Color theme
+  code --install-extension hookyqr.beautify;sleep 2 #Html css code formater
+  code --install-extension msjsdiag.vscode-react-native;sleep 2 #react-native utils
+  code --install-extension adelphes.android-dev-ext;sleep 2 #android tools
+  code --install-extension eg2.vscode-npm-script;sleep 2 #npm utils 
   printf "You have install and setup Visual Studio Code"
 }
 
