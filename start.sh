@@ -5,7 +5,8 @@ GIT_MAIL=''
 GIT_PROTOCOL='https'
 GIT_EDITOR='vim'
 CONFIG="$HOME/.config"
-DOTFILE="$HOME/GIT/Dotfile"
+DOTFILE="$HOME/GIT/Dotfile/"
+DOTFILE_DIR="$HOME/GIT/DOTFILE/Dotfile"
 
 Dotfile() # clone dotfile where they need to be cloned
 {
@@ -18,50 +19,22 @@ Dotfile() # clone dotfile where they need to be cloned
 
 AUR() # install AUR manager and aur software
 {
-    read -p "do you want to install trizen ? [Y/n]" yn
-    [ $yn = y ] &&
-    	(
-	git clone https://aur.archlinux.org/trizen
-	cd trizen
-	makepkg -si
-	cd ..
-	rm -rf trizen
-	)
-	read -p "do you want install all AUR package ? [Y/n]" yn
-    [ $yn = y ] && 
-	trizen -S $(cat "src/AURInstall") 
-	printf "You have install all software from AUR repositories\n"
-
+	read -p "do you want to install trizen ? [Y/n]" yn
+	[ $yn == y ] && (git clone https://aur.archlinux.org/trizen && cd trizen && makepkg -si && cd .. && rm -rf trizen); read -p "do you want install all AUR package ? [Y/n]" yn ; [ $yn == y ] && trizen -S $(cat "src/AURInstall") && printf "You have install all software from AUR repositories\n"
 }
 
 PacInstall() # generate pacman mirrorlist blackarch and install all software i need
 {
     sudo rm -rf /etc/pacman.conf
-    sudo cp src/pacman.conf /etc/pacman.conf
+	sudo cp src/pacman.conf /etc/pacman.conf
     read -p "do you want to automaticaly regenerate pacman depots ? [Y/n]" depots
-    [ $depots == y ] && 
-	(sudo pacman -S reflector)
-	(sudo reflector -c FR -c US -c GB -c PL -n 100 --info --protocol http,https --save /etc/pacman.d/mirrorlist)
-    read -p "Do you want to add Blackarch repo ? [Y/n]" black
-    [ $black == y ] && (wget https://blackarch.org/strap.sh ; chmod +x strap.sh ; sudo sh strap.sh; sudo rm strap.sh )
-    read -p "Do you want to install BlackArch software ? [Y/n]" blackarch
-    [ $blackarch == y ] && sudo pacman -S $(cat "src/BlackarchInstall")
-	sudo pacman -Syy
-	sudo pacman -S $(cat "src/Archlinux")
+	[ $depots = y ] && (sudo pacman -S reflector && sudo reflector -c FR -c US -c GB -c PL -n 100 --info --protocol http,https --save /etc/pacman.d/mirrorlist) ; read -p "Do you want to add Blackarch repo ? [Y/n]" black && [ $black = y ] && (wget https://blackarch.org/strap.sh && chmod +x strap.sh && sudo sh strap.sh && sudo rm strap.sh ) ; read -p "Do you want to install BlackArch software ? [Y/n]" blackarch && [ $blackarch = y ] && sudo pacman -S $(cat "src/BlackarchInstall"); sudo pacman -Syy && sudo pacman -S $(cat "src/Archlinux")
 }
 
 GIT()
 {
-    [ ! -e $HOME/.gitconfig ] &&
-	read -p "What is your username on GIT server : " GIT_USER
-	git config --global user.name $GIT_USER; printf "Your username is $GIT_USER\n"
-	read -p "What is your email on GIT server : " GIT_MAIL
-	git config --global user.email $GIT_MAIL; printf "Your email is $GIT_MAIL\n"
-	read -p "What is your editor for GIT commit and merge : " GIT_EDITOR
-	git config --global core.editor $GIT_EDITOR; printf "Your editor is $GIT_EDITOR\n"
-	read -p "What is your protocol (ssh/https) for GIT server : " GIT_PROTOCOL
-	git config --global hub.protocol $GIT_PROTOCOL ;printf "Your protocol is $GIT_PROTOCOL\n"
- }
+    [ ! -e $HOME/.gitconfig ] && read -p "What is your username on GIT server : " GIT_USER && git config --global user.name $GIT_USER && printf "Your username is $GIT_USER\n" &&	read -p "What is your email on GIT server : " GIT_MAIL && git config --global user.email $GIT_MAIL && printf "Your email is $GIT_MAIL\n" && read -p "What is your editor for GIT commit and merge : " GIT_EDITOR &&	git config --global core.editor $GIT_EDITOR && printf "Your editor is $GIT_EDITOR\n" &&	read -p "What is your protocol (ssh/https) for GIT server : " GIT_PROTOCOL && git config --global hub.protocol $GIT_PROTOCOL &&	printf "Your protocol is $GIT_PROTOCOL\n" 
+}
 
 ##
 I3()
@@ -72,24 +45,17 @@ I3()
 
 Zsh()
 {
-	cp -r $DOTFILE/zsh $HOME/.zsh
-	ln -sf $HOME/.zsh/zshrc $HOME/.zshrc
-	(
-		zplug instal
-	)
+	[[ -e $HOME/.zsh && ! -e $HOME/.zsh/zplug ]] && git clone http://zplug/zplug $HOME/.zsh/zplug ; cp -r $DOTFILE_DIR/zsh && HOME/.zsh && ln -sf $HOME/.zsh/zshrc $HOME/.zshrc
 }
 
 Vim()
 {
-    [ -e $HOME/.vim || -e $HOME/.vimrc ] && printf "you have already a vim conf" || 
-		cp -r $DOTFILE/vim $HOME/.vim
-		ln -sf $HOME/.vim/vimrc $HOME/.vimrc
+    [[ -e $HOME/.vim || -e $HOME/.vimrc ]] && printf "you have already a vim conf" || cp -r $DOTFILE/vim $HOME/.vim && ln -sf $HOME/.vim/vimrc $HOME/.vimrc
 }
 
 VSC()
 {
 	mkdir -p $CONFIG/Code\ -\ OSS/
-	cp -r $DOTFILE/Code\ -\ OSS/ $CONFIG/Code\ -\ OSS/
 	code --install-extension platformio.platformio-ide;sleep 2 #Arduino maker
 	code --install-extension jeff-hykin.better-shellscript-syntax;sleep 2 #Shell syntax
 	code --install-extension anseki.vscode-color;sleep 2 #Color picker
@@ -107,7 +73,7 @@ VSC()
 
 Config()
 {
-	I3
+#	I3
 	Zsh
 	Vim
 	VSC
@@ -115,7 +81,6 @@ Config()
 
 sysD()
 {
-	sudo systemctl enable ly
 	sudo systemctl enable cronie
 	sudo systemctl enable org.cups.cupsd
 	sudo localectl set-keymap fr
