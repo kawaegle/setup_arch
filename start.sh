@@ -27,8 +27,7 @@ PacInstall() # generate pacman mirrorlist blackarch and install all software i n
 {
     sudo rm -rf /etc/pacman.conf
 	sudo cp src/pacman.conf /etc/pacman.conf
-    read -p "do you want to automaticaly regenerate pacman depots ? [Y/n]" depots
-	[ $depots = y ] && (sudo pacman -S reflector && sudo reflector -c FR -c US -c GB -c PL -n 100 --info --protocol http,https --save /etc/pacman.d/mirrorlist) ; read -p "Do you want to add Blackarch repo ? [Y/n]" black && [ $black = y ] && (wget https://blackarch.org/strap.sh && chmod +x strap.sh && sudo sh strap.sh && sudo rm strap.sh ) ; read -p "Do you want to install BlackArch software ? [Y/n]" blackarch && [ $blackarch = y ] && sudo pacman -S $(cat "src/BlackarchInstall"); sudo pacman -Syy && sudo pacman -S $(cat "src/Archlinux")
+    read -p "do you want to automaticaly regenerate pacman depots ? [Y/n]" depots ;	[ $depots = y ] && (sudo pacman -S reflector && sudo reflector -c FR -c US -c GB -c PL -n 100 --info --protocol http,https --save /etc/pacman.d/mirrorlist) ; read -p "Do you want to add Blackarch repo ? [Y/n]" black && [ $black = y ] && (wget https://blackarch.org/strap.sh && chmod +x strap.sh && sudo sh strap.sh && sudo rm strap.sh ) ; read -p "Do you want to install BlackArch software ? [Y/n]" blackarch && [ $blackarch = y ] && sudo pacman -S $(cat "src/BlackarchInstall"); read -p "Do you want to install some games stations ? [Y/n]" game ; [ $game = y ] && trizen $(cat src/game) ; read -p "Do you want to install some multimedia softare maker ? [y/n]" multi ; [ $multi = y ] && sudo pacman -S $(cat src/multi) ; sudo pacman -Syy && sudo pacman -S $(cat "src/Archlinux") 
 }
 
 GIT()
@@ -37,9 +36,9 @@ GIT()
 }
 
 ##
-I3()
+DE()
 {
-	trizen -Syy $(cat "src/I3")
+	pritnf "Work in progress N00B"
 }
 ##
 
@@ -73,7 +72,7 @@ VSC()
 
 Config()
 {
-#	I3
+	DE
 	Zsh
 	Vim
 	VSC
