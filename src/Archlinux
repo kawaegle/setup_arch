@@ -1,7 +1,3 @@
-audacity
-esptool
-rsync
-handbrake-cli
 aom
 base
 base-devel
@@ -86,6 +82,7 @@ python-pip
 qbittorrent
 ranger
 reflector
+rsync
 system-config-printer
 ttf-bitstream-vera
 ttf-dejavu
