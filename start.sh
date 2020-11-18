@@ -26,8 +26,8 @@ AUR() # install AUR manager and aur software
 PacInstall() # generate pacman mirrorlist blackarch and install all software i need
 {
     sudo rm -rf /etc/pacman.conf
-	sudo cp src/pacman.conf /etc/pacman.conf
-    read -p "do you want to automaticaly regenerate pacman depots ? [Y/n]" depots ;	[ $depots = y ] && (sudo pacman -S reflector && sudo reflector -c FR -c US -c GB -c PL -n 100 --info --protocol http,https --save /etc/pacman.d/mirrorlist) ; read -p "Do you want to add Blackarch repo ? [Y/n]" black && [ $black = y ] && (wget https://blackarch.org/strap.sh && chmod +x strap.sh && sudo sh strap.sh && sudo rm strap.sh ) ; read -p "Do you want to install BlackArch software ? [Y/n]" blackarch && [ $blackarch = y ] && sudo pacman -S $(cat "src/BlackarchInstall"); read -p "Do you want to install some games stations ? [Y/n]" game ; [ $game = y ] && trizen $(cat src/game) ; read -p "Do you want to install some multimedia softare maker ? [y/n]" multi ; [ $multi = y ] && sudo pacman -S $(cat src/multi) ; sudo pacman -Syy && sudo pacman -S $(cat "src/Archlinux") 
+    sudo cp src/pacman.conf /etc/pacman.conf
+    read -p "do you want to automaticaly regenerate pacman depots ? [Y/n]" depots ;	[ $depots = y ] && (sudo pacman -S reflector && sudo reflector -c FR -c US -c GB -c PL -n 100 --info --protocol http,https --save /etc/pacman.d/mirrorlist) ; read -p "Do you want to add Blackarch repo ? [Y/n]" black && [ $black = y ] && (wget https://blackarch.org/strap.sh && chmod +x strap.sh && sudo sh strap.sh && sudo rm strap.sh ) ; read -p "Do you want to install BlackArch software ? [Y/n]" blackarch && [ $blackarch = y ] && sudo pacman -S $(cat "src/Blackarch"); read -p "Do you want to install some games stations ? [Y/n]" game ; [ $game = y ] && trizen -S $(cat src/game) ; read -p "Do you want to install some multimedia softare maker ? [y/n]" multi ; [ $multi = y ] && sudo pacman -S $(cat src/multi) ; sudo pacman -Syy && read -p "Do you want to install all other usefull software ? [Y/n]" arch && [ $arch = y  ] && sudo pacman -S $(cat "src/Archlinux") 
 }
 
 GIT()
@@ -38,13 +38,13 @@ GIT()
 ##
 DE()
 {
-	pritnf "Work in progress N00B"
+	printf "Work in progress N00B"
 }
 ##
 
 Zsh()
 {
-	[[ -e $HOME/.zsh && ! -e $HOME/.zsh/zplug ]] && git clone http://zplug/zplug $HOME/.zsh/zplug ; cp -r $DOTFILE_DIR/zsh && HOME/.zsh && ln -sf $HOME/.zsh/zshrc $HOME/.zshrc
+	[[ -e $HOME/.zsh && ! -e $HOME/.zsh/zplug ]] && git clone http://zplug/zplug $HOME/.zsh/zplug ; cp -r $DOTFILE_DIR/zsh $HOME/.zsh && ln -sf $HOME/.zsh/zshrc $HOME/.zshrc
 }
 
 Vim()
@@ -89,7 +89,7 @@ sysD()
 	sudo usermod -aG uucp $USER
 	sudo usermod -aG tty $USER
 	sudo groupadd dialout && sudo usermod -aG dialout $USER
-	chsh -s /bin/zsh
+	[ ! $SHELL = zsh /bin/zsh ] && chsh -s /bin/zsh
 }
 
 SleepClear()
