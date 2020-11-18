@@ -1,7 +1,9 @@
 aircrack-ng
 airgeddon
+androidpincrack
+android-udev
 android-apktool
-android-sdk
+brute-force
 asleap
 backdoor-factory
 bbqsql
@@ -38,8 +40,6 @@ mdk4
 medusa
 metasploit
 mimikatz
-mps-youtube
-msfdb
 ncrack
 netcat
 netdiscover
