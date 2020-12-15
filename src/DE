@@ -1,9 +1,8 @@
 i3-gaps
 polybar
-feh 
+feh
 python-pywal
 rofi
 xrandr
 compton
 betterlockscreen
-redshifter
