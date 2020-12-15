@@ -55,18 +55,7 @@ Vim()
 VSC()
 {
 	mkdir -p $CONFIG/Code\ -\ OSS/
-	code --install-extension platformio.platformio-ide;sleep 2 #Arduino maker
-	code --install-extension jeff-hykin.better-shellscript-syntax;sleep 2 #Shell syntax
-	code --install-extension anseki.vscode-color;sleep 2 #Color picker
-	code --install-extension naumovs.color-highlight;sleep 2 #Color Highlight
-	code --install-extension qinjia.seti-icons;sleep 2 #Icons theme
-	code --install-extension dcasella.i3;sleep 2 #I3 syntax
-	code --install-extension coenraads.bracket-pair-colorizer-2;sleep 2 #Bracket pairing
-	code --install-extension ajshortt.tokyo-hack;sleep 2 #Color theme
-	code --install-extension hookyqr.beautify;sleep 2 #Html css code formater
-	code --install-extension msjsdiag.vscode-react-native;sleep 2 #react-native utils
-	code --install-extension adelphes.android-dev-ext;sleep 2 #android tools
-	code --install-extension eg2.vscode-npm-script;sleep 2 #npm utils 
+	code --install-extension OppaiWeeb.OppaiPack
 	printf "You have install and setup Visual Studio Code"
 }
 
@@ -80,7 +69,6 @@ Config()
 
 sysD()
 {
-	sudo systemctl enable cronie
 	sudo systemctl enable org.cups.cupsd
 	sudo localectl set-keymap fr
 	sudo localectl set-x11-keymap fr
@@ -89,7 +77,7 @@ sysD()
 	sudo usermod -aG uucp $USER
 	sudo usermod -aG tty $USER
 	sudo groupadd dialout && sudo usermod -aG dialout $USER
-	[ ! $SHELL = zsh /bin/zsh ] && chsh -s /bin/zsh
+	[! $SHELL '/bin/zsh' ] && chsh -s /bin/zsh
 }
 
 SleepClear()
