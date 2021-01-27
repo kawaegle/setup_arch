@@ -1,8 +1,6 @@
 #!/bin/bash
-
 GIT_USER=''
 GIT_MAIL=''
-GIT_PROTOCOL='https'
 GIT_EDITOR='vim'
 CONFIG="$HOME/.config"
 DOTFILE="$HOME/GIT/Dotfile/"
@@ -19,43 +17,47 @@ Dotfile() # clone dotfile where they need to be cloned
 
 AUR() # install AUR manager and aur software
 {
-	read -p "do you want to install trizen ? [Y/n]" yn
-	[[ $yn == y ]] && (git clone https://aur.archlinux.org/trizen && cd trizen && makepkg -si && cd .. && rm -rf trizen); read -p "do you want install all AUR package ? [Y/n]" yn ; [ $yn == y ] && trizen -S $(cat "src/AURInstall") && printf "You have install all software from AUR repositories\n"
+	read -p "do you want to install trizen ? [Y/n]" yn; [[ $yn == y ]] && (git clone https://aur.archlinux.org/trizen && cd trizen && makepkg -si && cd .. && rm -rf trizen)
+	read -p "do you want install all AUR package ? [Y/n]" yn ; [ $yn == y ] && trizen -S $(cat "src/AURInstall") && printf "You have install all software from AUR repositories\n"
 }
 
 PacInstall() # generate pacman mirrorlist blackarch and install all software i need
 {
     sudo rm -rf /etc/pacman.conf
     sudo cp src/pacman.conf /etc/pacman.conf
-    read -p "do you want to automaticaly regenerate pacman depots ? [Y/n]" depots ;	[[ $depots = y ]] && (sudo pacman -S reflector && sudo reflector -c FR -c US -c GB -c PL -n 100 --info --protocol http,https --save /etc/pacman.d/mirrorlist) ; read -p "Do you want to add Blackarch repo ? [Y/n]" black && [[ $black = y ]] && (wget https://blackarch.org/strap.sh && chmod +x strap.sh && sudo sh strap.sh && sudo rm strap.sh ) ; read -p "Do you want to install BlackArch software ? [Y/n]" blackarch && [[ $blackarch = y ]] && sudo pacman -S $(cat "src/Blackarch"); read -p "Do you want to install some games stations ? [Y/n]" game ; [[ $game = y ]] && trizen -S $(cat src/game) ; read -p "Do you want to install some multimedia softare maker ? [y/n]" multi ; [[ $multi = y ]] && sudo pacman -S $(cat src/multi) ; sudo pacman -Syy && read -p "Do you want to install all other usefull software ? [Y/n]" arch && [[ $arch = y  ]] && sudo pacman -S $(cat "src/Archlinux"); read -p "Do you want to install all Python usefull software by pip" yn && [[ $yn == y ]] && pip install src/pip_requiere
+
+    read -p "do you want to automaticaly regenerate pacman depots ? [Y/n]" depots ;	[[ $depots = y ]] && (sudo pacman -S reflector && sudo reflector -c FR -c US -c GB -c PL -n 100 --info --protocol http,https --save /etc/pacman.d/mirrorlist)
+
+	read -p "Do you want to add Blackarch repo ? [Y/n]" black && [[ $black = y ]] && (wget https://blackarch.org/strap.sh && chmod +x strap.sh && sudo sh strap.sh && sudo rm strap.sh ) 
+
+	read -p "Do you want to install BlackArch software ? [Y/n]" blackarch && [[ $blackarch = y ]] && sudo pacman -S $(cat "src/Blackarch")
+
+	read -p "Do you want to install some games stations ? [Y/n]" game ; [[ $game = y ]] && trizen -S $(cat src/game)
+
+	read -p "Do you want to install some multimedia softare maker ? [y/n]" multi [[ $multi = y ]] && sudo pacman -S $(cat src/multi) 
+
+	read -p "Do you want to install all Python usefull software by pip" yn && [[ $yn == y ]] && pip install src/pip_requiere
+	
+	sudo pacman -Syy 
+	
+	print "Install Archlinux base software" ; sudo pacman -S $(cat "src/Archlinux")
 }
 
-GIT()
+GIT() # generate .gitconfig
 {
-    [[ ! -e $HOME/.gitconfig ]] && read -p "What is your username on GIT server : " GIT_USER && git config --global user.name $GIT_USER && printf "Your username is $GIT_USER\n" &&	read -p "What is your email on GIT server : " GIT_MAIL && git config --global user.email $GIT_MAIL && printf "Your email is $GIT_MAIL\n" && read -p "What is your editor for GIT commit and merge : " GIT_EDITOR &&	git config --global core.editor $GIT_EDITOR && printf "Your editor is $GIT_EDITOR\n" &&	read -p "What is your protocol (ssh/https) for GIT server : " GIT_PROTOCOL && git config --global hub.protocol $GIT_PROTOCOL &&	printf "Your protocol is $GIT_PROTOCOL\n" 
+    [[ ! -e $HOME/.gitconfig ]] && read -p "What is your username on GIT server : " GIT_USER && git config --global user.name $GIT_USER && printf "Your username is $GIT_USER\n" &&	read -p "What is your email on GIT server : " GIT_MAIL && git config --global user.email $GIT_MAIL && printf "Your email is $GIT_MAIL\n" && read -p "What is your editor for GIT commit and merge : " GIT_EDITOR &&	git config --global core.editor $GIT_EDITOR && printf "Your editor is $GIT_EDITOR\n" &&	printf "Your protocol is $GIT_PROTOCOL\n" 
 }
 
 ##
-DE()
+DE() # setup DesktopEnvironement
 {
 	printf "Work in progress N00B"
 }
 ##
 
-network()
-{
-	sudo pacman -Rsnuc networkmanager
-	sudo systemctl enable iwd.service
-	sudo systemctl enable systemd-network.service
-	sudo systemctl enable systemd-resolved.service
-	sudo rm -rf /etc/resolv.conf
-	sudo rm -rf /etc/resolvconf.conf
-	sudo resolvconf -u 
-}
-
 Zsh()
 {
-	[[ -e $HOME/.zsh && ! -e $HOME/.zsh/zplug ]] ; cp -r $DOTFILE_DIR/zsh $HOME/.zsh && ln -sf $HOME/.zsh/zshrc $HOME/.zshrc
+	print "Configure ZSH" ; cp -r $DOTFILE_DIR/zsh $HOME/.zsh && ln -sf $HOME/.zsh/zshrc $HOME/.zshrc
 }
 
 Vim()
@@ -73,7 +75,6 @@ VSC()
 Config()
 {
 	DE
-	network
 	Zsh
 	Vim
 	VSC
@@ -81,7 +82,10 @@ Config()
 
 sysD()
 {
-	sudo systemctl enable org.cups.cupsd
+	sudo systemctl enable cups NetworkManager
+	sudo rm -rf /etc/resolv.conf
+	sudo rm -rf /etc/resolvconf.conf
+	sudo resolvconf -u
 	sudo localectl set-keymap fr
 	sudo localectl set-x11-keymap fr
 	(curl -fsSL https://raw.githubusercontent.com/platformio/platformio-core/master/scripts/99-platformio-udev.rules | sudo tee /etc/udev/rules.d/99-platformio-udev.rules)
@@ -90,8 +94,8 @@ sysD()
 	sudo usermod -aG tty $USER
 	sudo groupadd dialout && sudo usermod -aG dialout $USER
 	[[ ! $SHELL '/bin/zsh' ]] && chsh -s /bin/zsh
-	print "You 'll need to restart soon...\n'"
-	sleep 5
+	print "You 'll need to restart soon...\nBut no problem just wait we restart it for you.\n"
+	sleep 1; print "Reboot in 5..."; sleep 1; print "Reboot in 4..."; sleep 1; print "Reboot in 3..."; sleep 1; print "Reboot in 2..."; sleep 1; print "Reboot in 1...":; sleep 1; print "Reboot now..."
 	sudo reboot
 }
 

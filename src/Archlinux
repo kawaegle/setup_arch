@@ -1,3 +1,4 @@
+luarocks
 aom
 base
 base-devel
@@ -61,8 +62,8 @@ man
 mpv
 nano
 nerd-fonts
-iwd
 nodejs
+networkmanager
 noto-fonts
 noto-fonts-cjk
 noto-fonts-emoji 
