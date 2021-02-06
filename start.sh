@@ -9,15 +9,15 @@ DOTFILE_DIR="$HOME/GIT/DOTFILE/Dotfile"
 Dotfile() # clone dotfile where they need to be cloned
 {
     mkdir -p $HOME/GIT
-    [[ ! -e $HOME/GIT/start-page ]] && git clone https://github.com/alecromski/start-page $HOME/GIT/start-page
-    [[ ! -e $HOME/Wallpaper ]] && git clone https://github.com/alecromski/Wallpaper $HOME/Wallpaper
-    [[ ! -e $HOME/Templates ]] && git clone https://github.com/alecromski/Templates $HOME/Templates
-    [[ ! -e $HOME/GIT/Dotfile ]] && git clone https://github.com/alecromski/Dotfile $DOTFILE
+    [[ ! -e $HOME/GIT/start-page ]] && git clone ssh://git@github.com/alecromski/start-page $HOME/GIT/start-page
+    [[ ! -e $HOME/Wallpaper ]] && git clone ssh://git@github.com/alecromski/Wallpaper $HOME/Wallpaper
+    [[ ! -e $HOME/Templates ]] && git clone ssh://git@github.com/alecromski/Templates $HOME/Templates
+    [[ ! -e $HOME/GIT/Dotfile ]] && git clone ssh://git@github.com/alecromski/Dotfile $DOTFILE
 }
 
 AUR() # install AUR manager and aur software
 {
-	read -p "do you want to install trizen ? [Y/n]" yn; [[ $yn == y ]] && (git clone https://aur.archlinux.org/trizen && cd trizen && makepkg -si && cd .. && rm -rf trizen)
+	read -p "do you want to install trizen ? [Y/n]" yn; [[ $yn == y ]] && (git clone https//aur.archlinux.org/trizen && cd trizen && makepkg -si && cd .. && rm -rf trizen)
 	read -p "do you want install all AUR package ? [Y/n]" yn ; [ $yn == y ] && trizen -S $(cat "src/AURInstall") && printf "You have install all software from AUR repositories\n"
 }
 
@@ -45,7 +45,7 @@ PacInstall() # generate pacman mirrorlist blackarch and install all software i n
 
 GIT() # generate .gitconfig
 {
-    [[ ! -e $HOME/.gitconfig ]] && read -p "What is your username on GIT server : " GIT_USER && git config --global user.name $GIT_USER && printf "Your username is $GIT_USER\n" &&	read -p "What is your email on GIT server : " GIT_MAIL && git config --global user.email $GIT_MAIL && printf "Your email is $GIT_MAIL\n" && read -p "What is your editor for GIT commit and merge : " GIT_EDITOR &&	git config --global core.editor $GIT_EDITOR && printf "Your editor is $GIT_EDITOR\n" &&	printf "Your protocol is $GIT_PROTOCOL\n" 
+    [[ ! -e $HOME/.gitconfig ]] && read -p "What is your username on GIT server : " GIT_USER && git config --global user.name $GIT_USER && printf "Your username is $GIT_USER\n" &&	read -p "What is your email on GIT server : " GIT_MAIL && git config --global user.email $GIT_MAIL && printf "Your email is $GIT_MAIL\n" && read -p "What is your editor for GIT commit and merge : " GIT_EDITOR &&	git config --global core.editor $GIT_EDITOR && printf "Your editor is $GIT_EDITOR\n"
 }
 
 ##
@@ -58,7 +58,7 @@ DE() # setup DesktopEnvironement
 
 Zsh() # setup ZSH
 {
-	print "Configure ZSH" ; cp -r $DOTFILE_DIR/zsh $HOME/.zsh && ln -sf $HOME/.zsh/zshrc $HOME/.zshrc
+	printf "Configure ZSH" ; cp -r $DOTFILE_DIR/zsh $HOME/.zsh && ln -sf $HOME/.zsh/zshrc $HOME/.zshrc
 }
 
 Vim() # setup vim
@@ -83,10 +83,10 @@ Config()
 
 sysD() # enable system dep
 {
-	sudo systemctl enable cups NetworkManager
-	sudo rm -rf /etc/resolv.conf
-	sudo rm -rf /etc/resolvconf.conf
-	sudo resolvconf -u
+	sudo systemctl enable cups NetworkManager bluetooth
+	read -p "What is the Name of your computer ?" STATION && echo $STATION | sudo tee -a /etc/hostname && echo '127.0.0.1\t\tlocalhost\n::1\t\tlocalhost\n127.0.1.1\t\t'$STATION | sudo tee -a /etc/hosts
+	sudo hwclock --systohc
+	sudo timedatectl set-ntp true
 	sudo localectl set-keymap fr
 	sudo localectl set-x11-keymap fr
 	(curl -fsSL https://raw.githubusercontent.com/platformio/platformio-core/master/scripts/99-platformio-udev.rules | sudo tee /etc/udev/rules.d/99-platformio-udev.rules)
@@ -94,7 +94,7 @@ sysD() # enable system dep
 	sudo usermod -aG uucp $USER
 	sudo usermod -aG tty $USER
 	sudo groupadd dialout && sudo usermod -aG dialout $USER
-	[[ ! $SHELL '/bin/zsh' ]] && chsh -s /bin/zsh
+	[ ! $SHELL '/bin/zsh' ] && chsh -s /bin/zsh
 	print "You 'll need to restart soon...\nBut no problem just wait we restart it for you.\n"; sleep 2
 	printf "Reboot in 5..."; sleep 1
 	printf "Reboot in 4..."; sleep 1
