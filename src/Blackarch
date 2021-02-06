@@ -1,7 +1,7 @@
 duplicut
-cupp
 aircrack-ng
 airgeddon
+apache
 android-apktool
 android-udev
 androidpincrack
@@ -13,11 +13,13 @@ brute-force
 burpsuite
 cewl
 cheat-sh
+bettercap
+bully
+pixiewps
 cowpatty
 crunch
 dfu-programmer
 dirb
-dirbuster
 driftnet
 dsniff
 esptool
@@ -33,7 +35,6 @@ hostapd
 hostapd-wpe
 hydra
 infoga
-instashell
 john
 lighttpd
 littlebrother
@@ -43,7 +44,7 @@ mdk3
 mdk4
 medusa
 metasploit
-mimikatz
+minicom
 ncrack
 netcat
 netdiscover
@@ -58,11 +59,9 @@ rarcrack
 reaver
 routersploit
 set
-sploitctl
 sqlmap
 sqlninja
 sslstrip
-steghide
 tor-browser-en
 torctl
 whatsmyname

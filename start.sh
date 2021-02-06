@@ -1,4 +1,4 @@
-#!/bin/bash
+ #!/bin/bash
 GIT_USER=''
 GIT_MAIL=''
 GIT_EDITOR='vim'
@@ -11,7 +11,7 @@ Dotfile() # clone dotfile where they need to be cloned
     mkdir -p $HOME/GIT
     [[ ! -e $HOME/GIT/start-page ]] && git clone https://github.com/alecromski/start-page $HOME/GIT/start-page
     [[ ! -e $HOME/Wallpaper ]] && git clone https://github.com/alecromski/Wallpaper $HOME/Wallpaper
-    [[! -e $HOME/Templates ]] && git clone https://github.com/alecromski/Templates $HOME/Templates
+    [[ ! -e $HOME/Templates ]] && git clone https://github.com/alecromski/Templates $HOME/Templates
     [[ ! -e $HOME/GIT/Dotfile ]] && git clone https://github.com/alecromski/Dotfile $DOTFILE
 }
 
@@ -36,7 +36,7 @@ PacInstall() # generate pacman mirrorlist blackarch and install all software i n
 
 	read -p "Do you want to install some multimedia softare maker ? [y/n]" multi [[ $multi = y ]] && sudo pacman -S $(cat src/multi) 
 
-	read -p "Do you want to install all Python usefull software by pip" yn && [[ $yn == y ]] && pip install src/pip_requiere
+	read -p "Do you want to install all Python usefull software by pip ? [y/n]" yn && [[ $yn == y ]] && sudo pacman -S python-pip && pip3 -r install src/pip_requiere
 	
 	sudo pacman -Syy 
 	
@@ -51,21 +51,22 @@ GIT() # generate .gitconfig
 ##
 DE() # setup DesktopEnvironement
 {
+	#trizen -S $(cat src/DE)
 	printf "Work in progress N00B"
 }
 ##
 
-Zsh()
+Zsh() # setup ZSH
 {
 	print "Configure ZSH" ; cp -r $DOTFILE_DIR/zsh $HOME/.zsh && ln -sf $HOME/.zsh/zshrc $HOME/.zshrc
 }
 
-Vim()
+Vim() # setup vim
 {
     [[ -e $HOME/.vim || -e $HOME/.vimrc ]] && printf "you have already a vim conf" || cp -r $DOTFILE/vim $HOME/.vim && ln -sf $HOME/.vim/vimrc $HOME/.vimrc
 }
 
-VSC()
+VSC() # get all vscode config
 {
 	mkdir -p $CONFIG/Code\ -\ OSS/
 	code --install-extension OppaiWeeb.oppaipack
@@ -80,7 +81,7 @@ Config()
 	VSC
 }
 
-sysD()
+sysD() # enable system dep
 {
 	sudo systemctl enable cups NetworkManager
 	sudo rm -rf /etc/resolv.conf
@@ -94,8 +95,13 @@ sysD()
 	sudo usermod -aG tty $USER
 	sudo groupadd dialout && sudo usermod -aG dialout $USER
 	[[ ! $SHELL '/bin/zsh' ]] && chsh -s /bin/zsh
-	print "You 'll need to restart soon...\nBut no problem just wait we restart it for you.\n"
-	sleep 1; print "Reboot in 5..."; sleep 1; print "Reboot in 4..."; sleep 1; print "Reboot in 3..."; sleep 1; print "Reboot in 2..."; sleep 1; print "Reboot in 1...":; sleep 1; print "Reboot now..."
+	print "You 'll need to restart soon...\nBut no problem just wait we restart it for you.\n"; sleep 2
+	printf "Reboot in 5..."; sleep 1
+	printf "Reboot in 4..."; sleep 1
+	printf "Reboot in 3..."; sleep 1
+	printf "Reboot in 2..."; sleep 1
+	printf "Reboot in 1..."; sleep 1
+	printf "Reboot now..."
 	sudo reboot
 }
 
