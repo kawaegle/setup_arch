@@ -66,7 +66,7 @@ Vim() # setup vim
     [[ -e $HOME/.vim || -e $HOME/.vimrc ]] && printf "you have already a vim conf" || cp -r $DOTFILE/vim $HOME/.vim && ln -sf $HOME/.vim/vimrc $HOME/.vimrc
 }
 
-VSC() # get all vscode config
+VSC() # get& all vscode config
 {
 	mkdir -p $CONFIG/Code\ -\ OSS/
 	code --install-extension OppaiWeeb.oppaipack
