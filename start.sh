@@ -9,15 +9,15 @@ DOTFILE_DIR="$HOME/GIT/DOTFILE/Dotfile"
 Dotfile() # clone dotfile where they need to be cloned
 {
     mkdir -p $HOME/GIT
-    [[ ! -e $HOME/GIT/start-page ]] && git clone ssh://git@github.com/alecromski/start-page $HOME/GIT/start-page
-    [[ ! -e $HOME/Wallpaper ]] && git clone ssh://git@github.com/alecromski/Wallpaper $HOME/Wallpaper
-    [[ ! -e $HOME/Templates ]] && git clone ssh://git@github.com/alecromski/Templates $HOME/Templates
-    [[ ! -e $HOME/GIT/Dotfile ]] && git clone ssh://git@github.com/alecromski/Dotfile $DOTFILE
+    [[ ! -e $HOME/GIT/start-page ]] && git clone http://@github.com/alecromski/start-page $HOME/GIT/start-page
+    [[ ! -e $HOME/Wallpaper ]] && git clone http://@github.com/alecromski/Wallpaper $HOME/Wallpaper
+    [[ ! -e $HOME/Templates ]] && git clone http://@github.com/alecromski/Templates $HOME/Templates
+    [[ ! -e $HOME/GIT/Dotfile ]] && git clone http://@github.com/alecromski/Dotfile $DOTFILE
 }
 
 AUR() # install AUR manager and aur software
 {
-	read -p "do you want to install trizen ? [Y/n]" yn; [[ $yn == y ]] && (git clone https//aur.archlinux.org/trizen && cd trizen && makepkg -si && cd .. && rm -rf trizen)
+	read -p "do you want to install trizen ? [Y/n]" yn; [[ $yn == y ]] && (git clone https://aur.archlinux.org/trizen && cd trizen && makepkg -si && cd .. && rm -rf trizen)
 	read -p "do you want install all AUR package ? [Y/n]" yn ; [ $yn == y ] && trizen -S $(cat "src/AURInstall") && printf "You have install all software from AUR repositories\n"
 }
 
@@ -34,9 +34,9 @@ PacInstall() # generate pacman mirrorlist blackarch and install all software i n
 
 	read -p "Do you want to install some games stations ? [Y/n]" game ; [[ $game = y ]] && trizen -S $(cat src/game)
 
-	read -p "Do you want to install some multimedia softare maker ? [y/n]" multi [[ $multi = y ]] && sudo pacman -S $(cat src/multi) 
+	read -p "Do you want to install some multimedia softare maker ? [y/n]" multi ; [[ $multi = y ]] && sudo pacman -S $(cat src/multi) 
 
-	read -p "Do you want to install all Python usefull software by pip ? [y/n]" yn && [[ $yn == y ]] && sudo pacman -S python-pip && pip3 -r install src/pip_requiere
+	read -p "Do you want to install all Python usefull software by pip ? [y/n]" yn ; [[ $yn == y ]] && sudo pacman -S python-pip && pip3 install -r install src/pip_requiere
 	
 	sudo pacman -Syy 
 	
@@ -66,19 +66,11 @@ Vim() # setup vim
     [[ -e $HOME/.vim || -e $HOME/.vimrc ]] && printf "you have already a vim conf" || cp -r $DOTFILE/vim $HOME/.vim && ln -sf $HOME/.vim/vimrc $HOME/.vimrc
 }
 
-VSC() # get& all vscode config
-{
-	mkdir -p $CONFIG/Code\ -\ OSS/
-	code --install-extension OppaiWeeb.oppaipack
-	printf "You have install and setup Visual Studio Code"
-}
-
 Config()
 {
 	DE
 	Zsh
 	Vim
-	VSC
 }
 
 sysD() # enable system dep
@@ -94,8 +86,7 @@ sysD() # enable system dep
 	sudo usermod -aG uucp $USER
 	sudo usermod -aG tty $USER
 	sudo groupadd dialout && sudo usermod -aG dialout $USER
-	[ ! $SHELL '/bin/zsh' ] && chsh -s /bin/zsh
-	print "You 'll need to restart soon...\nBut no problem just wait we restart it for you.\n"; sleep 2
+	printf "You 'll need to restart soon...\nBut no problem just wait we restart it for you.\n"; sleep 2
 	printf "Reboot in 5..."; sleep 1
 	printf "Reboot in 4..."; sleep 1
 	printf "Reboot in 3..."; sleep 1
