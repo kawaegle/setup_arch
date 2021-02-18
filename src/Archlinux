@@ -1,4 +1,3 @@
-luarocks
 aom
 base
 base-devel
@@ -9,7 +8,6 @@ bluez-tools
 bluez-utils
 cronie
 cups
-cura
 curl
 dhcp
 discord
@@ -62,14 +60,7 @@ linux-firmware
 man
 mpv
 nano
-nerd-fonts
-nodejs
 networkmanager
-noto-fonts
-noto-fonts-cjk
-noto-fonts-emoji 
-noto-fonts-extra
-npm
 ntfs-3g
 openssh
 p7zip
@@ -79,18 +70,10 @@ playerctl
 pulseaudio
 pulseaudio-alsa
 pulseaudio-bluetooth
-python-pip
 qbittorrent
 ranger
-reflector
 rsync
 system-config-printer
-ttf-bitstream-vera
-ttf-dejavu
-ttf-fira-code
-ttf-font-awesome
-ttf-freefont
-ttf-liberation
 unrar
 unzip
 vim
