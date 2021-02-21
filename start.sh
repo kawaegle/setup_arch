@@ -28,7 +28,7 @@ PacInstall() # generate pacman mirrorlist blackarch and install all software i n
 
     read -p "do you want to automaticaly regenerate pacman depots ? [Y/n]" depots ;	[[ $depots = y ]] && (sudo pacman -S reflector && sudo reflector -c FR -c US -c GB -c PL -n 100 --info --protocol http,https --save /etc/pacman.d/mirrorlist)
 
-	read -p "Do you want to add Blackarch repo ? [Y/n]" black && [[ $black = y ]] && (wget https://blackarch.org/strap.sh && chmod +x strap.sh && sudo sh strap.sh && sudo rm strap.sh ) 
+	read -p "Do you want to add Blackarch repo ? [Y/n]" black && [[ $black = y ]] && (wget -O /tmp/strap.sh https://blackarch.org/strap.sh && chmod +x /tmp/strap.sh && sudo sh /tmp/strap.sh && sudo rm strap.sh ) 
 
 	read -p "Do you want to install BlackArch software ? [Y/n]" blackarch && [[ $blackarch = y ]] && sudo pacman -S $(cat "src/Blackarch")
 
@@ -45,7 +45,7 @@ PacInstall() # generate pacman mirrorlist blackarch and install all software i n
 
 GIT() # generate .gitconfig
 {
-    [[ ! -e $HOME/.gitconfig ]] && read -p "What is your username on GIT server : " GIT_USER && git config --global user.name $GIT_USER && printf "Your username is $GIT_USER\n" &&	read -p "What is your email on GIT server : " GIT_MAIL && git config --global user.email $GIT_MAIL && printf "Your email is $GIT_MAIL\n" && read -p "What is your editor for GIT commit and merge : " GIT_EDITOR &&	git config --global core.editor $GIT_EDITOR && printf "Your editor is $GIT_EDITOR\n"
+    [[ ! -e $HOME/.gitconfig ]] && read -p "What is your username on GIT server : " GIT_USER && git config --global user.name $GIT_USER printf "Your username is $GIT_USER\n" &&	read -p "What is your email on GIT server : " GIT_MAIL && git config --global user.email $GIT_MAIL && printf "Your email is $GIT_MAIL\n" && read -p "What is your editor for GIT commit and merge : " GIT_EDITOR &&	git config --global core.editor $GIT_EDITOR && printf "Your editor is $GIT_EDITOR\n"
 }
 
 ##
@@ -53,6 +53,7 @@ DE() # setup DesktopEnvironement
 {
 	#trizen -S $(cat src/DE)
 	printf "Work in progress N00B"
+	sleep 5
 }
 ##
 
