@@ -2,7 +2,9 @@ nodejs
 npm
 lua
 luarocks
+binwalk
 duplicut
+impacket
 aircrack-ng
 airgeddon
 apache
@@ -74,3 +76,4 @@ wine
 wireshark-qt
 wordpress-exploit-framework
 wordpresscan
+wordlistctl

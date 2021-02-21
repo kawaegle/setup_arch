@@ -25,7 +25,6 @@ foomatic-db-gutenprint-ppds
 foomatic-db-nonfree  
 foomatic-db-nonfree-ppds  
 foomatic-db-ppds
-freetype2
 git
 gst-libav
 gst-plugins-bad
@@ -45,9 +44,6 @@ hexchat
 hplip
 htop
 intel-media-driver
-kodi
-kodi-x11
-lame
 libcanberra-gstreamer
 libcanberra-pulse
 libinput
@@ -55,10 +51,7 @@ libmad
 libmpeg2
 libreoffice-fresh-fr
 libva-intel-driver
-linux 
-linux-firmware
 man
-mpv
 nano
 networkmanager
 ntfs-3g
@@ -77,7 +70,6 @@ system-config-printer
 unrar
 unzip
 vim
-vlc
 wavpack
 wget
 xdg-user-dirs
