@@ -1,7 +1,9 @@
  #!/bin/bash
+
 GIT_USER=''
 GIT_MAIL=''
 GIT_EDITOR='vim'
+GIT_BRANCH='master'
 CONFIG="$HOME/.config"
 DOTFILE="$HOME/GIT/Dotfile/"
 DOTFILE_DIR="$HOME/GIT/DOTFILE/Dotfile"
@@ -45,7 +47,7 @@ PacInstall() # generate pacman mirrorlist blackarch and install all software i n
 
 GIT() # generate .gitconfig
 {
-    [[ ! -e $HOME/.gitconfig ]] && read -p "What is your username on GIT server : " GIT_USER && git config --global user.name $GIT_USER printf "Your username is $GIT_USER\n" &&	read -p "What is your email on GIT server : " GIT_MAIL && git config --global user.email $GIT_MAIL && printf "Your email is $GIT_MAIL\n" && read -p "What is your editor for GIT commit and merge : " GIT_EDITOR &&	git config --global core.editor $GIT_EDITOR && printf "Your editor is $GIT_EDITOR\n"
+    [[ ! -e $HOME/.gitconfig ]] && read -p "What is your username on GIT server : " GIT_USER && git config --global user.name $GIT_USER printf "Your username is $GIT_USER\n" &&	read -p "What is your email on GIT server : " GIT_MAIL && git config --global user.email $GIT_MAIL && printf "Your email is $GIT_MAIL\n" && read -p "What is your editor for GIT commit and merge : " GIT_EDITOR &&	git config --global core.editor $GIT_EDITOR && printf "Your editor is $GIT_EDITOR\n" && read -p "How do you want to name your default git branch :" && git config --global init.defaultBranch $GIT_BRANCH && printf "Your default branch is $GIT_BRANCH\n"
 }
 
 ##
@@ -83,11 +85,12 @@ sysD() # enable system dep
 	sudo localectl set-keymap fr
 	sudo localectl set-x11-keymap fr
 	(curl -fsSL https://raw.githubusercontent.com/platformio/platformio-core/master/scripts/99-platformio-udev.rules | sudo tee /etc/udev/rules.d/99-platformio-udev.rules)
+	python3 -c "$(curl -fsSL https://raw.githubusercontent.com/platformio/platformio/master/scripts/get-platformio.py)"
 	sudo usermod -aG input $USER
 	sudo usermod -aG uucp $USER
 	sudo usermod -aG tty $USER
 	sudo groupadd dialout && sudo usermod -aG dialout $USER
-	printf "You 'll need to restart soon...\nBut no problem just wait we restart it for you.\n"; sleep 2
+	printf "You 'll need to restart soon...\nBut no problem just wait we'll restart it for you.\n"; sleep 2
 	printf "Reboot in 5..."; sleep 1
 	printf "Reboot in 4..."; sleep 1
 	printf "Reboot in 3..."; sleep 1
