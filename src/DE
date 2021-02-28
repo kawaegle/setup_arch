@@ -1,8 +1,6 @@
-i3-gaps
-polybar
 feh
 python-pywal
 rofi
-xrandr
 compton
-betterlockscreen
+simplescreenrecorder
+screenkey
