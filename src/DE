@@ -4,3 +4,10 @@ rofi
 compton
 simplescreenrecorder
 screenkey
+arandr
+xrandr
+xorg-server
+xorg-server-common
+xorg-xbacklight
+xorg-xev
+xorg-xinit

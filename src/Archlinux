@@ -8,6 +8,7 @@ bluez-tools
 bluez-utils
 cronie
 cups
+engrampa
 curl
 dhcp
 discord
@@ -69,7 +70,7 @@ rsync
 system-config-printer
 unrar
 unzip
-vim
+neovim
 wavpack
 wget
 xdg-user-dirs
@@ -79,11 +80,6 @@ xf86-input-void
 xf86-video-intel
 xf86-video-nouveau
 xf86-video-vesa
-xorg-server
-xorg-server-common
-xorg-xbacklight
-xorg-xev
-xorg-xinit
 xvidcore
 zathura-djvu
 zathura-pdf-mupdf
