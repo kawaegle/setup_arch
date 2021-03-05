@@ -1,3 +1,9 @@
+avrdude
+avr-gcc
+avr-libc
+esptool
+webshells
+hash-identifier
 nodejs
 npm
 lua
@@ -10,7 +16,6 @@ airgeddon
 apache
 android-apktool
 android-udev
-androidpincrack
 asleap
 backdoor-factory
 bbqsql
@@ -28,7 +33,6 @@ dfu-programmer
 dirb
 driftnet
 dsniff
-esptool
 ettercap
 exe2image
 findsploit
