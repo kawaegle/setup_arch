@@ -8,6 +8,29 @@ CONFIG="$HOME/.config"
 DOTFILE="$HOME/GIT/Dotfile/"
 DOTFILE_DIR="$HOME/GIT/DOTFILE/Dotfile"
 
+banner(){
+	cat << "EOF"
+
+             _/|       |\_
+            /  |       |  \
+           |    \     /    |
+           |  \ /     \ /  |
+           | \  |     |  / |
+           | \ _\_/^\_/_ / |
+           |      \ /      |
+            \_  \     /  _/
+              \__  |  __/
+                 \ _ /
+                _/   \_   
+               /_  ^  _\
+                / / \ \
+                \/   \/
+                
+	        K4W43GL3
+
+EOF
+}
+
 Dotfile() # clone dotfile where they need to be cloned
 {
     mkdir -p $HOME/GIT
@@ -38,7 +61,7 @@ PacInstall() # generate pacman mirrorlist blackarch and install all software i n
 
 	read -p "Do you want to install some multimedia softare maker ? [y/n]" multi ; [[ $multi = y ]] && sudo pacman -S $(cat src/multi) 
 
-	read -p "Do you want to install all Python usefull software by pip ? [y/n]" yn ; [[ $yn == y ]] && sudo pacman -S python-pip && pip3 install -r install src/pip_requiere
+	read -p "Do you want to install all Python usefull software by pip ? [y/n]" yn ; [[ $yn == y ]] && sudo pacman -S python-pip && pip3 install -r install src/pip_requiere.txt
 	
 	sudo pacman -Syy 
 	
@@ -106,17 +129,28 @@ SleepClear()
 	clear
 }
 
-main()
+first()
 {
+	banner
 	Dotfile 
 	AUR
 	PacInstall
+}
+
+second(){
 	SleepClear
 	GIT
 	SleepClear
 	Config
 	SleepClear
 	sysD
+}
+
+main(){
+	first
+	read -p "Do you want to continue the configuration ? [Y/n] " yn
+	[[ $yn != 'y' ]] && exit
+	second
 }
 
 main
