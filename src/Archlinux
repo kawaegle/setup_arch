@@ -8,10 +8,10 @@ bluez-tools
 bluez-utils
 cronie
 cups
-engrampa
 curl
 dhcp
 discord
+engrampa
 exfat-utils
 faac
 faad2 
@@ -19,7 +19,6 @@ ffmpeg
 ffmpegthumbnailer
 firefox
 flac
-openvpn
 foomatic-db  
 foomatic-db-engine 
 foomatic-db-gutenprint-ppds 
@@ -54,9 +53,11 @@ libreoffice-fresh-fr
 libva-intel-driver
 man
 nano
+neovim
 networkmanager
 ntfs-3g
 openssh
+openvpn
 p7zip
 pacman-contrib
 pavucontrol
@@ -70,7 +71,6 @@ rsync
 system-config-printer
 unrar
 unzip
-neovim
 wavpack
 wget
 xdg-user-dirs
