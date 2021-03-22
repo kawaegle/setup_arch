@@ -16,13 +16,13 @@ For start script run the following commande on the folder: ```shell ./start.sh``
 - [X] setup vscode
   - [X] [extension pack](https://github.com/OppaiWeeb/OppaiPack) 
 - [X] [firefox start page repos](https://github.com/alecromski/start-page)
-- [ ] find a Window Manager
+- [X] [find a Window Manager](https://i3wm.org)
 	- [ ] setup the Window Manager
 - [X] add game and game stations like :[steam](https://store.steampowered.com/), [retro arch](https://www.retroarch.com/) or [itch](itch.io)
 - [X] work around some multemedia like: [lmms](lmms.io) or [kdenlive](kdenlive.org)
 - [ ] Work on Dotfile
 	- [ ] worflow on ~/.local/bin
 	- [ ] setup zsh
-	- [ ] setup vim 
+	- [ ] setup [nvim](https://neovim.io)
 
 ## |:warning: please use it with caution :warning:|
