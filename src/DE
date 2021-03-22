@@ -1,6 +1,8 @@
 feh
 python-pywal
 rofi
+i3-gaps
+polybar
 compton
 simplescreenrecorder
 screenkey
