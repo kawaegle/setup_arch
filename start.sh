@@ -34,10 +34,10 @@ EOF
 Dotfile() # clone dotfile where they need to be cloned
 {
     mkdir -p $HOME/GIT
-    [[ ! -e $HOME/GIT/start-page ]] && git clone http://@github.com/alecromski/start-page $HOME/GIT/start-page
-    [[ ! -e $HOME/Wallpaper ]] && git clone http://@github.com/alecromski/Wallpaper $HOME/Wallpaper
-    [[ ! -e $HOME/Templates ]] && git clone http://@github.com/alecromski/Templates $HOME/Templates
-    [[ ! -e $HOME/GIT/Dotfile ]] && git clone http://@github.com/alecromski/Dotfile $DOTFILE
+    [[ ! -e $HOME/GIT/start-page ]] && git clone https://@github.com/alecromski/start-page $HOME/GIT/start-page
+    [[ ! -e $HOME/Wallpaper ]] && git clone https://@github.com/alecromski/Wallpaper $HOME/Wallpaper
+    [[ ! -e $HOME/Templates ]] && git clone https://@github.com/alecromski/Templates $HOME/Templates
+    [[ ! -e $HOME/GIT/Dotfile ]] && git clone https://@github.com/alecromski/Dotfile $DOTFILE
 }
 
 AUR() # install AUR manager and aur software
@@ -70,7 +70,7 @@ PacInstall() # generate pacman mirrorlist blackarch and install all software i n
 
 GIT() # generate .gitconfig
 {
-    [[ ! -e $HOME/.gitconfig ]] && read -p "What is your username on GIT server : " GIT_USER && git config --global user.name $GIT_USER printf "Your username is $GIT_USER\n" &&	read -p "What is your email on GIT server : " GIT_MAIL && git config --global user.email $GIT_MAIL && printf "Your email is $GIT_MAIL\n" && read -p "What is your editor for GIT commit and merge : " GIT_EDITOR &&	git config --global core.editor $GIT_EDITOR && printf "Your editor is $GIT_EDITOR\n" && read -p "How do you want to name your default git branch :" && git config --global init.defaultBranch $GIT_BRANCH && printf "Your default branch is $GIT_BRANCH\n"
+    [[ ! -e $HOME/.gitconfig ]] && read -p "What is your username on GIT server : " GIT_USER && git config --global user.name $GIT_USER && printf "Your username is $GIT_USER\n" &&	read -p "What is your email on GIT server : " GIT_MAIL && git config --global user.email $GIT_MAIL && printf "Your email is $GIT_MAIL\n" && read -p "What is your editor for GIT commit and merge : " GIT_EDITOR &&	git config --global core.editor $GIT_EDITOR && printf "Your editor is $GIT_EDITOR\n" && read -p "How do you want to name your default git branch :" && git config --global init.defaultBranch $GIT_BRANCH && printf "Your default branch is $GIT_BRANCH\n"
 }
 
 ##
