@@ -11,8 +11,6 @@ backdoor-factory
 bbqsql
 bettercap
 binwalk
-blackeye
-brute-force
 bully
 burpsuite
 cewl
@@ -30,11 +28,9 @@ exe2image
 findsploit
 ghidra
 go
-hash-buster
-hash-identifier
-hashdb
 hcxdumptool
 hcxtools
+hexedit
 hostapd
 hostapd-wpe
 hydra
@@ -42,7 +38,6 @@ impacket
 infoga
 john
 lighttpd
-littlebrother
 lua
 luarocks
 macchanger

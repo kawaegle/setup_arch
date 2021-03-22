@@ -25,6 +25,7 @@ foomatic-db-gutenprint-ppds
 foomatic-db-nonfree  
 foomatic-db-nonfree-ppds  
 foomatic-db-ppds
+gdb
 git
 gst-libav
 gst-plugins-bad
@@ -52,7 +53,6 @@ libmpeg2
 libreoffice-fresh-fr
 libva-intel-driver
 man
-nano
 neovim
 networkmanager
 ntfs-3g
