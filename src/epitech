@@ -1,7 +1,7 @@
-gcc
-valgrind
 curl
+ctags
+gcc
 ocaml
-tree
-filezilla
 ruby
+tree
+valgrind

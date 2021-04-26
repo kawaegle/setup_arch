@@ -1,9 +1,11 @@
+maim
 feh
+atool
 python-pywal
 rofi
 i3-gaps
 polybar
-compton
+picom
 simplescreenrecorder
 screenkey
 arandr
@@ -13,3 +15,4 @@ xorg-server-common
 xorg-xbacklight
 xorg-xev
 xorg-xinit
+betterlockscreen
