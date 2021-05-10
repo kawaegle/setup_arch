@@ -7,7 +7,7 @@ compton
 simplescreenrecorder
 screenkey
 arandr
-xrandr
+rxvt-unicode
 xorg-server
 xorg-server-common
 xorg-xbacklight

@@ -34,38 +34,41 @@ EOF
 Dotfile() # clone dotfile where they need to be cloned
 {
     mkdir -p $HOME/GIT
-    [[ ! -e $HOME/GIT/start-page ]] && git clone https://@github.com/alecromski/start-page $HOME/GIT/start-page
-    [[ ! -e $HOME/Wallpaper ]] && git clone https://@github.com/alecromski/Wallpaper $HOME/Wallpaper
-    [[ ! -e $HOME/Templates ]] && git clone https://@github.com/alecromski/Templates $HOME/Templates
-    [[ ! -e $HOME/GIT/Dotfile ]] && git clone https://@github.com/alecromski/Dotfile $DOTFILE
+    [[ ! -e $HOME/GIT/start-page ]] && git clone https://github.com/kawaegle/start-page $HOME/GIT/start-page
+    [[ ! -e $HOME/Wallpaper ]] && git clone https://github.com/kawaegle/Wallpaper $HOME/Wallpaper
+    [[ ! -e $HOME/Templates ]] && git clone https://github.com/kawaegle/Templates $HOME/Templates
+    [[ ! -e $HOME/GIT/Dotfile ]] && git clone https://github.com/kawaegle/Dotfile $DOTFILE
+    [[ ! -e $HOME/.todo ]] && git clone https://github.com/kawaegle/ToDo $HOME/
 }
 
 AUR() # install AUR manager and aur software
 {
 	read -p "do you want to install trizen ? [Y/n]" yn; [[ $yn == y ]] && (git clone https://aur.archlinux.org/trizen && cd trizen && makepkg -si && cd .. && rm -rf trizen)
-	read -p "do you want install all AUR package ? [Y/n]" yn ; [ $yn == y ] && trizen -S $(cat "src/AURInstall") && printf "You have install all software from AUR repositories\n"
+	read -p "do you want install all AUR package ? [Y/n]" yn ; [[ $yn == y ]] && trizen -S $(cat "src/AURInstall") && printf "You have install all software from AUR repositories\n"
 }
 
 PacInstall() # generate pacman mirrorlist blackarch and install all software i need
 {
     sudo rm -rf /etc/pacman.conf
     sudo cp src/pacman.conf /etc/pacman.conf
+    
+    sudo pacman -Syy
+    
+    read -p "do you want to automaticaly regenerate pacman depots ? [Y/n]" depots ; [[ $depots = y ]] && (sudo pacman -S reflector && sudo reflector -c FR -c US -c GB -c PL -n 100 --info --protocol http,https --save /etc/pacman.d/mirrorlist)
 
-    read -p "do you want to automaticaly regenerate pacman depots ? [Y/n]" depots ;	[[ $depots = y ]] && (sudo pacman -S reflector && sudo reflector -c FR -c US -c GB -c PL -n 100 --info --protocol http,https --save /etc/pacman.d/mirrorlist)
+    read -p "Do you want to add Blackarch repo ? [Y/n]" black && [[ $black = y ]] && (wget -O /tmp/strap.sh https://blackarch.org/strap.sh && chmod +x /tmp/strap.sh && sudo sh /tmp/strap.sh && sudo rm strap.sh ) 
 
-	read -p "Do you want to add Blackarch repo ? [Y/n]" black && [[ $black = y ]] && (wget -O /tmp/strap.sh https://blackarch.org/strap.sh && chmod +x /tmp/strap.sh && sudo sh /tmp/strap.sh && sudo rm strap.sh ) 
+    read -p "Do you want to install BlackArch software ? [Y/n]" blackarch && [[ $blackarch = y ]] && sudo pacman -S $(cat "src/Blackarch")
 
-	read -p "Do you want to install BlackArch software ? [Y/n]" blackarch && [[ $blackarch = y ]] && sudo pacman -S $(cat "src/Blackarch")
+	read -p "Do you want to install some font ? [Y/n]" font && [[ $font = y ]] && sudo pacman -S $(cat "src/font")
 
-	read -p "Do you want to install some games stations ? [Y/n]" game ; [[ $game = y ]] && trizen -S $(cat src/game)
+    read -p "Do you want to install some games stations ? [Y/n]" game ; [[ $game = y ]] && trizen -S $(cat src/game)
 
-	read -p "Do you want to install some multimedia softare maker ? [y/n]" multi ; [[ $multi = y ]] && sudo pacman -S $(cat src/multi) 
+    read -p "Do you want to install some multimedia softare maker ? [y/n]" multi ; [[ $multi = y ]] && sudo pacman -S $(cat src/multi) 
 
-	read -p "Do you want to install all Python usefull software by pip ? [y/n]" yn ; [[ $yn == y ]] && sudo pacman -S python-pip && pip3 install -r install src/pip_requiere.txt
+    read -p "Do you want to install all Python usefull software by pip ? [y/n]" yn ; [[ $yn == y ]] && sudo pacman -S python-pip && pip3 install -r src/pip_requiere.txt  
 	
-	sudo pacman -Syy 
-	
-	print "Install Archlinux base software" ; sudo pacman -S $(cat "src/Archlinux")
+	sudo pacman -Syy; printf "Install Archlinux base software" ; sudo pacman -S $(cat "src/Archlinux")
 }
 
 GIT() # generate .gitconfig
@@ -76,9 +79,8 @@ GIT() # generate .gitconfig
 ##
 DE() # setup DesktopEnvironement
 {
-	#trizen -S $(cat src/DE)
-	printf "Work in progress N00B"
-	sleep 5
+	printf "Install Windows Manager"
+	trizen -S $(cat src/DE)
 }
 ##
 
