@@ -59,8 +59,8 @@ PacInstall() # generate pacman mirrorlist blackarch and install all software i n
     read -p "Do you want to add Blackarch repo ? [Y/n]" black && [[ $black = y ]] && (wget -O /tmp/strap.sh https://blackarch.org/strap.sh && chmod +x /tmp/strap.sh && sudo sh /tmp/strap.sh && sudo rm strap.sh ) 
 
     read -p "Do you want to install BlackArch software ? [Y/n]" blackarch && [[ $blackarch = y ]] && sudo pacman -S $(cat "src/Blackarch")
-
-	read -p "Do you want to install some font ? [Y/n]" font && [[ $font = y ]] && sudo pacman -S $(cat "src/font")
+    
+    read -p "Do you want to install some font ? [Y/n]" font && [[ $font = y ]] && trizen -S $(cat "src/font")
 
     read -p "Do you want to install some games stations ? [Y/n]" game ; [[ $game = y ]] && trizen -S $(cat src/game)
 
@@ -104,8 +104,11 @@ Config()
 sysD() # enable system dep
 {
 	sudo systemctl enable cups NetworkManager bluetooth
-	read -p "What is the Name of your computer ?" STATION && echo $STATION | sudo tee -a /etc/hostname && echo '127.0.0.1\t\tlocalhost\n::1\t\tlocalhost\n127.0.1.1\t\t'$STATION | sudo tee -a /etc/hosts
+	read -p "What is the Name of your computer ?" STATION && echo $STATION | sudo tee -a /etc/hostname
+	printf '127.0.0.1\t\tlocalhost\n::1\t\tlocalhost\n127.0.1.1\t\t'$STATION | sudo tee -a /etc/hosts
+	echo LANG=en_US.UTF-8 > /etc/locale.conf 
 	sudo hwclock --systohc
+	sudo ln -sf /usr/share/zoneinfo/Europe/Paris /etc/localtime
 	sudo timedatectl set-ntp true
 	sudo localectl set-keymap fr
 	sudo localectl set-x11-keymap fr
@@ -116,11 +119,11 @@ sysD() # enable system dep
 	sudo usermod -aG tty $USER
 	sudo groupadd dialout && sudo usermod -aG dialout $USER
 	printf "You 'll need to restart soon...\nBut no problem just wait we'll restart it for you.\n"; sleep 2
-	printf "Reboot in 5..."; sleep 1
-	printf "Reboot in 4..."; sleep 1
-	printf "Reboot in 3..."; sleep 1
-	printf "Reboot in 2..."; sleep 1
-	printf "Reboot in 1..."; sleep 1
+	printf "Reboot in 5...\n"; sleep 1
+	printf "Reboot in 4...\n"; sleep 1
+	printf "Reboot in 3...\n"; sleep 1
+	printf "Reboot in 2...\n"; sleep 1
+	printf "Reboot in 1...\n"; sleep 1
 	printf "Reboot now..."
 	sudo reboot
 }
