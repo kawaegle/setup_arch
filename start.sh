@@ -30,29 +30,36 @@ EOF
 }
 
 AUR(){ # install AUR manager and aur software
-	read -p "do you want to install trizen ? [Y/n]" yn; [[ $yn == y ]] && (git clone https://aur.archlinux.org/trizen /tmp/trizen && cd /tmp/trizen && makepkg -si)
-	read -p "do you want install all AUR package ? [Y/n]" yn ; [ $yn == y ] && trizen -S $(cat "src/aur") && printf "You have install all software from AUR repositories\n"
+	read -p "[?] Do you want to install trizen ?[Y/n]" yn ; [[ $yn == [yY] ]] || [[ $yn == "" ]] && (git clone https://aur.archlinux.org/trizen /tmp/trizen && cd /tmp/trizen && makepkg -si)
+	SleepClear
+	read -p "[?] Do you want install all AUR package ?[Y/n]" yn ; [[ $yn == [yY] ]] || [[ $yn == "" ]] && trizen -S --noconfirm $(cat "src/aur") && clear && printf "\n[!] You have install all software from AUR repositories"
+	SleepClear
 }
 
 PacInstall(){ # generate pacman mirrorlist blackarch and install all software i need
-    sudo rm -rf /etc/pacman.conf
-    sudo cp src/pacman.conf /etc/pacman.conf
+	printf "[!] Reload pacman.conf\n"
+    sudo rm -rf /etc/pacman.conf;sudo cp src/pacman.conf /etc/pacman.conf
+	sleep 3
+	printf "[!] Update package list\n"
+	sudo pacman -Syy
+	SleepClear
+    read -p "[?] Do you want to automaticaly regenerate pacman depots ? [Y/n]" depots ;	[[ $(pacman -Qn reflector) == "" ]] && sudo pacman -S --noconfirm reflector
+	[[ $depots = [yY] ]] && sudo reflector -c FR -c US -c GB -c PL -n 100 --info --protocol http,https --save /etc/pacman.d/mirrorlist
+	SleepClear
+	read -p "[?] Do you want to add Blackarch repo ? [Y/n]" black && [[ $black = y ]] && (wget -O /tmp/strap.sh https://blackarch.org/strap.sh && chmod +x /tmp/strap.sh && sudo sh /tmp/strap.sh) 
+	SleepClear
+	read -p "[?] Do you want to install BlackArch software ? [Y/n]" blackarch && [[ $blackarch = y ]] && sudo pacman -S --noconfirm $(cat "src/black")
+	SleepClear
+	read -p "[?] Do you want to install some games stations ? [Y/n]" game ; [[ $game = y ]] && trizen -S --noconfirm $(cat src/game)
+	SleepClear
+	read -p "[?] Do you want to install some multimedia softare maker ? [y/n]" multi ; [[ $multi = y ]] && sudo pacman -S --noconfirm $(cat src/multi) 
+	SleepClear
+	read -p "[?] Do you want to install all Python usefull software by pip ? [y/n]" pip ; [[ $(pacman -Qn python-pip) == "" ]] && sudo pacman -S --noconfirm python-pip; 
+	[[ $pip == y ]] && pip3 install -r src/pip_requiere.txt
+	SleepClear
 
-    read -p "do you want to automaticaly regenerate pacman depots ? [Y/n]" depots ;	[[ $depots = y ]] && (sudo pacman -S reflector && sudo reflector -c FR -c US -c GB -c PL -n 100 --info --protocol http,https --save /etc/pacman.d/mirrorlist)
-
-	read -p "Do you want to add Blackarch repo ? [Y/n]" black && [[ $black = y ]] && (wget -O /tmp/strap.sh https://blackarch.org/strap.sh && chmod +x /tmp/strap.sh && sudo sh /tmp/strap.sh) 
-
-	read -p "Do you want to install BlackArch software ? [Y/n]" blackarch && [[ $blackarch = y ]] && sudo pacman -S $(cat "src/black")
-
-	read -p "Do you want to install some games stations ? [Y/n]" game ; [[ $game = y ]] && trizen -S $(cat src/game)
-
-	read -p "Do you want to install some multimedia softare maker ? [y/n]" multi ; [[ $multi = y ]] && sudo pacman -S $(cat src/multi) 
-
-	read -p "Do you want to install all Python usefull software by pip ? [y/n]" yn ; [[ $yn == y ]] && sudo pacman -S python-pip && pip3 install -r install src/pip_requiere.txt
-	
-	sudo pacman -Syy 
-	
-	print "Install Archlinux base software" ; sudo pacman -S $(cat "src/arch-base")
+	printf "[!] Install Archlinux base software\n" ; sudo pacman -S --noconfirm $(cat "src/arch-base")
+	SleepClear
 }
 
 GIT(){ # generate .gitconfig
@@ -69,13 +76,13 @@ DE() # setup DesktopEnvironement
 ##
 
 epitech(){
-	print "Work in progress n00b"
+	printf "Work in progress n00b"
 	sleep 5
 	# sudo pacman -S $(cat src/epitech)
 	
 }
 
-user_manage(){
+user_manager(){
 	sudo usermod -aG input $USER
 	sudo usermod -aG uucp $USER
 	sudo usermod -aG tty $USER
@@ -84,7 +91,7 @@ user_manage(){
 
 sysD(){ # enable system dep
 	sudo systemctl enable cups NetworkManager bluetooth 
-	read -p "What is the Name of your computer ?" STATION && echo $STATION | sudo tee -a /etc/hostname && echo '127.0.0.1\t\tlocalhost\n::1\t\tlocalhost\n127.0.1.1\t\t'$STATION | sudo tee -a /etc/hosts
+	read -p "[?] What is the Name of your computer ?:" STATION && echo $STATION | sudo tee -a /etc/hostname && printf '127.0.0.1\t\tlocalhost\n::1\t\t\tlocalhost\n127.0.1.1\t\t'$STATION | sudo tee -a /etc/hosts 2&1>/dev/null
 	sudo hwclock --systohc
 	sudo timedatectl set-ntp true
 	sudo localectl set-keymap fr
@@ -116,6 +123,8 @@ second(){ ## setup
 	epitech
 	SleepClear
 	sysD
+	config
+	SleepClear
 }
 
 config(){
@@ -123,20 +132,22 @@ config(){
 }
 
 finish(){
-	printf "You 'll need to restart soon...\nBut no problem just wait we'll restart it for you.\n"; sleep 2
-	printf "Reboot in 5...\n"; sleep 1
-	printf "Reboot in 4...\n"; sleep 1
-	printf "Reboot in 3...\n"; sleep 1
-	printf "Reboot in 2...\nsearxh"; sleep 1
-	printf "Reboot in 1...\n"; sleep 1
-	printf "Reboot now..."
+	printf "[!] Clean useless file\n"
+	sudo pacman -Scc
+	printf "[!] You 'll need to restart soon...\nBut no problem just wait we'll restart it for you.\n"; sleep 2
+	printf "[!] Reboot in 5...\n"; sleep 1
+	printf "[!] Reboot in 4...\n"; sleep 1
+	printf "[!] Reboot in 3...\n"; sleep 1
+	printf "[!] Reboot in 2...\n"; sleep 1
+	printf "[!] Reboot in 1...\n"; sleep 1
+	printf "[!] Reboot now..."
 	sudo reboot
 }
 
 main(){
 	first
-	read -p "Do you want to continue the configuration ? [Y/n] " yn
-	[[ $yn != 'n' ]] && exit || second && config;
+	read -p "[?] Do you want to continue the configuration ? [Y/n] " yn
+	[[ $yn == [yY] ]] || [[ $yn == "" ]] && second && config;
 	finish
 }
 
