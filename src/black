@@ -12,7 +12,6 @@ bettercap
 binwalk
 bully
 burpsuite
-cewl
 cheat-sh
 cowpatty
 crunch
@@ -22,7 +21,6 @@ driftnet
 dsniff
 esptool
 ettercap
-exe2image
 findsploit
 ghidra
 go
@@ -31,7 +29,8 @@ hcxtools
 hexedit
 hostapd
 hydra
-impacket
+imhex
+glfw-x11
 infoga
 john
 lighttpd
@@ -56,6 +55,7 @@ pdfcrack
 phpsploit
 pipal
 pixiewps
+gdb
 rarcrack
 reaver
 routersploit

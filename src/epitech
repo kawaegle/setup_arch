@@ -1,7 +1,9 @@
 curl
 ctags
 gcc
-ocaml
 ruby
+nodejs
+npm
+luarocks
 tree
-valgrind
+lua

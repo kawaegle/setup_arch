@@ -70,7 +70,9 @@ DE() # setup DesktopEnvironement
 
 epitech(){
 	print "Work in progress n00b"
-	(git clone https://github.com/kayofeld/makegen-file /tmp/ && cd /tmp/makegen-file/ && sudo ./install.sh)
+	sleep 5
+	# sudo pacman -S $(cat src/epitech)
+	
 }
 
 user_manage(){
@@ -116,17 +118,17 @@ second(){ ## setup
 	sysD
 }
 
-third(){
+config(){
 	(git clone https://github.com/kawaegle/Dotfile/ /tmp/dotfile && cd /tmp/dotfile && ./dotfile restore)  2>&1
 }
 
 finish(){
 	printf "You 'll need to restart soon...\nBut no problem just wait we'll restart it for you.\n"; sleep 2
-	printf "Reboot in 5..."; sleep 1
-	printf "Reboot in 4..."; sleep 1
-	printf "Reboot in 3..."; sleep 1
-	printf "Reboot in 2..."; sleep 1
-	printf "Reboot in 1..."; sleep 1
+	printf "Reboot in 5...\n"; sleep 1
+	printf "Reboot in 4...\n"; sleep 1
+	printf "Reboot in 3...\n"; sleep 1
+	printf "Reboot in 2...\nsearxh"; sleep 1
+	printf "Reboot in 1...\n"; sleep 1
 	printf "Reboot now..."
 	sudo reboot
 }
@@ -134,8 +136,7 @@ finish(){
 main(){
 	first
 	read -p "Do you want to continue the configuration ? [Y/n] " yn
-	[[ $yn != 'y' ]] && exit
-	second
+	[[ $yn != 'n' ]] && exit || second && config;
 	finish
 }
 

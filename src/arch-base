@@ -14,7 +14,7 @@ discord
 engrampa
 exfat-utils
 faac
-faad2 
+faad2
 ffmpeg
 ffmpegthumbnailer
 firefox
@@ -25,7 +25,6 @@ foomatic-db-gutenprint-ppds
 foomatic-db-nonfree  
 foomatic-db-nonfree-ppds  
 foomatic-db-ppds
-gdb
 git
 gst-libav
 gst-plugins-bad
@@ -53,8 +52,9 @@ libmpeg2
 libreoffice-fresh-fr
 libva-intel-driver
 man
-vim
+neovim
 networkmanager
+networkmanager-openvpn 
 ntfs-3g
 openssh
 openvpn
@@ -81,7 +81,5 @@ xf86-video-intel
 xf86-video-nouveau
 xf86-video-vesa
 xvidcore
-zathura-djvu
-zathura-pdf-mupdf
 zip
 zsh
