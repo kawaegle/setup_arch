@@ -79,7 +79,6 @@ epitech(){
 	printf "Work in progress n00b"
 	sleep 5
 	# sudo pacman -S $(cat src/epitech)
-	
 }
 
 user_manager(){
