@@ -1,7 +1,6 @@
 qr-filetransfer
 https.server
-search-that-hash
-name-that-hash
 pwntools
 requests
 rawsocketpy
+platformio

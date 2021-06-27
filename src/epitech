@@ -1,9 +1,7 @@
 curl
 ctags
 gcc
-ruby
-nodejs
-npm
 luarocks
 tree
+mingw-w64
 lua
