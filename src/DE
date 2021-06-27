@@ -1,13 +1,14 @@
-arandr
-dunst
+ueberzug
+scrot
 feh
+atool
+python-pywal
+rofi
 i3-gaps
 i3lock-fany
 polybar
-python-pywal
-redshift
-rofi
-rxvt-unicode
+picom
+simplescreenrecorder
 screenkey
 scrot
 simplescreenrecorder
@@ -16,5 +17,4 @@ xorg-server-common
 xorg-xbacklight
 xorg-xev
 xorg-xinit
-xorg-xwininfo
-zscroll
+i3lock-fancy-multimonitor

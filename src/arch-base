@@ -14,7 +14,7 @@ discord
 engrampa
 exfat-utils
 faac
-faad2 
+faad2
 ffmpeg
 ffmpegthumbnailer
 firefox
@@ -25,7 +25,6 @@ foomatic-db-gutenprint-ppds
 foomatic-db-nonfree  
 foomatic-db-nonfree-ppds  
 foomatic-db-ppds
-gdb
 git
 gst-libav
 gst-plugins-bad
@@ -45,7 +44,6 @@ hexchat
 hplip
 htop
 intel-media-driver
-libcanberra-gstreamer
 libcanberra-pulse
 libinput
 libmad
@@ -53,8 +51,10 @@ libmpeg2
 libreoffice-fresh-fr
 libva-intel-driver
 man
+mtools
 neovim
 networkmanager
+networkmanager-openvpn 
 ntfs-3g
 openssh
 openvpn
@@ -71,6 +71,7 @@ rsync
 system-config-printer
 unrar
 unzip
+vim
 wavpack
 wget
 xdg-user-dirs

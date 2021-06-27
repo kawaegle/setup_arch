@@ -1,4 +1,7 @@
 qr-filetransfer
 https.server
-search-that-hash
 pynvim
+pwntools
+requests
+rawsocketpy
+platformio

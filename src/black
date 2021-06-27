@@ -1,5 +1,4 @@
 aircrack-ng
-airgeddon
 android-apktool
 android-udev
 apache
@@ -13,7 +12,6 @@ bettercap
 binwalk
 bully
 burpsuite
-cewl
 cheat-sh
 cowpatty
 crunch
@@ -21,10 +19,8 @@ dfu-programmer
 dirb
 driftnet
 dsniff
-duplicut
 esptool
 ettercap
-exe2image
 findsploit
 ghidra
 go
@@ -32,9 +28,7 @@ hcxdumptool
 hcxtools
 hexedit
 hostapd
-hostapd-wpe
 hydra
-impacket
 infoga
 john
 lighttpd
@@ -59,7 +53,7 @@ pdfcrack
 phpsploit
 pipal
 pixiewps
-pydictor
+gdb
 rarcrack
 reaver
 routersploit
@@ -75,5 +69,4 @@ wifite
 wine
 wireshark-qt
 wordlistctl
-wordpress-exploit-framework
 wordpresscan
