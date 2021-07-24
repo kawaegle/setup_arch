@@ -1,7 +1,9 @@
 curl
+ccls
 ctags
 gcc
 luarocks
+gopls
 tree
 mingw-w64
 lua
