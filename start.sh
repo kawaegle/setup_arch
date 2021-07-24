@@ -30,9 +30,9 @@ EOF
 }
 
 AUR(){ # install AUR manager and aur software
-	read -p "[?] Do you want to install trizen ?[Y/n]" yn ; [[ $yn == [yY] ]] || [[ $yn == "" ]] && (git clone https://aur.archlinux.org/trizen /tmp/trizen && cd /tmp/trizen && makepkg -si)
+	read -p "[?] Do you want to install trizen ?[Y/n]" yn ; [[ $yn == [yY] ]] || [[ $yn == "" ]] && (git clone https://aur.archlinux.org/trizen /tmp/trizen && cd /tmp/trizen && makepkg -si) 2>&1
 	SleepClear
-	read -p "[?] Do you want install all AUR package ?[Y/n]" yn ; [[ $yn == [yY] ]] || [[ $yn == "" ]] && trizen -S --noconfirm $(cat "src/aur") && clear && printf "\n[!] You have install all software from AUR repositories"
+	read -p "[?] Do you want install all AUR package ?[Y/n]" yn ; [[ $yn == [yY] ]] || [[ $yn == "" ]] && gpg --recv-keys "" && trizen -S --noconfirm $(cat "src/aur") && clear && printf "\n[!] You have install all software from AUR repositories"
 	SleepClear
 }
 
@@ -44,13 +44,13 @@ PacInstall(){ # generate pacman mirrorlist blackarch and install all software i 
 	sudo pacman -Syy
 	SleepClear
     read -p "[?] Do you want to automaticaly regenerate pacman depots ? [Y/n]" depots ;	[[ $(pacman -Qn reflector) == "" ]] && sudo pacman -S --noconfirm reflector
-	[[ $depots = [yY] ]] && sudo reflector -c FR -c US -c GB -c PL -n 100 --info --protocol http,https --save /etc/pacman.d/mirrorlist
+	[[ $depots = [yY] ]] || [[ $depots == "" ]] && sudo reflector -c FR -c US -c GB -c PL -n 100 --info --protocol http,https --save /etc/pacman.d/mirrorlist
 	SleepClear
-	read -p "[?] Do you want to add Blackarch repo ? [Y/n]" black && [[ $black = y ]] && (wget -O /tmp/strap.sh https://blackarch.org/strap.sh && chmod +x /tmp/strap.sh && sudo sh /tmp/strap.sh) 
+	read -p "[?] Do you want to add Blackarch repo ? [Y/n]" black && [[ $black = y ]] || [[ $black == "" ]] && (wget -O /tmp/strap.sh https://blackarch.org/strap.sh && chmod +x /tmp/strap.sh && sudo sh /tmp/strap.sh) 
 	SleepClear
-	read -p "[?] Do you want to install BlackArch software ? [Y/n]" blackarch && [[ $blackarch = y ]] && sudo pacman -S --noconfirm $(cat "src/black")
+	read -p "[?] Do you want to install BlackArch software ? [Y/n]" blackarch && [[ $blackarch = y ]] || [[ $blackarch == "" ]] && sudo pacman -S --noconfirm $(cat "src/black")
 	SleepClear
-	read -p "[?] Do you want to install some games stations ? [Y/n]" game ; [[ $game = y ]] && trizen -S --noconfirm $(cat src/game)
+	read -p "[?] Do you want to install some games stations ? [y/n]" game ; [[ $game = y ]] && trizen -S --noconfirm $(cat src/game)
 	SleepClear
 	read -p "[?] Do you want to install some multimedia softare maker ? [y/n]" multi ; [[ $multi = y ]] && sudo pacman -S --noconfirm $(cat src/multi) 
 	SleepClear
@@ -69,15 +69,15 @@ GIT(){ # generate .gitconfig
 ##
 DE() # setup DesktopEnvironement
 {
-	printf "Install Windows Manager"
-	trizen -S $(cat src/DE)
+	printf "Install Windows Manager\n"
+	trizen -S --noconfirm $(cat src/DE)
 }
 ##
 
 epitech(){
 	printf "Work in progress n00b"
 	sleep 5
-	# sudo pacman -S $(cat src/epitech)
+	sudo pacman -S --noconfirm $(cat src/epitech)
 }
 
 user_manager(){
