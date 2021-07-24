@@ -77,6 +77,7 @@ DE() # setup DesktopEnvironement
 epitech(){
 	printf "Work in progress n00b"
 	sleep 5
+	sudo npm i -g $(cat src/npm)
 	# sudo pacman -S $(cat src/epitech)
 }
 
@@ -87,9 +88,10 @@ user_manager(){
 	sudo groupadd dialout && sudo usermod -aG dialout $USER
 }
 
-sysD(){ # enable system dep
+sys(){ # enable system dep
 	sudo systemctl enable cups NetworkManager bluetooth 
 	read -p "[?] What is the Name of your computer ?:" STATION && echo $STATION | sudo tee -a /etc/hostname && printf '127.0.0.1\t\tlocalhost\n::1\t\t\tlocalhost\n127.0.1.1\t\t'$STATION | sudo tee -a /etc/hosts 2&1>/dev/null
+	echo '# /TMP\ntmpfs /tmp tmpfs rw,nodev,nosuid,size=7G 0 0' | sudo tee -a /etc/fstab
 	sudo hwclock --systohc
 	sudo ln -sf /usr/share/zoneinfo/Europe/Paris /etc/localtime
 	sudo timedatectl set-ntp true
@@ -121,13 +123,13 @@ second(){ ## setup
 	SleepClear
 	epitech
 	SleepClear
-	sysD
+	sys
 	config
 	SleepClear
 }
 
 config(){
-	(git clone https://github.com/kawaegle/Dotfile/ /tmp/dotfile && cd /tmp/dotfile && ./dotfile restore)  2>&1
+	(git clone https://github.com/kawaegle/Dotfile/ ~/.local/share/Dotfile && ln -sf ~/.local/share/Dotfile/dotfile_manager.sh ~/.local/bin/dotfile_manager.sh && ~/.local/bin/dotfile_manager.sh restore)  2>&1
 }
 
 finish(){
