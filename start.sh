@@ -30,7 +30,7 @@ EOF
 }
 
 AUR(){ # install AUR manager and aur software
-	read -p "[?] Do you want to install trizen ?[Y/n]" yn ; [[ $yn == [yY] ]] || [[ $yn == "" ]] && (git clone https://aur.archlinux.org/trizen /tmp/trizen && cd /tmp/trizen && makepkg -si) 2>&1
+	read -p "[?] Do you want to install trizen ?[Y/n]" yn ; [[ $yn == [yY] ]] || [[ $yn == "" ]] && sudo pacman -S base-devel && (git clone https://aur.archlinux.org/trizen /tmp/trizen && cd /tmp/trizen && makepkg -si) 2>&1
 	SleepClear
 	read -p "[?] Do you want install all AUR package ?[Y/n]" yn ; [[ $yn == [yY] ]] || [[ $yn == "" ]] && gpg --recv-keys "D1742AD60D811D58" && trizen -S --noconfirm $(cat "src/aur") && clear && printf "\n[!] You have install all software from AUR repositories"
 	SleepClear
@@ -43,18 +43,18 @@ PacInstall(){ # generate pacman mirrorlist blackarch and install all software i 
 	printf "[!] Update package list\n"
 	sudo pacman -Syy
 	SleepClear
-    read -p "[?] Do you want to automaticaly regenerate pacman depots ? [Y/n]" depots ;	[[ $(pacman -Qn reflector) == "" ]] && sudo pacman -S --noconfirm reflector ; [[ $depots = [yY] ]] || [[ $depots == "" ]] && sudo reflector -c FR -c US -c GB -c PL -n 100 --info --protocol http,https --save /etc/pacman.d/mirrorlist
+    read -p "[?] Do you want to automaticaly regenerate pacman depots ? [Y/n]" yn ;	[[ $(pacman -Qn reflector) == "" ]] && sudo pacman -S --noconfirm reflector ; [[ $yn = [yY] || $yn == "" ]] && sudo reflector -c FR -c US -c GB -c PL -n 100 --info --protocol http,https --save /etc/pacman.d/mirrorlist
 	SleepClear
-	read -p "[?] Do you want to add Blackarch repo ? [Y/n]" black && [[ $black = y ]] || [[ $black == "" ]] && (wget -O /tmp/strap.sh https://blackarch.org/strap.sh && chmod +x /tmp/strap.sh && sudo sh /tmp/strap.sh && rm -rf /tmp/strap.sh) 
+	read -p "[?] Do you want to add Blackarch repo ? [Y/n]" yn && [[ $yn = [yY] || $yn == "" ]] && (wget -O /tmp/strap.sh https://blackarch.org/strap.sh && chmod +x /tmp/strap.sh && sudo sh /tmp/strap.sh && rm -rf /tmp/strap.sh) 
 	SleepClear
-	read -p "[?] Do you want to install BlackArch software ? [Y/n]" blackarch && [[ $blackarch = y ]] || [[ $blackarch == "" ]] && sudo pacman -S --noconfirm $(cat "src/black")
+	read -p "[?] Do you want to install BlackArch software ? [Y/n]" yn && [[ $yn = [yY] || $yn == "" ]] && sudo pacman -S --noconfirm $(cat "src/black")
 	SleepClear
-	read -p "[?] Do you want to install some games stations ? [y/n]" game ; [[ $game = y ]] && trizen -S --noconfirm $(cat src/game)
+	read -p "[?] Do you want to install some games stations ? [y/n]" yn ; [[ $yn = [yY] ]] && trizen -S --noconfirm $(cat src/game)
 	SleepClear
-	read -p "[?] Do you want to install some multimedia softare maker ? [y/n]" multi ; [[ $multi = y ]] && sudo pacman -S --noconfirm $(cat src/multi) 
+	read -p "[?] Do you want to install some multimedia softare maker ? [y/n]" yn ; [[ $yn = y ]] && sudo pacman -S --noconfirm $(cat src/multi) 
 	SleepClear
-	read -p "[?] Do you want to install all Python usefull software by pip ? [y/n]" pip ; [[ $(pacman -Qn python-pip) == "" ]] && sudo pacman -S --noconfirm python-pip 
-	[[ $pip == y ]] && pip3 install -r src/pip_requiere.txt
+	read -p "[?] Do you want to install all Python usefull software by pip ? [y/n]" yn ; [[ $(pacman -Qn python-pip) == "" ]] && sudo pacman -S --noconfirm python-pip 
+	[[ $yn == [yY] ]] && pip3 install -r src/pip_requiere.txt
 	SleepClear
 
 	printf "[!] Install Archlinux base software\n"
@@ -78,6 +78,7 @@ epitech(){ # donwload lib and soft for easy epitech workflow
 	printf "Work in progress n00b"
 	sleep 5
 	sudo pacman -S --noconfirm $(cat src/epitech)
+	read -p "[?] Do you have a Asus with numpad on the trackpad ? [y/n]" yn && [[ $yn == [yY] ]] && trizen -S --noconfirm asus-touchpad-numpad-driver
 }
 
 user_manager(){
