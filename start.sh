@@ -75,7 +75,7 @@ DE() # setup DesktopEnvironement
 ##
 
 epitech(){ # donwload lib and soft for easy epitech workflow
-	printf "Work in progress n00b"
+	printf "Work in progress n00b\n"
 	sleep 5
 	sudo pacman -S --noconfirm $(cat src/epitech)
 }
@@ -83,12 +83,13 @@ epitech(){ # donwload lib and soft for easy epitech workflow
 user_manager(){
 	sudo usermod -aG input $USER
 	sudo usermod -aG uucp $USER
+	sudo usermod -aG wheel $USER
 	sudo usermod -aG tty $USER
 	sudo groupadd dialout && sudo usermod -aG dialout $USER
 }
 
 sys(){ # enable system dep
-	sudo systemctl enable cups NetworkManager bluetooth 
+	sudo systemctl enable cups NetworkManager bluetooth ly
 	read -p "[?] What is the Name of your computer ?:" STATION && echo $STATION | sudo tee -a /etc/hostname && printf '127.0.0.1\t\tlocalhost\n::1\t\t\tlocalhost\n127.0.1.1\t\t'$STATION | sudo tee -a /etc/hosts 2&1>/dev/null
 	echo '# /TMP\ntmpfs /tmp tmpfs rw,nodev,nosuid,size=7G 0 0' | sudo tee -a /etc/fstab
 	sudo hwclock --systohc
@@ -98,7 +99,7 @@ sys(){ # enable system dep
 	sudo localectl set-x11-keymap fr
 	sudo chmod +s /sbin/shutdown
 	sudo chmod +s /sbin/reboot
-	[[ $SHELL != "/bin/zsh" ]] && sudo chsh -s /bin/zsh
+	[[ $SHELL != "/bin/zsh" ]] && chsh -s /bin/zsh
 	(curl -fsSL https://raw.githubusercontent.com/platformio/platformio-core/master/scripts/99-platformio-udev.rules | sudo tee /etc/udev/rules.d/99-platformio-udev.rules)
 	python3 -c "$(curl -fsSL https://raw.githubusercontent.com/platformio/platformio/master/scripts/get-platformio.py)"
 	user_manager
@@ -129,7 +130,9 @@ second(){ ## setup
 }
 
 config(){
-	(git clone https://github.com/kawaegle/Dotfile/ ~/.local/share/Dotfile && ln -sf ~/.local/share/Dotfile/dotfile_manager.sh ~/.local/bin/dotfile_manager.sh && ~/.local/bin/dotfile_manager.sh restore)  2>&1
+	(git clone https://github.com/kawaegle/Dotfile/ ~/.local/share/Dotfile && ln -sf ~/.local/share/Dotfile/dotfile_manager.sh ~/.local/bin/dotfile_manager.sh && ./.local/bin/dotfile_manager.sh restore)  2>&1
+	trizen -S asus-touchpad-numpad-driver
+
 }
 
 finish(){
