@@ -1,4 +1,4 @@
- #!/bin/bash
+#!/bin/bash
 
 GIT_USER=''
 GIT_MAIL=''
@@ -24,8 +24,7 @@ banner(){
                 / / \ \
                 \/   \/
                 
-	        K4W43GL3
-
+		K4W43GL3
 EOF
 }
 
@@ -43,7 +42,7 @@ PacInstall(){ # generate pacman mirrorlist blackarch and install all software i 
 	printf "[!] Update package list\n"
 	sudo pacman -Syy
 	SleepClear
-    read -p "[?] Do you want to automaticaly regenerate pacman depots ? [Y/n]" depots ;	[[ $(pacman -Qn reflector) == "" ]] && sudo pacman -S --noconfirm reflector ; [[ $depots = [yY] ]] || [[ $depots == "" ]] && sudo reflector -c FR -c US -c GB -c PL -n 100 --info --protocol http,https --save /etc/pacman.d/mirrorlist
+    read -p "[?] Do you want to automaticaly regenerate pacman depots ? [Y/n]" depots ;	[[ $(pacman -Qn reflector) == "" ]] && sudo pacman -S --noconfirm reflector ; [[ $depots = [yY] ]] || [[ $depots == "" ]] && sudo reflector -c FR -c US -c GB -c PL -n 100 --info --protocol http,https --save /etc/pacman.d/mirrorlist 2&1>/dev/null
 	SleepClear
 	read -p "[?] Do you want to add Blackarch repo ? [Y/n]" black && [[ $black = y ]] || [[ $black == "" ]] && (wget -O /tmp/strap.sh https://blackarch.org/strap.sh && chmod +x /tmp/strap.sh && sudo sh /tmp/strap.sh && rm -rf /tmp/strap.sh) 
 	SleepClear
@@ -85,6 +84,7 @@ user_manager(){
 	sudo usermod -aG uucp $USER
 	sudo usermod -aG wheel $USER
 	sudo usermod -aG tty $USER
+	sudo usermod -aG vboxusers $USER
 	sudo groupadd dialout && sudo usermod -aG dialout $USER
 }
 
@@ -125,14 +125,14 @@ second(){ ## setup
 	epitech
 	SleepClear
 	sys
-	config
+	#WIP: config
 	SleepClear
 }
 
 config(){
 	(git clone https://github.com/kawaegle/Dotfile/ ~/.local/share/Dotfile && ln -sf ~/.local/share/Dotfile/dotfile_manager.sh ~/.local/bin/dotfile_manager.sh && ./.local/bin/dotfile_manager.sh restore)  2>&1
-	trizen -S asus-touchpad-numpad-driver
-
+	git clone https://github.com/kawaegle/Templates $HOME/Templates 2>&1
+	trizen -S --noconfirm asus-touchpad-numpad-driver
 }
 
 finish(){

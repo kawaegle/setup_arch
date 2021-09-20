@@ -1,5 +1,0 @@
-bash-language-server
-vscode-langservers-extracted
-pyright
-vim-language-server
-

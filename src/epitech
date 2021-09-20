@@ -2,8 +2,13 @@ curl
 ccls
 ctags
 gcc
+make
+cmake
+cmake-fedor
 luarocks
 gopls
 tree
 mingw-w64
 lua
+ruby
+git
