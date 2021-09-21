@@ -31,7 +31,7 @@ EOF
 AUR(){ # install AUR manager and aur software
 	read -p "[?] Do you want to install trizen ?[Y/n]" yn ; [[ $yn == [yY] ]] || [[ $yn == "" ]] && sudo pacman -S base-devel && (git clone https://aur.archlinux.org/trizen /tmp/trizen && cd /tmp/trizen && makepkg -si) 2>&1
 	SleepClear
-	read -p "[?] Do you want install all AUR package ?[Y/n]" yn ; [[ $yn == [yY] ]] || [[ $yn == "" ]] && gpg --recv-keys "D1742AD60D811D58" && trizen -S --noconfirm $(cat "src/aur") && clear && printf "\n[!] You have install all software from AUR repositories"
+	read -p "[?] Do you want install all AUR package ?[Y/n]" yn ; [[ $yn == [yY] ]] || [[ $yn == "" ]] && sudo umount -l /tmp && sudo mount -t tmpfs -o size=10G,mode=1777 tmpfs /tmp && gpg --recv-keys "D1742AD60D811D58" && trizen -S --noconfirm $(cat "src/aur") && clear && printf "\n[!] You have install all software from AUR repositories"
 	SleepClear
 }
 
@@ -85,7 +85,6 @@ user_manager(){
 	sudo usermod -aG uucp $USER
 	sudo usermod -aG wheel $USER
 	sudo usermod -aG tty $USER
-	sudo usermod -aG vboxusers $USER
 	sudo groupadd dialout && sudo usermod -aG dialout $USER
 }
 
@@ -126,14 +125,13 @@ second(){ ## setup
 	epitech
 	SleepClear
 	sys
-	#WIP: config
+	config
 	SleepClear
 }
 
 config(){
-	(git clone https://github.com/kawaegle/Dotfile/ ~/.local/share/Dotfile && ln -sf ~/.local/share/Dotfile/dotfile_manager.sh ~/.local/bin/dotfile_manager.sh && ./.local/bin/dotfile_manager.sh restore)  2>&1
-	git clone https://github.com/kawaegle/Templates $HOME/Templates 2>&1
-	trizen -S --noconfirm asus-touchpad-numpad-driver
+	(git clone https://github.com/kawaegle/Dotfile/ --depth ~/.local/share/Dotfile && ln -sf ~/.local/share/Dotfile/dotfile_manager.sh ~/.local/bin/dotfile_manager.sh && ./.local/bin/dotfile_manager.sh restore)  2>&1
+	git clone https://github.com/kawaegle/Templates $HOME/Templates --depth 1 2>&1
 }
 
 finish(){
