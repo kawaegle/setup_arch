@@ -4,7 +4,7 @@ ctags
 gcc
 make
 cmake
-cmake-fedor
+cmake-fedora
 luarocks
 gopls
 tree
