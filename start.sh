@@ -42,9 +42,9 @@ PacInstall(){ # generate pacman mirrorlist blackarch and install all software i 
 	printf "[!] Update package list\n"
 	sudo pacman -Syy
 	SleepClear
-    read -p "[?] Do you want to automaticaly regenerate pacman depots ? [Y/n]" depots ;	[[ $(pacman -Qn reflector) == "" ]] && sudo pacman -S --noconfirm reflector ; [[ $depots = [yY] ]] || [[ $depots == "" ]] && sudo reflector -c FR -c US -c GB -c PL -n 100 --info --protocol http,https --save /etc/pacman.d/mirrorlist 2&1>/dev/null
-	SleepClear
-	read -p "[?] Do you want to add Blackarch repo ? [Y/n]" yn && [[ $yn = [yY] || $yn == "" ]] && (wget -O /tmp/strap.sh https://blackarch.org/strap.sh && chmod +x /tmp/strap.sh && sudo sh /tmp/strap.sh && rm -rf /tmp/strap.sh) 
+    read -p "[?] Do you want to automaticaly regenerate pacman depots ? [Y/n]" depots ;	[[ $(pacman -Qn reflector) == "" ]] && sudo pacman -S --noconfirm reflector ; [[ $depots = [yY] ]] || [[ $depots == "" ]] && sudo reflector -c FR -c US -c GB -c PL -n 100 --info --protocol http,https --save /etc/pacman.d/mirrorlist 
+    SleepClear
+	read -p "[?] Do you want to add Blackarch repo ? [Y/n]" yn && [[ $yn = [yY] || $yn == "" ]] && (curl -L https://blackarch.org/strap.sh -o /tmp/strap.sh && chmod +x /tmp/strap.sh && sudo sh /tmp/strap.sh && rm -rf /tmp/strap.sh) 
 	SleepClear
 	read -p "[?] Do you want to install BlackArch software ? [Y/n]" yn && [[ $yn = [yY] || $yn == "" ]] && sudo pacman -S --noconfirm $(cat "src/black")
 	SleepClear
@@ -65,18 +65,13 @@ GIT(){ # generate .gitconfig
     [[ ! -e $HOME/.gitconfig ]] && read -p "What is your username on GIT server : " GIT_USER && git config --global user.name $GIT_USER && printf "Your username is $GIT_USER\n" &&	read -p "What is your email on GIT server : " GIT_MAIL && git config --global user.email $GIT_MAIL && printf "Your email is $GIT_MAIL\n" && read -p "What is your editor for GIT commit and merge : " GIT_EDITOR &&	git config --global core.editor $GIT_EDITOR && printf "Your editor is $GIT_EDITOR\n" && read -p "How do you want to name your default git branch :" && git config --global init.defaultBranch $GIT_BRANCH && printf "Your default branch is $GIT_BRANCH\n"
 }
 
-##
 DE() # setup DesktopEnvironement
 {
-	printf "Install Windows Manager\n"
 	trizen -S --noconfirm $(cat src/DE)
 }
-##
 
 epitech(){ # donwload lib and soft for easy epitech workflow
-	printf "Work in progress n00b\n"
-	sleep 5
-	sudo pacman -S --noconfirm $(cat src/epitech)
+	trizen -S --noconfirm $(cat src/epitech)
 	read -p "[?] Do you have a Asus with numpad on the trackpad ? [y/n]" yn && [[ $yn == [yY] ]] && trizen -S --noconfirm asus-touchpad-numpad-driver
 }
 
@@ -130,7 +125,8 @@ second(){ ## setup
 }
 
 config(){
-	(git clone https://github.com/kawaegle/Dotfile/ --depth ~/.local/share/Dotfile && ln -sf ~/.local/share/Dotfile/dotfile_manager.sh ~/.local/bin/dotfile_manager.sh && ./.local/bin/dotfile_manager.sh restore)  2>&1
+	git clone https://github.com/kawaegle/Wallpaper/ --depth 1 ~/Wallpaper
+	(git clone https://github.com/kawaegle/Dotfile/ --depth 1 ~/.local/share/Dotfile && ln -sf ~/.local/share/Dotfile/dotfile_manager.sh ~/.local/bin/dotfile_manager.sh && ./.local/bin/dotfile_manager.sh restore)  2>&1
 	git clone https://github.com/kawaegle/Templates $HOME/Templates --depth 1 2>&1
 }
 
