@@ -4,3 +4,4 @@ pwntools
 requests
 rawsocketpy
 platformio
+base58

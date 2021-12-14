@@ -61,6 +61,7 @@ set
 sqlmap
 sqlninja
 sslstrip
+steghide
 tor-browser-en
 torctl
 webshells
