@@ -31,7 +31,7 @@ EOF
 AUR(){ # install AUR manager and aur software
 	read -p "[?] Do you want to install trizen ?[Y/n]" yn ; [[ $yn == [yY] ]] || [[ $yn == "" ]] && sudo pacman -S base-devel && (git clone https://aur.archlinux.org/trizen /tmp/trizen && cd /tmp/trizen && makepkg -si) 2>&1
 	SleepClear
-	read -p "[?] Do you want install all AUR package ?[Y/n]" yn ; [[ $yn == [yY] ]] || [[ $yn == "" ]] && sudo umount -l /tmp && sudo mount -t tmpfs -o size=10G,mode=1777 tmpfs /tmp && gpg --recv-keys "D1742AD60D811D58" && trizen -S --noconfirm $(cat "src/aur") && clear && printf "\n[!] You have install all software from AUR repositories"
+	read -p "[?] Do you want install all AUR package ?[Y/n]" yn ; [[ $yn == [yY] ]] || [[ $yn == "" ]] && sudo umount -l /tmp && sudo mount -t tmpfs -o size=10G,mode=1777 tmpfs /tmp && gpg --recv-keys "5E3C45D7B312C643" && trizen -S --noconfirm $(cat "src/aur") && clear && printf "\n[!] You have install all software from AUR repositories"
 	SleepClear
 }
 
