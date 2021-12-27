@@ -42,6 +42,7 @@ libmad
 libmpeg2
 libva-intel-driver
 man
+man-pages
 mtools
 neovim
 networkmanager
