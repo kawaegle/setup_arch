@@ -10,10 +10,12 @@ cmake
 luarocks
 valgrind
 gopls
+gcovr
 tree
 mingw-w64
 lua
 ruby
 git
-sed
-teams-insiders
+virtualbox
+virtualbox-host-dkms
+virtualbox-guest-utils
