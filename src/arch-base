@@ -57,6 +57,7 @@ pulseaudio-alsa
 pulseaudio-bluetooth
 ranger
 rsync
+sof-firmware
 unrar
 unzip
 vim
