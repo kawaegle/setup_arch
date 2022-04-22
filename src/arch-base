@@ -7,7 +7,6 @@ bluez-plugins
 bluez-tools
 bluez-utils
 cmake
-criterion
 ctags
 cups
 curl
