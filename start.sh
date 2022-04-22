@@ -70,8 +70,7 @@ DE() # setup DesktopEnvironement
 	trizen -S --noconfirm $(cat src/DE)
 }
 
-epitech(){ # donwload lib and soft for easy epitech workflow
-	trizen -S --noconfirm $(cat src/epitech)
+asus(){ # donwload lib and soft for easy epitech workflow
 	read -p "[?] Do you have a Asus with numpad on the trackpad ? [y/n]" yn && [[ $yn == [yY] ]] && trizen -S --noconfirm asus-touchpad-numpad-driver
 }
 
@@ -117,7 +116,7 @@ second(){ ## setup
 	SleepClear
 	DE
 	SleepClear
-	epitech
+    asus
 	SleepClear
 	sys
 	config

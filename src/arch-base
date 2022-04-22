@@ -6,6 +6,9 @@ bluez
 bluez-plugins
 bluez-tools
 bluez-utils
+cmake
+criterion
+ctags
 cups
 curl
 dhcp
@@ -19,7 +22,10 @@ foomatic-db-gutenprint-ppds
 foomatic-db-nonfree  
 foomatic-db-nonfree-ppds  
 foomatic-db-ppds
+gcc
+gcovr
 git
+gopls
 gst-libav
 gst-plugins-bad
 gst-plugins-base
@@ -41,8 +47,11 @@ libinput
 libmad
 libmpeg2
 libva-intel-driver
+lua
+make
 man
 man-pages
+mingw-w64
 mtools
 neovim
 networkmanager
@@ -56,10 +65,13 @@ pulseaudio
 pulseaudio-alsa
 pulseaudio-bluetooth
 ranger
+raylib
 rsync
+ruby
 sof-firmware
 unrar
 unzip
+valgrind
 vim
 wavpack
 wget
