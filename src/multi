@@ -1,7 +1,4 @@
-calibre
-odt2txt
 audacity
-xfburn
 cura
 gimp
 kdenlive
@@ -9,8 +6,10 @@ krita
 lame
 lmms
 mpv
+odt2txt
 playerctl
+ueberzug
 vlc
+xfburn
 zathura-djvu
 zathura-pdf-mupdf
-ueberzug
