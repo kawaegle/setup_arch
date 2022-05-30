@@ -1,0 +1,11 @@
+curl
+gcc
+git
+lua
+make
+mingw-w64
+neovim
+raylib
+ruby
+valgrind
+vim
