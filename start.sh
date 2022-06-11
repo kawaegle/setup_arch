@@ -100,7 +100,6 @@ sys(){ # enable system dep
     sudo chmod +s /sbin/reboot
     [[ $SHELL != "/bin/zsh" ]] && chsh -s /bin/zsh
     (curl -fsSL https://raw.githubusercontent.com/platformio/platformio-core/master/scripts/99-platformio-udev.rules | sudo tee /etc/udev/rules.d/99-platformio-udev.rules)
-    python3 -c "$(curl -fsSL https://raw.githubusercontent.com/platformio/platformio/master/scripts/get-platformio.py)"
     user_manager
 }
 
