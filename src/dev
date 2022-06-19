@@ -1,10 +1,15 @@
 curl
 gcc
+gdb
 git
+go
 lua
+luarocks
 make
 mingw-w64
 neovim
+nodejs
+npm
 raylib
 ruby
 valgrind
