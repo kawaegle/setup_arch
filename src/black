@@ -56,6 +56,7 @@ routersploit
 set
 sqlmap
 sqlninja
+shellpop
 sslstrip
 steghide
 tor-browser-en
