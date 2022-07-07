@@ -91,7 +91,7 @@ user_manager(){
 sys(){ # enable system dep
     sudo systemctl enable cups NetworkManager bluetooth ly
     read -p "[?] What is the Name of your computer ?:" STATION && echo $STATION | sudo tee -a /etc/hostname && printf '127.0.0.1\t\tlocalhost\n::1\t\t\tlocalhost\n127.0.1.1\t\t'$STATION | sudo tee -a /etc/hosts 2&1>/dev/null
-    echo '# /TMP\ntmpfs /tmp tmpfs rw,nodev,nosuid,size=7G 0 0' | sudo tee -a /etc/fstab
+    printf '# /TMP\ntmpfs\t\t\t/tmp\t\ttmpfs\t\trw,nodev,nosuid,size=7G\t\t\t0\t0\n' | sudo tee -a /etc/fstab
     sudo hwclock --systohc
     sudo ln -sf /usr/share/zoneinfo/Europe/Paris /etc/localtime
     sudo timedatectl set-ntp true
