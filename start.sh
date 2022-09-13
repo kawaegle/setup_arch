@@ -31,16 +31,17 @@ EOF
 AUR(){ # install AUR manager and aur software
     read -p "[?] Do you want to install trizen ?[Y/n]" yn ; [[ $yn == [yY] ]] || [[ $yn == "" ]] && sudo pacman -S base-devel && (git clone https://aur.archlinux.org/trizen /tmp/trizen && cd /tmp/trizen && makepkg -si) 2>&1
     SleepClear
-    read -p "[?] Do you want install all AUR package ?[Y/n]" yn ; [[ $yn == [yY] ]] || [[ $yn == "" ]] && sudo umount -l /tmp && sudo mount -t tmpfs -o size=10G,mode=1777 tmpfs /tmp && gpg --recv-keys "5E3C45D7B312C643" && trizen -S --noconfirm $(cat "src/aur") && clear && printf "\n[!] You have install all software from AUR repositories"
+    read -p "[?] Do you want install all AUR package ?[Y/n]" yn ; [[ $yn == [yY] ]] || [[ $yn == "" ]] && gpg --recv-keys "5E3C45D7B312C643" && trizen -S --noconfirm $(cat "src/aur") && clear && printf "\n[!] You have install all software from AUR repositories"
     SleepClear
 }
 
 PacInstall(){ # generate pacman mirrorlist blackarch and install all software i need
     printf "[!] Reload pacman.conf\n"
-    sudo rm -rf /etc/pacman.conf;sudo cp src/pacman.conf /etc/pacman.conf
+    sudo rm -rf /etc/pacman.conf
+    sudo cp src/pacman.conf /etc/pacman.conf
     sleep 3
     printf "[!] Update package list\n"
-    sudo pacman -Syy
+    trizen -Syy
     SleepClear
     read -p "[?] Do you want to automaticaly regenerate pacman depots ? [Y/n]" depots ; [[ $(pacman -Qn reflector) == "" ]] && sudo pacman -S --noconfirm reflector ; [[ $depots == [Yy] ]] || [[ $depots == "" ]] && sudo reflector -c FR -c US -c GB -c PL -n 100 --info --protocol http,https --save /etc/pacman.d/mirrorlist
     SleepClear
@@ -50,14 +51,15 @@ PacInstall(){ # generate pacman mirrorlist blackarch and install all software i 
     SleepClear
     read -p "[?] Do you want to install some games stations ? [y/n]" yn ; [[ $yn == [Yy] ]] && trizen -S --noconfirm $(cat src/game)
     SleepClear
-    read -p "[?] Do you want to install some multimedia softare maker ? [y/n]" yn ; [[ $yn ==  [Yy] ]] && sudo pacman -S --noconfirm $(cat src/multi)
+    read -p "[?] Do you want to install some multimedia softare maker ? [y/n]" yn ; [[ $yn ==  [Yy] ]] && trizen -S --noconfirm $(cat src/multi)
     SleepClear
     read -p "[?] Do you want to install all Python usefull software by pip ? [y/n]" yn ;     [[ $yn == [Yy] ]] && ([[ $(pacman -Qn python-pip) == "" ]] && sudo pacman -S --noconfirm python-pip || pip3 install -r src/pip_requiere.txt)
     SleepClear
-    read -p "[?] Do you want to install some dev tool and lang ? [y/n]" yn ; [[ $yn == [Yy] ]] && sudo pacman -S --noconfirm $(cat src/dev)
+    read -p "[?] Do you want to install some dev tool and lang ? [y/n]" yn ; [[ $yn == [Yy] ]] && trizen -S --noconfirm $(cat src/dev) && sudo systemctl enable docker
     SleepClear
     printf "[!] Install Archlinux base software\n"
-    sudo pacman -S --noconfirm $(cat "src/arch-base") && trizen -S --noconfirm $(cat "src/font")
+    sudo pacman -S --noconfirm $(cat "src/arch-base")
+    trizen -S --noconfirm $(cat "src/font")
     SleepClear
 }
 
@@ -89,8 +91,9 @@ user_manager(){
 }
 
 sys(){ # enable system dep
-    sudo systemctl enable cups NetworkManager bluetooth ly
-    read -p "[?] What is the Name of your computer ?:" STATION && echo $STATION | sudo tee -a /etc/hostname && printf '127.0.0.1\t\tlocalhost\n::1\t\t\tlocalhost\n127.0.1.1\t\t'$STATION | sudo tee -a /etc/hosts 2&1>/dev/null
+    sudo systemctl enable cups bluetooth ly systemd-networkd systemd-resolved iwd
+    read -p "[?] What is the Name of your computer ?:" STATION && echo $STATION | sudo tee -a /etc/hostname
+    printf '127.0.0.1\t\tlocalhost\n::1\t\t\tlocalhost\n127.0.1.1\t\t'$STATION | sudo tee -a /etc/hosts 2>/dev/null
     printf '# /TMP\ntmpfs\t\t\t/tmp\t\ttmpfs\t\trw,nodev,nosuid,size=7G\t\t\t0\t0\n' | sudo tee -a /etc/fstab
     sudo hwclock --systohc
     sudo ln -sf /usr/share/zoneinfo/Europe/Paris /etc/localtime
@@ -129,7 +132,8 @@ second(){ ## setup
 
 config(){
     git clone https://github.com/kawaegle/Wallpaper/ --depth 1 ~/Wallpaper
-    (git clone https://github.com/kawaegle/Dotfile/ --depth 1 ~/.local/share/Dotfile && ln -sf ~/.local/share/Dotfile/dotfile_manager.sh ~/.local/bin/dotfile_manager.sh && ./.local/bin/dotfile_manager.sh restore)  2>&1
+    git clone https://github.com/kawaegle/Dotfile/ --depth 1 ~/.local/share/Dotfile
+    (cd ~/.local/share/Dotfile && dossier install)
     git clone https://github.com/kawaegle/Templates $HOME/Templates --depth 1 2>&1
 }
 
