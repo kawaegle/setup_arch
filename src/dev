@@ -1,4 +1,6 @@
 curl
+docker
+docker-compose
 gcc
 gdb
 git
