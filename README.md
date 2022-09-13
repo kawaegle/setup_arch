@@ -9,14 +9,16 @@ This is my Archlinux setup for Game, Multimedia, Working and hacking stuff
 # Usage
 For start script run the following commande on the folder: ```shell ./start.sh```
 
-# TO DO LIST 
+# TO DO LIST
 
-- [X] add some software
+- [X] select Desktop environment
+- [X] add some penetration testing software
+- [X] add some developement software
 - [X] add game and game stations:[steam](https://store.steampowered.com/), [retro arch](https://www.retroarch.com/) or [itch](https://itch.io)
 - [X] work around some multemedia like: [lmms](https://lmms.io) or [kdenlive](https://kdenlive.org)
 - [X] add workflow for [epitech](https://epitech.eu)
-- [X] add [wallpaper](https://github.com/kawaegle/Wallpaper)
-- [ ] work on Dotfile and [dotfile manager](https://github.com/kawaegle/dotfile_manager)
+- [ ] add [wallpaper](https://github.com/kawaegle/Wallpaper)
+- [ ] work on [Dotfile](https://github.com/kawaegle/dotfile)  and [dotfile manager](https://github.com/OppaiWeeb/Dossier)
 
 
 ## :warning: please use it with caution :warning:
