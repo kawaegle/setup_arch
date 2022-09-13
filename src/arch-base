@@ -23,12 +23,13 @@ gvfs-gphoto2
 gvfs-nfs
 gvfs-smb
 htop
-libinput
+iwd
+lsd
+lsd
 man
 man-pages
+mc
 mtools
-networkmanager
-networkmanager-openvpn
 ntfs-3g
 openssh
 openvpn
@@ -38,5 +39,6 @@ rsync
 unrar
 unzip
 wget
+xdg-user-dirs
 zip
 zsh
