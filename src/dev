@@ -1,4 +1,6 @@
 curl
+cmake
+ctags
 docker
 docker-compose
 gcc
