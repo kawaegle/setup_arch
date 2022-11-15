@@ -1,6 +1,5 @@
 aom
 audacity
-wavpack
 faac
 faad2
 flac
@@ -27,7 +26,7 @@ pulseaudio-alsa
 pulseaudio-bluetooth
 sof-firmware
 ueberzug
-vlc
+wavpack
 xfburn
 zathura-djvu
 zathura-pdf-mupdf
