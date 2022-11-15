@@ -1,6 +1,5 @@
 discord
 feh
-ffmpeg
 ffmpegthumbnailer
 firefox
 gparted
@@ -11,10 +10,6 @@ kitty-shell-integration
 kitty-terminfo
 libinput
 libreoffice-fresh-fr
-ly
 pavucontrol
 qbittorrent
 system-config-printer
-virtualbox
-virtualbox-guest-utils
-virtualbox-host-dkms
