@@ -6,8 +6,6 @@ bluez
 bluez-plugins
 bluez-tools
 bluez-utils
-cmake
-ctags
 cups
 dhcp
 exfat-utils
@@ -17,7 +15,6 @@ foomatic-db-gutenprint-ppds
 foomatic-db-nonfree
 foomatic-db-nonfree-ppds
 foomatic-db-ppds
-gopls
 gutenprint
 gvfs
 gvfs-gphoto2
@@ -25,8 +22,6 @@ gvfs-nfs
 gvfs-smb
 htop
 iwd
-lsd
-lsd
 man
 man-pages
 mc
