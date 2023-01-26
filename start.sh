@@ -6,10 +6,10 @@ GIT_EDITOR='nvim'
 GIT_BRANCH='main'
 
 AUR(){ # install AUR manager and aur software
-    read -p "[?] Do you want to install trizen ?[Y/n]" yn ; [[ $yn == [yY] ]] || [[ $yn == "" ]] && \
-        sudo pacman -S base-devel && (git clone https://aur.archlinux.org/trizen /tmp/trizen && cd /tmp/trizen && makepkg -si) 2>&1
+    read -p "[?] Do you want to install YaY ?[Y/n]" yn ; [[ $yn == [yY] ]] || [[ $yn == "" ]] && \
+        sudo pacman -S base-devel && (git clone https://aur.archlinux.org/yay /tmp/yay && cd /tmp/yay && makepkg -si) 2>&1
     read -p "[?] Do you want install all AUR package ?[Y/n]" yn ; [[ $yn == [yY] ]] || [[ $yn == "" ]] && \
-        trizen -S --noconfirm $(cat "src/aur")
+        yay -S --noconfirm $(cat "src/aur")
 
 }
 
@@ -18,24 +18,24 @@ pacman_install(){ # generate pacman mirrorlist blackarch and install all softwar
     sudo rm -rf /etc/pacman.conf
     sudo cp src/pacman.conf /etc/pacman.conf
     printf "[!] Update package list\n"
-    trizen -Syy
+    yay -Syy
     read -p "[?] Do you want to automaticaly regenerate pacman depots ? [Y/n]" yn
         [[ $(pacman -Qn reflector) == "" ]] && sudo pacman -S --noconfirm reflector &&
         [[ $yn == [Yy] ]] || [[ $yn == "" ]] && sudo reflector -c FR -c US -c GB -c PL -n 100 --info --protocol http,https --save /etc/pacman.d/mirrorlist
     read -p "[?] Do you want to add Blackarch repo ? [Y/n]" yn
-        [[ $yn == [Yy] || $yn == '' ]] && (curl -L https://blackarch.org/strap.sh | sudo sh /tmp/strap.sh)
+        [[ $yn == [Yy] || $yn == '' ]] && (curl https://blackarch.org/strap.sh | sudo sh)
     read -p "[?] Do you want to install BlackArch software ? [Y/n]" yn
         [[ $yn == [Yy] || $yn == '' ]] && sudo pacman -S --noconfirm $(cat "src/black")
     read -p "[?] Do you want to install some games stations ? [y/n]" yn
-        [[ $yn == [Yy] ]] && trizen -S --noconfirm $(cat src/game)
+        [[ $yn == [Yy] ]] && yay -S --noconfirm $(cat src/game)
     read -p "[?] Do you want to install some multimedia softare maker ? [y/n]" yn
-        [[ $yn ==  [Yy] ]] && trizen -S --noconfirm $(cat src/multi)
+        [[ $yn ==  [Yy] ]] && yay -S --noconfirm $(cat src/multi)
     read -p "[?] Do you want to install all Python usefull software by pip ? [y/n]" yn
         [[ $yn == [Yy] ]] && ([[ $(pacman -Qn python-pip) == "" ]] && sudo pacman -S --noconfirm python-pip || pip3 install -r src/pip_requiere.txt)
     read -p "[?] Do you want to install some dev tool and lang ? [y/n]" yn
-        [[ $yn == [Yy] ]] && trizen -S --noconfirm $(cat src/dev)
+        [[ $yn == [Yy] ]] && yay -S --noconfirm $(cat src/dev)
     sudo pacman -S --noconfirm $(cat "src/arch-base")
-    trizen -S --noconfirm $(cat "src/font")
+    yay -S --noconfirm $(cat "src/font")
 
 }
 
@@ -50,11 +50,11 @@ setup_git(){ # generate .gitconfig
 }
 
 install_DE(){ # setup DesktopEnvironement
-    trizen -S --noconfirm $(cat src/DE)
+    yay -S --noconfirm $(cat src/DE)
 }
 
 asus(){
-    read -p "[?] Do you have a Asus with numpad on the trackpad ? [y/n]" yn; [[ $yn == [yY] ]] && trizen -S --noconfirm asus-touchpad-numpad-driver
+    read -p "[?] Do you have a Asus with numpad on the trackpad ? [y/n]" yn; [[ $yn == [yY] ]] && yay -S --noconfirm asus-touchpad-numpad-driver
 }
 
 setup_system(){ # enable system dep
