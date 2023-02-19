@@ -53,34 +53,31 @@ install_DE(){ # setup DesktopEnvironement
     yay -S --noconfirm $(cat src/DE)
 }
 
-asus(){
-    read -p "[?] Do you have a Asus with numpad on the trackpad ? [y/n]" yn; [[ $yn == [yY] ]] && yay -S --noconfirm asus-touchpad-numpad-driver
-}
-
 setup_system(){ # enable system dep
-    sudo systemctl enable cups bluetooth ly systemd-networkd systemd-resolved iwd
+    sudo systemctl enable cups bluetooth ly systemd-networkd systemd-resolved iwd dhcpcd
     read -p "[?] What is the Name of your computer ?:" STATION && echo $STATION | sudo tee -a /etc/hostname
     printf '127.0.0.1\t\tlocalhost\n::1\t\t\tlocalhost\n127.0.1.1\t\t'$STATION | sudo tee -a /etc/hosts 2>/dev/null
     printf '# /TMP\ntmpfs\t\t\t/tmp\t\ttmpfs\t\trw,nodev,nosuid,size=7G\t\t\t0\t0\n' | sudo tee -a /etc/fstab
     sudo hwclock --systohc
-    sudo modprob vboxdrv
     sudo ln -sf /usr/share/zoneinfo/Europe/Paris /etc/localtime
     sudo timedatectl set-ntp true
     sudo localectl set-keymap fr
     sudo chmod +s /sbin/shutdown
     sudo chmod +s /sbin/reboot
     [[ $SHELL != "/bin/zsh" ]] && chsh -s /bin/zsh
-    python3 -c "$(curl -fsSL https://raw.githubusercontent.com/platformio/platformio/master/scripts/get-platformio.py)" &&\
     (curl -fsSL https://raw.githubusercontent.com/platformio/platformio-core/master/scripts/99-platformio-udev.rules | sudo tee /etc/udev/rules.d/99-platformio-udev.rules)
 }
 
+    sudo modprobe
 user_manager(){
     sudo usermod -aG input $USER
     sudo usermod -aG uucp $USER
     sudo usermod -aG wheel $USER
     sudo usermod -aG tty $USER
-    sudo groupadd docker && sudo usermod -aG docker $USER
-    sudo groupadd dialout && sudo usermod -aG dialout $USER
+    sudo groupadd docker
+    sudo usermod -aG docker $USER
+    sudo groupadd dialout
+    sudo usermod -aG dialout $USER
 }
 
 install_package(){ ## install base software
@@ -92,16 +89,21 @@ config(){ ## setup
     setup_git
     install_DE
     dotfile
-    asus
     setup_system
     user_manager
 }
 
 dotfile(){
-    git clone https://github.com/kawaegle/Wallpaper/ --depth 1 ~/Wallpaper
-    git clone https://github.com/kawaegle/Dotfile/ --depth 1 ~/.local/share/Dotfile
-    (cd ~/.local/share/Dotfile && dossier install)
-    git clone https://github.com/kawaegle/Templates $HOME/Templates --depth 1 2>&1
+    if [[ ! -d ~/Wallpaper/ ]]; then
+        git clone https://github.com/kawaegle/Wallpaper/ --depth 1 ~/Wallpaper
+    fi
+    if [[ ! -d ~/.local/share/dotfile ]]; then
+        git clone https://github.com/kawaegle/Dotfile/ --depth 1 ~/.local/share/Dotfile
+    fi
+    if [[ ! -d ~/Templates/ ]]; then
+        git clone https://github.com/kawaegle/Templates ~/Templates --depth 1 2>&1
+    fi
+    (cd ~/.local/share/dotfile && dotash setup)
 }
 
 finish(){
