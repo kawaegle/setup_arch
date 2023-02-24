@@ -54,7 +54,14 @@ install_DE(){ # setup DesktopEnvironement
 }
 
 setup_system(){ # enable system dep
-    sudo systemctl enable cups bluetooth ly systemd-networkd systemd-resolved iwd dhcpcd
+    sudo systemctl enable cups
+    sudo systemctl enable bluetooth
+    sudo systemctl enable ly
+    sudo systemctl enable systemd-networkd
+    sudo systemctl enable systemd-resolved
+    sudo systemctl enable iwd
+    sudo systemctl enable dhcpcd
+    sudo systemctl enable docker
     read -p "[?] What is the Name of your computer ?:" STATION && echo $STATION | sudo tee -a /etc/hostname
     printf '127.0.0.1\t\tlocalhost\n::1\t\t\tlocalhost\n127.0.1.1\t\t'$STATION | sudo tee -a /etc/hosts 2>/dev/null
     printf '# /TMP\ntmpfs\t\t\t/tmp\t\ttmpfs\t\trw,nodev,nosuid,size=7G\t\t\t0\t0\n' | sudo tee -a /etc/fstab
@@ -74,8 +81,6 @@ user_manager(){
     sudo usermod -aG uucp $USER
     sudo usermod -aG wheel $USER
     sudo usermod -aG tty $USER
-    sudo groupadd docker
-    sudo usermod -aG docker $USER
     sudo groupadd dialout
     sudo usermod -aG dialout $USER
 }
@@ -99,11 +104,16 @@ dotfile(){
     fi
     if [[ ! -d ~/.local/share/dotfile ]]; then
         git clone https://github.com/kawaegle/Dotfile/ --depth 1 ~/.local/share/Dotfile
+        (cd ~/.local/share/dotfile && dotash install)
+    fi
+    if [[ ! -h ~/.local/bin/dotash ]]; then
+        TMP=$(mkt -d)
+        git clone https://github.com/kawaegle/dotash --depth 1 "/tmp/$TMP"
+        (cd "/tmp/$TMP" && ./install)
     fi
     if [[ ! -d ~/Templates/ ]]; then
         git clone https://github.com/kawaegle/Templates ~/Templates --depth 1 2>&1
     fi
-    (cd ~/.local/share/dotfile && dotash setup)
 }
 
 finish(){
