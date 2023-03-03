@@ -2,9 +2,6 @@ qr-filetransfer
 pynvim
 pwntools
 requests
-rawsocketpy
 platformio
 base58
-present
-pysocks
-xremap
+lookatme
