@@ -1,9 +1,7 @@
 cmake
-ctags
 docker
 docker-compose
 gcc
-gdb
 go
 lua
 luarocks

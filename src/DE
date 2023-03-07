@@ -2,6 +2,9 @@ discord
 ffmpegthumbnailer
 firefox
 hexchat
+hyprland
+hyprpaper-git
+hyprpicker-git
 kitty
 kitty-framework
 kitty-shell-integration
@@ -10,5 +13,8 @@ libinput
 libreoffice-fresh-fr
 pavucontrol
 qbittorrent
+ranger
 system-config-printer
 wlsunset
+wofi
+xdg-desktop-portal-hyprland-git
