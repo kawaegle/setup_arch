@@ -51,6 +51,7 @@ setup_git(){ # generate .gitconfig
 
 install_DE(){ # setup DesktopEnvironement
     yay -S --noconfirm $(cat src/DE)
+    cargo install xremap --features hypr
 }
 
 setup_system(){ # enable system dep
