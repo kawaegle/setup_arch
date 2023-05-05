@@ -31,7 +31,7 @@ pacman_install(){ # generate pacman mirrorlist blackarch and install all softwar
     read -p "[?] Do you want to install some multimedia softare maker ? [y/n]" yn
         [[ $yn ==  [Yy] ]] && yay -S --noconfirm $(cat src/multi)
     read -p "[?] Do you want to install all Python usefull software by pip ? [y/n]" yn
-        [[ $yn == [Yy] ]] && ([[ $(pacman -Qn python-pip) == "" ]] && sudo pacman -S --noconfirm python-pip || pip3 install -r src/pip_requiere.txt)
+        [[ $yn == [Yy] ]] && ([[ $(pacman -Qn python-pip) == "" ]] && sudo pacman -S --noconfirm python-pip || pip3 install --user -r src/pip_requiere.txt)
     read -p "[?] Do you want to install some dev tool and lang ? [y/n]" yn
         [[ $yn == [Yy] ]] && yay -S --noconfirm $(cat src/dev)
     sudo pacman -S --noconfirm $(cat "src/arch-base")
@@ -62,7 +62,7 @@ setup_system(){ # enable system dep
     sudo systemctl enable systemd-resolved
     sudo systemctl enable iwd
     sudo systemctl enable dhcpcd
-    sudo systemctl enable docker
+    sudo systemctl --user enable podman.service
     read -p "[?] What is the Name of your computer ?:" STATION && echo $STATION | sudo tee -a /etc/hostname
     printf '127.0.0.1\t\tlocalhost\n::1\t\t\tlocalhost\n127.0.1.1\t\t'$STATION | sudo tee -a /etc/hosts 2>/dev/null
     printf '# /TMP\ntmpfs\t\t\t/tmp\t\ttmpfs\t\trw,nodev,nosuid,size=7G\t\t\t0\t0\n' | sudo tee -a /etc/fstab
@@ -108,7 +108,7 @@ dotfile(){
         (cd ~/.local/share/dotfile && dotash install)
     fi
     if [[ ! -h ~/.local/bin/dotash ]]; then
-        TMP=$(mkt -d)
+        TMP=$(mktemp -d)
         git clone https://github.com/kawaegle/dotash --depth 1 "/tmp/$TMP"
         (cd "/tmp/$TMP" && ./install)
     fi
