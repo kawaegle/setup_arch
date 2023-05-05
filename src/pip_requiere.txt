@@ -4,6 +4,4 @@ pwntools
 requests
 platformio
 base58
-lookatme
-lookatme.contrib.render
-lookatme.contrib.qrcode
+rzpipe
