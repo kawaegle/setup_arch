@@ -27,7 +27,6 @@ medusa
 metasploit
 minicom
 netdiscover
-nfcutils
 nikto
 nmap
 onionshare
@@ -39,12 +38,12 @@ rizin
 rz-cutter
 rz-ghidra
 scrcpy
-shellpop
 sqlmap
 steghide
 torctl
+volatility-extra
+volatility3
 whatsmyname
-wifite
 wine
 wireshark-qt
 wpscan
