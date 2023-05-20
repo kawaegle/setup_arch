@@ -1,4 +1,3 @@
-qr-filetransfer
 pynvim
 pwntools
 requests
