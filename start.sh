@@ -8,9 +8,6 @@ GIT_BRANCH='main'
 AUR(){ # install AUR manager and aur software
     read -p "[?] Do you want to install YaY ?[Y/n]" yn ; [[ $yn == [yY] ]] || [[ $yn == "" ]] && \
         sudo pacman -S base-devel && (git clone https://aur.archlinux.org/yay /tmp/yay && cd /tmp/yay && makepkg -si) 2>&1
-    read -p "[?] Do you want install all AUR package ?[Y/n]" yn ; [[ $yn == [yY] ]] || [[ $yn == "" ]] && \
-        yay -S --noconfirm $(cat "src/aur")
-
 }
 
 pacman_install(){ # generate pacman mirrorlist blackarch and install all software i need
@@ -72,11 +69,11 @@ setup_system(){ # enable system dep
     sudo localectl set-keymap fr
     sudo chmod +s /sbin/shutdown
     sudo chmod +s /sbin/reboot
-    [[ $SHELL != "/bin/zsh" ]] && chsh -s /bin/zsh
+    [[ $SHELL != "/bin/zsh" ]] && sudo chsh -s /bin/zsh
     (curl -fsSL https://raw.githubusercontent.com/platformio/platformio-core/master/scripts/99-platformio-udev.rules | sudo tee /etc/udev/rules.d/99-platformio-udev.rules)
+    sudo cp src/sudoers /etc/sudoers
 }
 
-    sudo modprobe
 user_manager(){
     sudo usermod -aG input $USER
     sudo usermod -aG uucp $USER
@@ -103,15 +100,17 @@ dotfile(){
     if [[ ! -d ~/Wallpaper/ ]]; then
         git clone https://github.com/kawaegle/Wallpaper/ --depth 1 ~/Wallpaper
     fi
-    if [[ ! -d ~/.local/share/dotfile ]]; then
-        git clone https://github.com/kawaegle/Dotfile/ --depth 1 ~/.local/share/Dotfile
-        (cd ~/.local/share/dotfile && dotash install)
-    fi
     if [[ ! -h ~/.local/bin/dotash ]]; then
         TMP=$(mktemp -d)
         git clone https://github.com/kawaegle/dotash --depth 1 "/tmp/$TMP"
         (cd "/tmp/$TMP" && ./install)
     fi
+    if [[ ! -d ~/.local/share/dotfile ]]; then
+        git clone https://github.com/kawaegle/Dotfile/ --depth 1 ~/.local/share/Dotfile
+        (cd ~/.local/share/dotfile && dotash install)
+    fi
+    if [[ ! -d ~/.tmux/plugins/tpm ]]; then
+        git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
     if [[ ! -d ~/Templates/ ]]; then
         git clone https://github.com/kawaegle/Templates ~/Templates --depth 1 2>&1
     fi

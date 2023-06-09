@@ -1,4 +1,5 @@
 discord
+ffmpeg-obs
 ffmpegthumbnailer
 firefox
 hexchat
@@ -11,11 +12,15 @@ kitty-framework
 kitty-shell-integration
 kitty-terminfo
 libinput
+libreoffice-extension-grammalecte-fr
 libreoffice-fresh-fr
+ly
 pavucontrol
 qbittorrent
 ranger
+spotify
 system-config-printer
+vlc-luajit
 waybar
 wofi
 xdg-desktop-portal-hyprland-git

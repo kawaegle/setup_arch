@@ -1,0 +1,31 @@
+##
+## Run X applications through sudo; HOME is used to find the
+## .Xauthority file.  Note that other programs use HOME to find   
+## configuration files and this may lead to privilege escalation!
+Defaults env_keep += "HOME"
+##
+
+## Uncomment to use a hard-coded PATH instead of the user's to find commands
+Defaults secure_path="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+##
+
+##
+## ask password eachtime sudo is trigger
+Defaults env_reset,timestamp_timeout=0
+##
+
+##
+## how many time sudo ask for password before failed
+Defaults passwd_tries=5
+##
+
+##
+## User privilege specification
+##
+root ALL=(ALL:ALL) ALL
+##
+
+##
+## Uncomment to allow members of group wheel to execute any command
+%wheel ALL=(ALL:ALL) ALL
+##

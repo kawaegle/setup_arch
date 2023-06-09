@@ -31,6 +31,7 @@ openssh
 openvpn
 p7zip
 rsync
+tmux
 unrar
 unzip
 wget
