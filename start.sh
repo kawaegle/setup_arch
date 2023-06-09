@@ -111,6 +111,7 @@ dotfile(){
     fi
     if [[ ! -d ~/.tmux/plugins/tpm ]]; then
         git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+    fi
     if [[ ! -d ~/Templates/ ]]; then
         git clone https://github.com/kawaegle/Templates ~/Templates --depth 1 2>&1
     fi
