@@ -1,6 +1,0 @@
-pynvim
-pwntools
-requests
-platformio
-base58
-rzpipe

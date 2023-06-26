@@ -27,8 +27,6 @@ pacman_install(){ # generate pacman mirrorlist blackarch and install all softwar
         [[ $yn == [Yy] ]] && yay -S --noconfirm $(cat src/game)
     read -p "[?] Do you want to install some multimedia softare maker ? [y/n]" yn
         [[ $yn ==  [Yy] ]] && yay -S --noconfirm $(cat src/multi)
-    read -p "[?] Do you want to install all Python usefull software by pip ? [y/n]" yn
-        [[ $yn == [Yy] ]] && ([[ $(pacman -Qn python-pip) == "" ]] && sudo pacman -S --noconfirm python-pip || pip3 install --user -r src/pip_requiere.txt)
     read -p "[?] Do you want to install some dev tool and lang ? [y/n]" yn
         [[ $yn == [Yy] ]] && yay -S --noconfirm $(cat src/dev)
     sudo pacman -S --noconfirm $(cat "src/arch-base")
