@@ -67,8 +67,8 @@ setup_system(){ # enable system dep
     sudo localectl set-keymap fr
     sudo chmod +s /sbin/shutdown
     sudo chmod +s /sbin/reboot
-    [[ $SHELL != "/bin/zsh" ]] && sudo chsh -s /bin/zsh
-    (curl -fsSL https://raw.githubusercontent.com/platformio/platformio-core/master/scripts/99-platformio-udev.rules | sudo tee /etc/udev/rules.d/99-platformio-udev.rules)
+    [[ $SHELL != "/bin/zsh" ]] && chsh -s /bin/zsh
+    #(curl -fsSL https://raw.githubusercontent.com/platformio/platformio-core/master/scripts/99-platformio-udev.rules | sudo tee /etc/udev/rules.d/99-platformio-udev.rules)
     sudo cp src/sudoers /etc/sudoers
 }
 
@@ -95,23 +95,22 @@ config(){ ## setup
 }
 
 dotfile(){
+    mkdir -p ~/.local/share/
+    mkdir -p ~/.local/bin
     if [[ ! -d ~/Wallpaper/ ]]; then
         git clone https://github.com/kawaegle/Wallpaper/ --depth 1 ~/Wallpaper
     fi
-    if [[ ! -h ~/.local/bin/dotash ]]; then
+    if [[ ! -e ~/.local/bin/dotash ]]; then
         TMP=$(mktemp -d)
-        git clone https://github.com/kawaegle/dotash --depth 1 "/tmp/$TMP"
-        (cd "/tmp/$TMP" && ./install)
+        git clone https://github.com/kawaegle/dotash --depth 1 "$TMP"
+        (cd "$TMP" && pwd && ./install.sh)
     fi
-    if [[ ! -d ~/.local/share/dotfile ]]; then
-        git clone https://github.com/kawaegle/Dotfile/ --depth 1 ~/.local/share/Dotfile
-        (cd ~/.local/share/dotfile && dotash install)
-    fi
-    if [[ ! -d ~/.tmux/plugins/tpm ]]; then
-        git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+    if [[ ! -d ~/.local/share/Dotfile ]]; then
+        git clone https://github.com/kawaegle/Dotfile/ --depth 1 "~/.local/share/Dotfile"
+        (cd ~/.local/share/Dotfile && ~/.local/bin/dotash install)
     fi
     if [[ ! -d ~/Templates/ ]]; then
-        git clone https://github.com/kawaegle/Templates ~/Templates --depth 1 2>&1
+        git clone https://github.com/kawaegle/Templates ~/Templates --depth 1
     fi
 }
 
@@ -128,7 +127,7 @@ finish(){
     sudo reboot
 }
 
-install_package
+#install_package
 read -p "[?] Do you want to continue the configuration ? [Y/n] " yn
 [[ $yn == [yY] ]] || [[ $yn == "" ]] && config
 finish

@@ -10,9 +10,11 @@ npm
 podman
 podman-compose
 podman-dnsname
+fuse-overlay
 python-pipx
 python-pynvim
 python-requests
 rust
 valgrind
+vagrant
 vim

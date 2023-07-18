@@ -26,3 +26,5 @@ wavpack
 wireplumber
 zathura-djvu
 zathura-pdf-mupdf
+ffmpeg-obs
+vlc-luajit
