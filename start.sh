@@ -57,7 +57,6 @@ setup_system(){ # enable system dep
     sudo systemctl enable systemd-resolved
     sudo systemctl enable iwd
     sudo systemctl enable dhcpcd
-    sudo systemctl --user enable podman.service
     read -p "[?] What is the Name of your computer ?:" STATION && echo $STATION | sudo tee -a /etc/hostname
     printf '127.0.0.1\t\tlocalhost\n::1\t\t\tlocalhost\n127.0.1.1\t\t'$STATION | sudo tee -a /etc/hosts 2>/dev/null
     printf '# /TMP\ntmpfs\t\t\t/tmp\t\ttmpfs\t\trw,nodev,nosuid,size=7G\t\t\t0\t0\n' | sudo tee -a /etc/fstab
@@ -65,10 +64,20 @@ setup_system(){ # enable system dep
     sudo ln -sf /usr/share/zoneinfo/Europe/Paris /etc/localtime
     sudo timedatectl set-ntp true
     sudo localectl set-keymap fr
+        [[ $SHELL != "/bin/zsh" ]] && sudo chsh -s /bin/zsh
+    (curl -fsSL https://raw.githubusercontent.com/platformio/platformio-core/master/scripts/99-platformio-udev.rules | sudo tee /etc/udev/rules.d/99-platformio-udev.rules)
+}
+
+rootless() {
     sudo chmod +s /sbin/shutdown
     sudo chmod +s /sbin/reboot
     [[ $SHELL != "/bin/zsh" ]] && chsh -s /bin/zsh
-    #(curl -fsSL https://raw.githubusercontent.com/platformio/platformio-core/master/scripts/99-platformio-udev.rules | sudo tee /etc/udev/rules.d/99-platformio-udev.rules)
+    systemctl --user enable podman.service
+    echo "ip6_tables
+ip6table_nat
+ip_tables
+iptable_nat
+" | sudo tee -a /etc/modules-load.d/iptables.conf
     sudo cp src/sudoers /etc/sudoers
 }
 
