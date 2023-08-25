@@ -9,6 +9,7 @@ bluez-utils
 cups
 dhcp
 dhcpcd
+dosfstools
 exfat-utils
 foomatic-db
 foomatic-db-engine

@@ -73,6 +73,9 @@ rootless() {
     sudo chmod +s /sbin/reboot
     [[ $SHELL != "/bin/zsh" ]] && chsh -s /bin/zsh
     systemctl --user enable podman.service
+    echo "[registries.search]
+registries = ['docker.io']
+" | sudo tee -a /etc/containers/registries.conf
     echo "ip6_tables
 ip6table_nat
 ip_tables

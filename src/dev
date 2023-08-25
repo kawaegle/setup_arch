@@ -1,5 +1,7 @@
 aardvark-dns
 cmake
+fuse-overlay
+fzf
 gcc
 go
 make
@@ -10,11 +12,10 @@ npm
 podman
 podman-compose
 podman-dnsname
-fuse-overlay
 python-pipx
 python-pynvim
 python-requests
 rust
-valgrind
 vagrant
+valgrind
 vim
