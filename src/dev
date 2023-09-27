@@ -12,10 +12,12 @@ npm
 podman
 podman-compose
 podman-dnsname
-python-pipx
 python-pynvim
+dbeaver
+dfu-programmer
 python-requests
 rust
 vagrant
 valgrind
 vim
+wine

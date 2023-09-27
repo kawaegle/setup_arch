@@ -11,7 +11,6 @@ bully
 cowpatty
 croc
 crunch
-dfu-programmer
 dirb
 driftnet
 esptool
@@ -47,7 +46,6 @@ torctl
 volatility-extra
 volatility3
 whatsmyname
-wine
 wireshark-qt
 wpscan
 zbar

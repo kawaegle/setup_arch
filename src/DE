@@ -13,7 +13,6 @@ kitty-terminfo
 libinput
 libreoffice-extension-grammalecte-fr
 libreoffice-fresh-fr
-localsend-bin
 ly
 pavucontrol
 qbittorrent
@@ -25,5 +24,4 @@ waybar
 wf-recorder
 wofi
 xdg-desktop-portal-hyprland
-exa
-
+eza
