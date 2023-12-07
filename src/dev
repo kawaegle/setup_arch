@@ -3,6 +3,7 @@ cmake
 fuse-overlay
 fzf
 gcc
+gdb
 go
 make
 mingw-w64
