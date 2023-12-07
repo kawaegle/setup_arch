@@ -107,22 +107,23 @@ config(){ ## setup
 }
 
 dotfile(){
-    mkdir -p ~/.local/share/
-    mkdir -p ~/.local/bin
+    mkdir -p $HOME/.local/share/
+    mkdir -p $HOME/.local/bin
+    mkdir -p $HOME/.config
     if [[ ! -d ~/Wallpaper/ ]]; then
         git clone https://github.com/kawaegle/Wallpaper/ --depth 1 ~/Wallpaper
     fi
-    if [[ ! -e ~/.local/bin/dotash ]]; then
+    if [[ ! -e $HOME/.local/bin/dotash ]]; then
         TMP=$(mktemp -d)
         git clone https://github.com/kawaegle/dotash --depth 1 "$TMP"
         (cd "$TMP" && pwd && ./install.sh)
     fi
-    if [[ ! -d ~/.local/share/Dotfile ]]; then
-        git clone https://github.com/kawaegle/Dotfile/ --depth 1 "~/.local/share/Dotfile"
+    if [[ ! -d $HOME/.local/share/Dotfile ]]; then
+        git clone https://github.com/kawaegle/dotfile/ --depth 1 "$HOME/.local/share/dotfile"
         (cd ~/.local/share/Dotfile && ~/.local/bin/dotash install)
     fi
-    if [[ ! -d ~/Templates/ ]]; then
-        git clone https://github.com/kawaegle/Templates ~/Templates --depth 1
+    if [[ ! -d $HOME/Templates/ ]]; then
+        git clone https://github.com/kawaegle/Templates $HOME/Templates --depth 1
     fi
 }
 
@@ -139,7 +140,7 @@ finish(){
     sudo reboot
 }
 
-#install_package
+install_package
 read -p "[?] Do you want to continue the configuration ? [Y/n] " yn
 [[ $yn == [yY] ]] || [[ $yn == "" ]] && config
 finish
