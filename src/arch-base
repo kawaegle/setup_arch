@@ -39,3 +39,4 @@ wget
 xdg-user-dirs
 zip
 zsh
+firejail
