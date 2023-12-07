@@ -17,7 +17,6 @@ esptool
 ettercap
 hcxtools
 hexedit
-hydra
 john
 macchanger
 mat2
@@ -32,9 +31,7 @@ onionshare
 pdfcrack
 pipal
 pwndbg
-python-base58
 python-pwntools
-python-rzpipe
 reaver
 rizin
 rz-cutter
