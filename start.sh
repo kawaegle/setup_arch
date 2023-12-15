@@ -5,9 +5,30 @@ GIT_MAIL=''
 GIT_EDITOR='nvim'
 GIT_BRANCH='main'
 
+ANDROID_STUDIO_SHA_256="8919e8752979db73d8321e9babe2caedcc393750817c1a5f56c128ec442fb540"
+
 AUR(){ # install AUR manager and aur software
     read -p "[?] Do you want to install YaY ?[Y/n]" yn ; [[ $yn == [yY] ]] || [[ $yn == "" ]] && \
-        sudo pacman -S base-devel && (git clone https://aur.archlinux.org/yay /tmp/yay && cd /tmp/yay && makepkg -si) 2>&1
+        sudo pacman -S base-devel && (git clone https://aur.archlinux.org/yay /tmp/yay --depth 1&& cd /tmp/yay && makepkg -si) 2>&1
+}
+
+get_android_studio(){
+    tools=$(mktemp)
+    curl -L https://dl.google.com/android/repository/commandlinetools-linux-10406996_latest.zip -o $tools
+    echo "$ANDROID_STUDIO_SHA_256 $tools" | sha256sum -c
+    if [[ $? == 0 ]]; then
+        mkdir -p $HOME/.local/Android/
+        unzip $tools -d $HOME/.local/Android
+        mkdir $HOME/.local/Android/cmdline-tools/latest/ && mv $HOME/.local/Android/cmdline-tools/{NOTICE.txt,bin,lib,source.properties} $HOME/.local/Android/cmdline-tools/latest/
+        yes | sdkmanager --licenses
+        sdkmanager --install "build-tools;34.0.0"
+        sdkmanager --install "emulator"
+        sdkmanager --install "platform-tools"
+        sdkmanager --install "platforms;android-34"
+        sdkmanager --install "system-images;android-34;google_apis_playstore;x86_64"
+    else
+        echo "Error while getting android studiO"
+    fi
 }
 
 pacman_install(){ # generate pacman mirrorlist blackarch and install all software i need
@@ -29,6 +50,8 @@ pacman_install(){ # generate pacman mirrorlist blackarch and install all softwar
         [[ $yn ==  [Yy] ]] && yay -S --noconfirm $(cat src/multi)
     read -p "[?] Do you want to install some dev tool and lang ? [y/n]" yn
         [[ $yn == [Yy] ]] && yay -S --noconfirm $(cat src/dev)
+    read -p "[?] Do you want to install android studio ? [y/n]" yn
+        [[ $yn == [Yy] ]] && get_android_studio
     sudo pacman -S --noconfirm $(cat "src/arch-base")
     yay -S --noconfirm $(cat "src/font")
 
@@ -110,8 +133,8 @@ dotfile(){
     mkdir -p $HOME/.local/share/
     mkdir -p $HOME/.local/bin
     mkdir -p $HOME/.config
-    if [[ ! -d ~/Wallpaper/ ]]; then
-        git clone https://github.com/kawaegle/Wallpaper/ --depth 1 ~/Wallpaper
+    if [[ ! -d $HOME/Wallpaper/ ]]; then
+        git clone https://github.com/kawaegle/Wallpaper/ --depth 1 $HOME/Wallpaper
     fi
     if [[ ! -e $HOME/.local/bin/dotash ]]; then
         TMP=$(mktemp -d)
@@ -120,7 +143,7 @@ dotfile(){
     fi
     if [[ ! -d $HOME/.local/share/Dotfile ]]; then
         git clone https://github.com/kawaegle/dotfile/ --depth 1 "$HOME/.local/share/dotfile"
-        (cd ~/.local/share/Dotfile && ~/.local/bin/dotash install)
+        (cd $HOME/.local/share/Dotfile && $HOME/.local/bin/dotash install)
     fi
     if [[ ! -d $HOME/Templates/ ]]; then
         git clone https://github.com/kawaegle/Templates $HOME/Templates --depth 1
