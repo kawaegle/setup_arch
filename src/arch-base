@@ -18,6 +18,16 @@ foomatic-db-nonfree
 foomatic-db-nonfree-ppds
 foomatic-db-ppds
 gutenprint
+gst-libav
+gst-plugins-bad
+gst-plugins-base
+gst-plugins-good
+gst-plugins-ugly
+pipewire
+pipewire-audio
+pipewire-pulse
+wireplumber
+sof-firmware
 gvfs
 gvfs-gphoto2
 gvfs-nfs
@@ -40,3 +50,4 @@ xdg-user-dirs
 zip
 zsh
 firejail
+nfs-utils
