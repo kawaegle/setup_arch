@@ -1,15 +1,23 @@
 #!/bin/bash
 
-GIT_USER=''
-GIT_MAIL=''
-GIT_EDITOR='nvim'
-GIT_BRANCH='main'
+AUR=0
 
+ANDROID_DONE=0
 ANDROID_STUDIO_SHA_256="8919e8752979db73d8321e9babe2caedcc393750817c1a5f56c128ec442fb540"
 
+ask(){
+    echo "[?] $1 [Y|n] ?"
+    read yn
+    [[ $yn ==  [yY] || $yn == '' ]] && return 0 || return 1
+}
+
 AUR(){ # install AUR manager and aur software
-    read -p "[?] Do you want to install YaY ?[Y/n]" yn ; [[ $yn == [yY] ]] || [[ $yn == "" ]] && \
-        sudo pacman -S base-devel && (git clone https://aur.archlinux.org/yay /tmp/yay --depth 1&& cd /tmp/yay && makepkg -si) 2>&1
+    ask "Do you want to install YaY wrapper"
+    if [[ $? == 0 ]]; then
+        sudo pacman -S base-devel && \
+        tmp_folder=$(mktemp -d)
+       (git clone https://aur.archlinux.org/yay $tmp_folder --depth 1 && cd $tmp_folder && makepkg -si && AUR=1)
+    fi
 }
 
 get_android_studio(){
@@ -20,55 +28,67 @@ get_android_studio(){
         mkdir -p $HOME/.local/Android/
         unzip $tools -d $HOME/.local/Android
         mkdir $HOME/.local/Android/cmdline-tools/latest/ && mv $HOME/.local/Android/cmdline-tools/{NOTICE.txt,bin,lib,source.properties} $HOME/.local/Android/cmdline-tools/latest/
-        yes | sdkmanager --licenses
-        sdkmanager --install "build-tools;34.0.0"
-        sdkmanager --install "emulator"
-        sdkmanager --install "platform-tools"
-        sdkmanager --install "platforms;android-34"
-        sdkmanager --install "system-images;android-34;google_apis_playstore;x86_64"
+        (cd $HOME/.local/Android/cmdline-tools/latest/bin/
+        yes | ./sdkmanager --licenses
+        ./sdkmanager --install "build-tools;34.0.0"
+        ./sdkmanager --install "emulator"
+        ./sdkmanager --install "platform-tools"
+        ./sdkmanager --install "platforms;android-34"
+        ./sdkmanager --install "system-images;android-34;google_apis_playstore;x86_64"
+        )
+        ANDROID_DONE=1
     else
         echo "Error while getting android studiO"
+    fi
+    if [[ $ANDROID_DONE == 1 ]]; then
+        read -p "[?] Do you want to create an avd devices ?[Y/n]" yn
+        if [[ $yn == [yY] ]] || [[ $yn == "" ]]; then
+            export ANDROID_HOME=$HOME/.local/Android
+            export PATH=$PATH:$ANDROID_HOME/cmdline-tools/latest/bin/
+            avdmanager create avd -f --name test --device "pixel_7" --package "system-images;android-34;google_apis_playstore;x86_64"
+        fi
     fi
 }
 
 pacman_install(){ # generate pacman mirrorlist blackarch and install all software i need
-    printf "[!] Reload pacman.conf\n"
-    sudo rm -rf /etc/pacman.conf
+    echo "[\!] Reload pacman.conf\n"
+    sudo mv /etc/pacman.conf /etc/pacman.conf.bak
     sudo cp src/pacman.conf /etc/pacman.conf
-    printf "[!] Update package list\n"
-    yay -Syy
-    read -p "[?] Do you want to automaticaly regenerate pacman depots ? [Y/n]" yn
-        [[ $(pacman -Qn reflector) == "" ]] && sudo pacman -S --noconfirm reflector &&
-        [[ $yn == [Yy] ]] || [[ $yn == "" ]] && sudo reflector -c FR -c US -c GB -c PL -n 100 --info --protocol http,https --save /etc/pacman.d/mirrorlist
-    read -p "[?] Do you want to add Blackarch repo ? [Y/n]" yn
-        [[ $yn == [Yy] || $yn == '' ]] && (curl https://blackarch.org/strap.sh | sudo sh)
-    read -p "[?] Do you want to install BlackArch software ? [Y/n]" yn
-        [[ $yn == [Yy] || $yn == '' ]] && sudo pacman -S --noconfirm $(cat "src/black")
-    read -p "[?] Do you want to install some games stations ? [y/n]" yn
-        [[ $yn == [Yy] ]] && yay -S --noconfirm $(cat src/game)
-    read -p "[?] Do you want to install some multimedia softare maker ? [y/n]" yn
-        [[ $yn ==  [Yy] ]] && yay -S --noconfirm $(cat src/multi)
-    read -p "[?] Do you want to install some dev tool and lang ? [y/n]" yn
-        [[ $yn == [Yy] ]] && yay -S --noconfirm $(cat src/dev)
-    read -p "[?] Do you want to install android studio ? [y/n]" yn
-        [[ $yn == [Yy] ]] && get_android_studio
-    sudo pacman -S --noconfirm $(cat "src/arch-base")
-    yay -S --noconfirm $(cat "src/font")
+    echo "[\!] Update package list\n"
+    [[ $AUR == 1 ]] && yay -Syy
+    ask "Do you want to automaticaly regenerate pacman depots"
+    [[ $? == 0 && $(pacman -Qn reflector) == "" ]] && sudo pacman -S --noconfirm reflector && \
+    sudo reflector -c FR -c US -c GB -c PL -n 100 --info --protocol http,https --save /etc/pacman.d/mirrorlist
 
-}
+    ask "Do you want to add blackarch repos"
+    [[ $? == 0 ]] && (curl https://blackarch.org/strap.sh | sudo sh && BLACK_REPOS=1)
 
-setup_git(){ # generate .gitconfig
-    if [[ ! -e $HOME/.gitconfig ]] ;then
-        read -p "What is your username on GIT server : " GIT_USER && git config --global user.name $GIT_USER && printf "Your username is $GIT_USER\n"
-        read -p "What is your email on GIT server : " GIT_MAIL && git config --global user.email $GIT_MAIL && printf "Your email is $GIT_MAIL\n"
-        read -p "What is your editor for GIT commit and merge : " GIT_EDITOR && git config --global core.editor $GIT_EDITOR && printf "Your editor is $GIT_EDITOR\n"
-        read -p "How do you want to name your default git branch :" && git config --global init.defaultBranch $GIT_BRANCH && printf "Your default branch is $GIT_BRANCH\n" *
-        read -p "how do you want to rebase pull request [true/false]: " && git config --global pull.rebase $GIT_REBASE
+    if [[ $BLACK_REPOS == 1 ]]; then
+        ask "Do you want to install some pwn tools"
+        [[ $? == 0 ]] && sudo pacman -S --noconfirm $(cat "src/black")
     fi
+
+    ask "Do you want to install some developpement tools and IDE"
+    [[ $? == 0 ]] && sudo pacman -S --noconfirm $(cat src/dev)
+
+    ask "Do you want to install android studio"
+    [[ $? == 0 ]] && get_android_studio
+
+    if [[ $AUR == 1 ]]; then
+        ask "Do you want to install some games stations"
+        [[ $yn == [Yy] ]] && yay -S --noconfirm $(cat src/game)
+
+        ask "Do you want to install software for multimedia"
+        [[ $? == 0 ]] && yay -S --noconfirm $(cat src/multi)
+        yay -S --noconfirm $(cat "src/font")
+    fi
+
+    echo "[\!] Install basic need on arch"
+    sudo pacman -S --noconfirm $(cat "src/arch-base")
 }
 
 install_DE(){ # setup DesktopEnvironement
-    yay -S --noconfirm $(cat src/DE)
+    [[ $AUR == 1 ]] && yay -S --noconfirm $(cat src/DE)
     cargo install xremap --features hypr
 }
 
@@ -80,15 +100,11 @@ setup_system(){ # enable system dep
     sudo systemctl enable systemd-resolved
     sudo systemctl enable iwd
     sudo systemctl enable dhcpcd
-    read -p "[?] What is the Name of your computer ?:" STATION && echo $STATION | sudo tee -a /etc/hostname
-    printf '127.0.0.1\t\tlocalhost\n::1\t\t\tlocalhost\n127.0.1.1\t\t'$STATION | sudo tee -a /etc/hosts 2>/dev/null
-    printf '# /TMP\ntmpfs\t\t\t/tmp\t\ttmpfs\t\trw,nodev,nosuid,size=7G\t\t\t0\t0\n' | sudo tee -a /etc/fstab
     sudo hwclock --systohc
     sudo ln -sf /usr/share/zoneinfo/Europe/Paris /etc/localtime
     sudo timedatectl set-ntp true
     sudo localectl set-keymap fr
-        [[ $SHELL != "/bin/zsh" ]] && sudo chsh -s /bin/zsh
-    (curl -fsSL https://raw.githubusercontent.com/platformio/platformio-core/master/scripts/99-platformio-udev.rules | sudo tee /etc/udev/rules.d/99-platformio-udev.rules)
+    (curl -fsSL -o get-platformio.py https://raw.githubusercontent.com/platformio/platformio-core-installer/master/get-platformio.py && python3 ./get-platformio.py)
 }
 
 rootless() {
@@ -96,23 +112,17 @@ rootless() {
     sudo chmod +s /sbin/reboot
     [[ $SHELL != "/bin/zsh" ]] && chsh -s /bin/zsh
     systemctl --user enable podman.service
-    echo "[registries.search]
-registries = ['docker.io']
-" | sudo tee -a /etc/containers/registries.conf
-    echo "ip6_tables
-ip6table_nat
-ip_tables
-iptable_nat
-" | sudo tee -a /etc/modules-load.d/iptables.conf
+    echo "unqualified-search-registries = [ "docker.io" ]" | sudo tee -a /etc/containers/registries.conf
     sudo cp src/sudoers /etc/sudoers
 }
 
 user_manager(){
+    sudo groupadd dialout
     sudo usermod -aG input $USER
     sudo usermod -aG uucp $USER
     sudo usermod -aG wheel $USER
     sudo usermod -aG tty $USER
-    sudo groupadd dialout
+    user usermod -aG libvirt $USER
     sudo usermod -aG dialout $USER
 }
 
@@ -122,7 +132,6 @@ install_package(){ ## install base software
 }
 
 config(){ ## setup
-    setup_git
     install_DE
     dotfile
     setup_system
@@ -151,19 +160,18 @@ dotfile(){
 }
 
 finish(){
-    printf "[!] Clean useless file\n"
+    echo "[\!] Clean useless file\n"
     sudo pacman -Scc
-    printf "[!] You 'll need to restart soon...\nBut no problem just wait we'll restart it for you.\n"; sleep 2
-    printf "[!] Reboot in 5...\n"; sleep 1
-    printf "[!] Reboot in 4...\n"; sleep 1
-    printf "[!] Reboot in 3...\n"; sleep 1
-    printf "[!] Reboot in 2...\n"; sleep 1
-    printf "[!] Reboot in 1...\n"; sleep 1
-    printf "[!] Reboot now..."
+    echo "[\!] You 'll need to restart soon...\nBut no problem just wait we'll restart it for you.\n"; sleep 2
+    for i in {5..1}; do
+        echo -ne "\r[\!] Reboot in $i";
+        sleep 1
+    done
+    echo -ne "\r[\!] Reboot now..."
     sudo reboot
 }
 
 install_package
-read -p "[?] Do you want to continue the configuration ? [Y/n] " yn
-[[ $yn == [yY] ]] || [[ $yn == "" ]] && config
+ask "Do you want to continue the configuration"
+[[ $? == 0 ]] && config
 finish
