@@ -1,5 +1,6 @@
 aom
 audacity
+blender
 faac
 faad2
 flac
@@ -9,10 +10,10 @@ lame
 libcanberra-pulse
 libmad
 libmpeg2
+lmms
 mpv
 playerctl
+vlc
 wavpack
 zathura-djvu
 zathura-pdf-mupdf
-ffmpeg-obs
-vlc-luajit
