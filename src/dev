@@ -1,5 +1,10 @@
 aardvark-dns
+esptool
+avr-gcc
+avr-libc
+avrdude
 cmake
+croc
 dbeaver
 dfu-programmer
 fuse-overlayfs
@@ -7,6 +12,7 @@ fzf
 gcc
 gdb
 go
+httpie
 libvirt
 make
 mingw-w64
@@ -17,10 +23,8 @@ podman
 podman-compose
 podman-dnsname
 python-pynvim
-python-requests
 qemu
 ripgrep
-rsync
 rsync
 rust
 vagrant
