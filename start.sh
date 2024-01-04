@@ -6,17 +6,19 @@ ANDROID_DONE=0
 ANDROID_STUDIO_SHA_256="8919e8752979db73d8321e9babe2caedcc393750817c1a5f56c128ec442fb540"
 
 ask(){
-    echo "[?] $1 [Y|n] ?"
+    echo -n "[?] $1 [Y|n] ?"
     read yn
     [[ $yn ==  [yY] || $yn == '' ]] && return 0 || return 1
 }
 
 AUR(){ # install AUR manager and aur software
+    #TODO: Check if yay exist before
     ask "Do you want to install YaY wrapper"
     if [[ $? == 0 ]]; then
         sudo pacman -S base-devel && \
         tmp_folder=$(mktemp -d)
-       (git clone https://aur.archlinux.org/yay $tmp_folder --depth 1 && cd $tmp_folder && makepkg -si && AUR=1)
+       (git clone https://aur.archlinux.org/yay $tmp_folder --depth 1 && cd $tmp_folder && makepkg -si)
+       AUR=1
     fi
 }
 
@@ -25,10 +27,10 @@ get_android_studio(){
     curl -L https://dl.google.com/android/repository/commandlinetools-linux-10406996_latest.zip -o $tools
     echo "$ANDROID_STUDIO_SHA_256 $tools" | sha256sum -c
     if [[ $? == 0 ]]; then
-        mkdir -p $HOME/.local/Android/
-        unzip $tools -d $HOME/.local/Android
-        mkdir $HOME/.local/Android/cmdline-tools/latest/ && mv $HOME/.local/Android/cmdline-tools/{NOTICE.txt,bin,lib,source.properties} $HOME/.local/Android/cmdline-tools/latest/
-        (cd $HOME/.local/Android/cmdline-tools/latest/bin/
+        mkdir -p "$HOME/.local/Android/"
+        unzip $tools -d "$HOME/.local/Android"
+        mkdir "$HOME/.local/Android/cmdline-tools/latest/" && mv "$HOME/.local/Android/cmdline-tools/{NOTICE.txt,bin,lib,source.properties}" "$HOME/.local/Android/cmdline-tools/latest/"
+        (cd "$HOME/.local/Android/cmdline-tools/latest/bin/"
         yes | ./sdkmanager --licenses
         ./sdkmanager --install "build-tools;34.0.0"
         ./sdkmanager --install "emulator"
@@ -51,15 +53,15 @@ get_android_studio(){
 }
 
 pacman_install(){ # generate pacman mirrorlist blackarch and install all software i need
-    echo "[\!] Reload pacman.conf\n"
+    echo "[!] Reload pacman.conf"
     sudo mv /etc/pacman.conf /etc/pacman.conf.bak
     sudo cp src/pacman.conf /etc/pacman.conf
-    echo "[\!] Update package list\n"
-    [[ $AUR == 1 ]] && yay -Syy
+    echo "[!] Update package list"
+    sudo pacman -Syy --noconfirm
     ask "Do you want to automaticaly regenerate pacman depots"
-    [[ $? == 0 && $(pacman -Qn reflector) == "" ]] && sudo pacman -S --noconfirm reflector && \
-    sudo reflector -c FR -c US -c GB -c PL -n 100 --info --protocol http,https --save /etc/pacman.d/mirrorlist
-
+    [[ $? == 0 ]] && sudo pacman -S --noconfirm reflector && \
+    sudo reflector -c FR -c US -c GB -c PL -n 50 --protocol http,https --save /etc/pacman.d/mirrorlist
+    sudo pacman -Syu --noconfirm
     ask "Do you want to add blackarch repos"
     [[ $? == 0 ]] && (curl https://blackarch.org/strap.sh | sudo sh && BLACK_REPOS=1)
 
@@ -79,7 +81,7 @@ pacman_install(){ # generate pacman mirrorlist blackarch and install all softwar
         [[ $yn == [Yy] ]] && yay -S --noconfirm $(cat src/game)
 
         ask "Do you want to install software for multimedia"
-        [[ $? == 0 ]] && yay -S --noconfirm $(cat src/multi)
+        [[ $? == 0 ]] && sudo pacman -S --noconfirm $(cat src/multi)
         yay -S --noconfirm $(cat "src/font")
     fi
 
@@ -88,7 +90,7 @@ pacman_install(){ # generate pacman mirrorlist blackarch and install all softwar
 }
 
 install_DE(){ # setup DesktopEnvironement
-    [[ $AUR == 1 ]] && yay -S --noconfirm $(cat src/DE)
+    [[ $AUR == 1 ]] && yay -S --noconfirm $(cat src/DE) && \
     cargo install xremap --features hypr
 }
 
@@ -100,11 +102,9 @@ setup_system(){ # enable system dep
     sudo systemctl enable systemd-resolved
     sudo systemctl enable iwd
     sudo systemctl enable dhcpcd
-    sudo hwclock --systohc
-    sudo ln -sf /usr/share/zoneinfo/Europe/Paris /etc/localtime
     sudo timedatectl set-ntp true
     sudo localectl set-keymap fr
-    (curl -fsSL -o get-platformio.py https://raw.githubusercontent.com/platformio/platformio-core-installer/master/get-platformio.py && python3 ./get-platformio.py)
+    (curl -fsSL -o get-platformio.py https://raw.githubusercontent.com/platformio/platformio-core-installer/master/get-platformio.py && python3 ./get-platformio.py && rm -f ./get-platformio.py)
 }
 
 rootless() {
@@ -112,18 +112,19 @@ rootless() {
     sudo chmod +s /sbin/reboot
     [[ $SHELL != "/bin/zsh" ]] && chsh -s /bin/zsh
     systemctl --user enable podman.service
-    echo "unqualified-search-registries = [ "docker.io" ]" | sudo tee -a /etc/containers/registries.conf
+    systemctl --user enable podman.socket
+    echo "unqualified-search-registries = [ \"docker.io\" ]" | sudo tee -a /etc/containers/registries.conf
     sudo cp src/sudoers /etc/sudoers
 }
 
 user_manager(){
     sudo groupadd dialout
+    sudo usermod -aG dialout $USER
     sudo usermod -aG input $USER
     sudo usermod -aG uucp $USER
     sudo usermod -aG wheel $USER
     sudo usermod -aG tty $USER
     user usermod -aG libvirt $USER
-    sudo usermod -aG dialout $USER
 }
 
 install_package(){ ## install base software
@@ -142,32 +143,34 @@ dotfile(){
     mkdir -p $HOME/.local/share/
     mkdir -p $HOME/.local/bin
     mkdir -p $HOME/.config
-    if [[ ! -d $HOME/Wallpaper/ ]]; then
-        git clone https://github.com/kawaegle/Wallpaper/ --depth 1 $HOME/Wallpaper
+
+    if [[ ! -d "$HOME/Wallpaper/" ]]; then
+        git clone https://github.com/kawaegle/Wallpaper/ --depth 1 "$HOME/Wallpaper"
     fi
-    if [[ ! -e $HOME/.local/bin/dotash ]]; then
+    if [[ ! -e "$HOME/.local/bin/dotash" ]]; then
         TMP=$(mktemp -d)
         git clone https://github.com/kawaegle/dotash --depth 1 "$TMP"
-        (cd "$TMP" && pwd && ./install.sh)
+        (cd "$TMP" && ./install.sh)
     fi
-    if [[ ! -d $HOME/.local/share/Dotfile ]]; then
+    if [[ ! -d "$HOME/.local/share/dotfile" ]]; then
         git clone https://github.com/kawaegle/dotfile/ --depth 1 "$HOME/.local/share/dotfile"
-        (cd $HOME/.local/share/Dotfile && $HOME/.local/bin/dotash install)
+        (cd "$HOME/.local/share/dotfile" && $HOME/.local/bin/dotash install)
     fi
     if [[ ! -d $HOME/Templates/ ]]; then
-        git clone https://github.com/kawaegle/Templates $HOME/Templates --depth 1
+        git clone https://github.com/kawaegle/Templates --depth 1 "$HOME/Templates"
     fi
 }
 
 finish(){
-    echo "[\!] Clean useless file\n"
-    sudo pacman -Scc
-    echo "[\!] You 'll need to restart soon...\nBut no problem just wait we'll restart it for you.\n"; sleep 2
+    echo "[!] Clean useless file"
+    sudo pacman -Scc --noconfirm
+    echo "[!] You 'll need to restart soon..."
+    echo "But no problem just wait we'll restart it for you."
     for i in {5..1}; do
-        echo -ne "\r[\!] Reboot in $i";
+        echo -ne "\r[!] Reboot in $i";
         sleep 1
     done
-    echo -ne "\r[\!] Reboot now..."
+    echo -ne "\r[!] Reboot now..."
     sudo reboot
 }
 
