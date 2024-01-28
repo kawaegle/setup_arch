@@ -37,7 +37,11 @@ steghide
 torctl
 volatility-extra
 volatility3
+webshells
 whatsmyname
 wireshark-qt
 wpscan
 zbar
+exploitdb
+pixload
+zaproxy
