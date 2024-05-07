@@ -4,8 +4,12 @@ blender
 faac
 faad2
 flac
+freecad
 gimp
 kdenlive
+kicad
+kicad-library
+kicad-library-3d
 lame
 libcanberra-pulse
 libmad
@@ -13,6 +17,7 @@ libmpeg2
 lmms
 mpv
 playerctl
+prusa-slicer
 vlc
 wavpack
 zathura-djvu

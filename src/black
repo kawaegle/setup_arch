@@ -1,16 +1,15 @@
-aircrack-ng
 android-apktool
 android-udev
 backdoor-factory
 bettercap
 binwalk
 bully
-checksec
 cowpatty
 crunch
 dirb
 driftnet
 ettercap
+exploitdb
 hcxtools
 hexedit
 john
@@ -26,6 +25,7 @@ one-lin3r
 onionshare
 pdfcrack
 pipal
+pixload
 pwndbg
 python-pwntools
 rizin
@@ -41,7 +41,6 @@ webshells
 whatsmyname
 wireshark-qt
 wpscan
-zbar
-exploitdb
-pixload
 zaproxy
+zbar
+burpsuite
