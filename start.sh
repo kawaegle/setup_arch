@@ -1,6 +1,7 @@
 #!/bin/bash
 
 AUR=0
+AUR_MANAGER=""
 
 ANDROID_DONE=0
 ANDROID_STUDIO_SHA_256="8919e8752979db73d8321e9babe2caedcc393750817c1a5f56c128ec442fb540"
@@ -11,14 +12,41 @@ ask(){
     [[ $yn ==  [yY] || $yn == '' ]] && return 0 || return 1
 }
 
+select_aur(){
+    while [[ $AUR_MANAGER == "" ]]; do
+        select a in yay pikaur; do
+            case $a in
+                yay | pikaur)
+                    AUR_MANAGER=$a
+                    break
+                    ;;
+                *)
+                    echo "Not in choices"
+                    ;;
+            esac
+        done
+    done
+}
+
 AUR(){ # install AUR manager and aur software
-    #TODO: Check if yay exist before
-    ask "Do you want to install YaY wrapper"
+    # Check if AUR manager exist or install it
+    if [[ $(where yay | grep found) != 0 ]]; then
+        AUR_MANAGER="yay"
+        AUR=1
+        return
+    fi
+    if [[ $(where pikaur | grep found) != 0 ]]
+        AUR_MANAGER="pikaur"
+        AUR=1
+        return
+    fi
+    ask "Do you want to install AUR wrapper"
     if [[ $? == 0 ]]; then
-        sudo pacman -S base-devel && \
+        sudo pacman -S base-devel
+        select_aur
         tmp_folder=$(mktemp -d)
-       (git clone https://aur.archlinux.org/yay $tmp_folder --depth 1 && cd $tmp_folder && makepkg -si)
-       AUR=1
+        (git clone https://aur.archlinux.org/$AUR_MANAGER $tmp_folder --depth 1 && cd $tmp_folder && makepkg -si)
+        AUR=1
     fi
 }
 
@@ -47,7 +75,7 @@ get_android_studio(){
         if [[ $yn == [yY] ]] || [[ $yn == "" ]]; then
             export ANDROID_HOME=$HOME/.local/Android
             export PATH=$PATH:$ANDROID_HOME/cmdline-tools/latest/bin/
-            avdmanager create avd -f --name test --device "pixel_7" --package "system-images;android-34;google_apis_playstore;x86_64"
+            avdmanager create avd -f --name pixel_7 --device "pixel_7" --package "system-images;android-34;google_apis_playstore;x86_64"
         fi
     fi
 }
@@ -72,6 +100,13 @@ pacman_install(){ # generate pacman mirrorlist blackarch and install all softwar
 
     ask "Do you want to install some developpement tools and IDE"
     [[ $? == 0 ]] && sudo pacman -S --noconfirm $(cat src/dev)
+
+    ask "Do you want some pipx packages"
+    if [[ $? == 0 ]]; then
+        for pip in $(./src/pipx.txt); do;
+            pipx install $pip
+        done
+    fi
 
     ask "Do you want to install android studio"
     [[ $? == 0 ]] && get_android_studio
