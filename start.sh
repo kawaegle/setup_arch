@@ -135,11 +135,11 @@ setup_system(){ # enable system dep
     sudo systemctl enable ly
     sudo systemctl enable systemd-networkd
     sudo systemctl enable systemd-resolved
+    sudo systemctl enable acpid
     sudo systemctl enable iwd
     sudo systemctl enable dhcpcd
     sudo timedatectl set-ntp true
     sudo localectl set-keymap fr
-    (curl -fsSL -o get-platformio.py https://raw.githubusercontent.com/platformio/platformio-core-installer/master/get-platformio.py && python3 ./get-platformio.py && rm -f ./get-platformio.py)
 }
 
 rootless() {

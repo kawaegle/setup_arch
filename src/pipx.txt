@@ -2,3 +2,4 @@ chepy
 pwntools
 pwncat
 esptool
+platformio
