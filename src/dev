@@ -6,6 +6,7 @@ cmake
 criterion
 croc
 ctags
+docker
 dbeaver
 dfu-programmer
 dive
@@ -24,7 +25,6 @@ nodejs
 npm
 pipx
 podman
-podman-compose
 netavark
 python-pillow
 python-pip
