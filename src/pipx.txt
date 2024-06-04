@@ -1,4 +1,5 @@
 chepy
+sherlock-project
 pwntools
 pwncat
 esptool
