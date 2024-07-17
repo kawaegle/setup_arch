@@ -1,4 +1,5 @@
 aardvark-dns
+luarocks
 avr-gcc
 avr-libc
 avrdude
