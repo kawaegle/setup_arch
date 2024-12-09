@@ -16,9 +16,12 @@ libmad
 libmpeg2
 lmms
 mpv
+obs
 playerctl
+obs-studio-browser
 prusa-slicer
 vlc
 wavpack
 zathura-djvu
 zathura-pdf-mupdf
+obs-composite-blur

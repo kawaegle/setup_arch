@@ -17,7 +17,7 @@ libreoffice-fresh-fr
 ly
 pavucontrol
 qbittorrent
-ranger
+yazi
 spotify-dev
 swaylock-effects
 system-config-printer
@@ -25,6 +25,8 @@ waybar
 wf-recorder
 wl-clipboard
 wofi
+grim
+slurp
 xdg-desktop-portal-hyprland
 xremap-wlroots-bin
 cliphist
@@ -37,5 +39,4 @@ libgfs
 tumbler-stl-thumbnailer
 tumbler-extra-thumbnailers
 raw-thumbnailer
-
-
+engrampa

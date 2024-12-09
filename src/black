@@ -1,16 +1,12 @@
-android-apktool
-android-udev
 backdoor-factory
 bettercap
+bettercap-ui
 binwalk
-bully
-cowpatty
 crunch
 dirb
 driftnet
 ettercap
 exploitdb
-hcxtools
 hexedit
 john
 macchanger
@@ -35,8 +31,6 @@ scrcpy
 sqlmap
 steghide
 torctl
-volatility-extra
-volatility3
 webshells
 wireshark-qt
 wpscan

@@ -1,9 +1,11 @@
 acpid
+android-udev
 base
 base-devel
 bat
 blueman
 bluez
+bluez-obex
 bluez-plugins
 bluez-tools
 bluez-utils

@@ -7,7 +7,6 @@ cmake
 criterion
 croc
 ctags
-docker
 dbeaver
 dfu-programmer
 dive
@@ -27,16 +26,15 @@ npm
 pipx
 podman
 netavark
-python-pillow
 python-pip
 python-pynvim
-python-regex
 qemu
 ripgrep
 rsync
 rust
 vagrant
 valgrind
-vim
+xxd
 virt-install
 wine
+flatpak
