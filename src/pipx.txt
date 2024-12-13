@@ -4,3 +4,4 @@ pwntools
 pwncat
 esptool
 platformio
+cmake-init
