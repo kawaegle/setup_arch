@@ -129,6 +129,14 @@ install_DE(){ # setup DesktopEnvironement
     cargo install xremap --features hypr
 }
 
+fstab(){
+    cat /etc/fstab | grep "/tmp"
+    if [[ $? -eq 0 ]]; then
+        return
+    fi
+    echo "# /TMP\ntmpfs\t\t/tmp\t\ttmpfs\t\trw,nodev,nosuid,size=10G\t\t0\t0\ntmpfs\t/home/$USER/Documents/tmp\t\ttmpfs\t\trw,nodev,nosuid,size=10G\t\t0\t0" | sudo tee -a /etc/fstab
+}
+
 setup_system(){ # enable system dep
     sudo systemctl enable cups
     sudo systemctl enable bluetooth
@@ -140,6 +148,7 @@ setup_system(){ # enable system dep
     sudo systemctl enable dhcpcd
     sudo timedatectl set-ntp true
     sudo localectl set-keymap fr
+    sudo cp ./src/journald.conf /etc/systemd/journald.conf
 }
 
 rootless() {
@@ -170,6 +179,7 @@ install_package(){ ## install base software
 config(){ ## setup
     install_DE
     dotfile
+    fstab
     setup_system
     user_manager
 }
