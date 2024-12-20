@@ -139,6 +139,7 @@ fstab(){
 
 setup_system(){ # enable system dep
     sudo systemctl enable cups
+    sudo systemctl enable tlp
     sudo systemctl enable bluetooth
     sudo systemctl enable ly
     sudo systemctl enable systemd-networkd
