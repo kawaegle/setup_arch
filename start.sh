@@ -30,12 +30,12 @@ select_aur(){
 
 AUR(){ # install AUR manager and aur software
     # Check if AUR manager exist or install it
-    if [[ $(where yay | grep found) != 0 ]]; then
+    if [[ $(where yay | grep "not found") != 0 ]]; then
         AUR_MANAGER="yay"
         AUR=1
         return
     fi
-    if [[ $(where pikaur | grep found) != 0 ]]
+    if [[ $(where pikaur | grep "not found") != 0 ]]
         AUR_MANAGER="pikaur"
         AUR=1
         return
@@ -83,7 +83,7 @@ get_android_studio(){
 pacman_install(){ # generate pacman mirrorlist blackarch and install all software i need
     echo "[!] Reload pacman.conf"
     sudo mv /etc/pacman.conf /etc/pacman.conf.bak
-    sudo cp src/pacman.conf /etc/pacman.conf
+    sudo cp ./src/pacman.conf /etc/pacman.conf
     echo "[!] Update package list"
     sudo pacman -Syy --noconfirm
     ask "Do you want to automaticaly regenerate pacman depots"
@@ -95,11 +95,11 @@ pacman_install(){ # generate pacman mirrorlist blackarch and install all softwar
 
     if [[ $BLACK_REPOS == 1 ]]; then
         ask "Do you want to install some pwn tools"
-        [[ $? == 0 ]] && sudo pacman -S --noconfirm $(cat "src/black")
+        [[ $? == 0 ]] && sudo pacman -S --noconfirm $(cat "./src/black")
     fi
 
     ask "Do you want to install some developpement tools and IDE"
-    [[ $? == 0 ]] && sudo pacman -S --noconfirm $(cat src/dev)
+    [[ $? == 0 ]] && sudo pacman -S --noconfirm $(cat "./src/dev")
 
     ask "Do you want some pipx packages"
     if [[ $? == 0 ]]; then
@@ -113,24 +113,24 @@ pacman_install(){ # generate pacman mirrorlist blackarch and install all softwar
 
     if [[ $AUR == 1 ]]; then
         ask "Do you want to install some games stations"
-        [[ $yn == [Yy] ]] && yay -S --noconfirm $(cat src/game)
+        [[ $yn == [Yy] ]] && $AUR_MANAGER -S --noconfirm $(cat "./src/game")
 
         ask "Do you want to install software for multimedia"
-        [[ $? == 0 ]] && sudo pacman -S --noconfirm $(cat src/multi)
-        yay -S --noconfirm $(cat "src/font")
+        [[ $? == 0 ]] && sudo pacman -S --noconfirm $(cat "./src/multi")
+        $AUR_MANAGER -S --noconfirm $(cat "./src/font")
     fi
 
     echo "[\!] Install basic need on arch"
-    sudo pacman -S --noconfirm $(cat "src/arch-base")
+    sudo pacman -S --noconfirm $(cat "./src/arch-base")
 }
 
 install_DE(){ # setup DesktopEnvironement
-    [[ $AUR == 1 ]] && yay -S --noconfirm $(cat src/DE) && \
+    [[ $AUR == 1 ]] && $AUR_MANAGER -S --noconfirm $(cat "./src/DE") && \
     cargo install xremap --features hypr
 }
 
 fstab(){
-    cat /etc/fstab | grep "/tmp"
+    cat "/etc/fstab" | grep "/tmp"
     if [[ $? -eq 0 ]]; then
         return
     fi
@@ -153,13 +153,11 @@ setup_system(){ # enable system dep
 }
 
 rootless() {
-    sudo chmod +s /sbin/shutdown
-    sudo chmod +s /sbin/reboot
     [[ $SHELL != "/bin/zsh" ]] && chsh -s /bin/zsh
     systemctl --user enable podman.service
     systemctl --user enable podman.socket
     echo "unqualified-search-registries = [ \"docker.io\" ]" | sudo tee -a /etc/containers/registries.conf
-    sudo cp src/sudoers /etc/sudoers
+    sudo cp ./src/sudoers /etc/sudoers
 }
 
 user_manager(){
