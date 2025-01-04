@@ -6,6 +6,12 @@ Defaults env_keep += "HOME"
 ##
 
 ##
+## add list of command I want to trigger as root but don't need to type password
+Cmnd_Alias    REBOOT = /sbin/halt, /sbin/reboot, /sbin/poweroff
+Cmnd_Alias    VPN = /sbin/openvpn
+##
+
+##
 ## Uncomment to use a hard-coded PATH instead of the user's to find commands
 Defaults secure_path="/sbin:/bin"
 ##
@@ -33,5 +39,6 @@ root ALL=(ALL:ALL) ALL
 
 ##
 ## Uncomment to allow members of group wheel to execute any command
-%wheel ALL=(ALL:ALL) ALL
+%wheel OppaiLaptop=(ALL:ALL) ALL
+kawaegle OppaiLaptop=NOPASSWD: REBOOT, VPN
 ##
