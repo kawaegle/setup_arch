@@ -1,7 +1,4 @@
-chepy
-sherlock-project
 pwntools
 pwncat
-esptool
 platformio
-cmake-init
+scrapy
