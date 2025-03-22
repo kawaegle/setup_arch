@@ -23,7 +23,7 @@ mingw-w64
 neovim
 nodejs
 npm
-pipx
+python-pipx
 podman
 netavark
 python-pip
@@ -36,5 +36,4 @@ vagrant
 valgrind
 xxd
 virt-install
-wine
-flatpak
+minicom

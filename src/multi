@@ -16,10 +16,14 @@ libmpeg2
 lmms
 mpv
 obs
-playerctl
+obs-composite-blur
 obs-studio-browser
+pipewire
+pipewire-audio
+pipewire-pulse
+playerctl
 prusa-slicer
 wavpack
+wireplumber
 zathura-djvu
 zathura-pdf-mupdf
-obs-composite-blur

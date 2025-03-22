@@ -2,6 +2,7 @@ backdoor-factory
 bettercap
 bettercap-ui
 binwalk
+burpsuite
 crunch
 dirb
 driftnet
@@ -13,7 +14,6 @@ macchanger
 mat2
 medusa
 metasploit
-minicom
 netdiscover
 nikto
 nmap
@@ -30,10 +30,10 @@ rz-ghidra
 scrcpy
 sqlmap
 steghide
+tcpdump
 torctl
 webshells
 wireshark-qt
 wpscan
 zaproxy
 zbar
-burpsuite
