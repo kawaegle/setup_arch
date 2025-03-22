@@ -20,5 +20,7 @@ setup_system(){ # enable system dep
     sudo timedatectl set-ntp true
     sudo localectl set-keymap fr
     sudo cp ./src/journald.conf /etc/systemd/journald.conf
+    sudo cp ./src/coredump.conf /etc/systemd/coredump.conf
+    sudo cp ./src/bluethoot.input.conf /etc/bluetooth/input.conf
 }
 
